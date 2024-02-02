@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:inzone/main_screens/me_screen/followers_following_screen.dart';
 import 'package:inzone/main_screens/me_screen/liked_screen.dart';
 import 'package:inzone/main_screens/me_screen/personal_feed_screen.dart';
 import 'package:inzone/main_screens/settings_screen.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 class MeScreen extends StatefulWidget {
   const MeScreen({super.key});
@@ -38,10 +41,11 @@ class _MeScreenState extends State<MeScreen>
             style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
           ),
           ListTile(
-            leading: Image.asset(
-              "images/sample_avatar_2.png",
-              scale: 0.5,
-            ),
+            // leading: Image.asset(
+            //   "images/sample_avatar_2.png",
+            //   scale: 0.5,
+            // ),
+            leading: RandomAvatar("Renny Williams", height: 50, width: 50),
             title: const Text(
               "Renny Williams",
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -97,7 +101,8 @@ class _MeScreenState extends State<MeScreen>
                             ? FontWeight.bold
                             : FontWeight.normal)),
               ),
-              const Text(" | ", style: TextStyle(color: Colors.black, fontSize: 20)),
+              const Text(" | ",
+                  style: TextStyle(color: Colors.black, fontSize: 20)),
               TextButton(
                 onPressed: () {
                   setState(() {

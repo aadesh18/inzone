@@ -4,6 +4,7 @@ import 'package:inzone/constants.dart';
 import 'package:inzone/data/post.dart';
 import 'package:inzone/main_screens/comments_screen.dart';
 import 'package:inzone/main_screens/custom_icons.dart';
+import 'package:random_avatar/random_avatar.dart';
 import 'package:sliding_sheet2/sliding_sheet2.dart';
 
 class PostCard extends StatelessWidget {
@@ -33,22 +34,23 @@ class PostCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Image.asset(post.profilePicturePath),
+                // Image.asset(post.profilePicturePath),
+                RandomAvatar(post.userName, height: 40, width: 40),
                 const SizedBox(
                   width: 10,
                 ),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(
-                    post.firstName + " " + post.lastName,
+                    post.userName,
                     style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
                   ),
-                  const Text(
-                    "1m ago",
-                    style: TextStyle(color: Colors.grey, fontSize: 15),
-                  ),
+                  // const Text(
+                  //   "1m ago",
+                  //   style: TextStyle(color: Colors.grey, fontSize: 15),
+                  // ),
                 ]),
                 const Spacer(),
                 PopupMenuButton(
@@ -79,9 +81,15 @@ class PostCard extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               post.description,
               style: TextStyle(height: 1.5),
+            ),
+            SizedBox(
+              height: 10,
             ),
             post.assetPath == null
                 ? const SizedBox()

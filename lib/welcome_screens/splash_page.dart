@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/root_app.dart';
+import 'package:inzone/welcome_screens/introduction_page.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -20,19 +21,17 @@ class SplashPage extends StatelessWidget {
           Text("InZone",
               style: GoogleFonts.poppins(
                   fontWeight: FontWeight.bold, fontSize: 35, height: 1.2)),
-          const SizedBox(
-            height: 3,
-          ),
-          const Text(
-            "Curate your digital world with ease",
-            style: TextStyle(fontSize: 20),
-          )
+          // const SizedBox(
+          //   height: 3,
+          // ),
+          // const Text(
+          //   "Curate your digital world with ease",
+          //   style: TextStyle(fontSize: 20),
+          // )
         ],
       ),
       backgroundColor: backgroundColor,
-      nextScreen: RootApp(
-        title: "Root App",
-      ),
+      nextScreen: IntroductionPage(),
     );
   }
 }

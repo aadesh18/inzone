@@ -54,54 +54,46 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                   children: [
                     ChatCard(
                         inZoneChat: InZoneChat(
-                            personName: "John Monroe",
+                            personName: "Aiden Mitchell",
                             profilePicturePath: "images/sample_avatar_2.png",
-                            lastMessage: "This was the last message")),
+                            lastMessage: "This was amazing",
+                            chatReference: "FZjcV1irTsrUVujUgBrM",
+                            )),
+                    ChatCard(
+                        inZoneChat: InZoneChat(
+                            personName: "Emma Davis",
+                            profilePicturePath: "images/sample_avatar_2.png",
+                            lastMessage: "OMG did you watch the finals?!")),
                     ChatCard(
                         inZoneChat: InZoneChat(
                             personName: "John Monroe",
                             profilePicturePath: "images/sample_avatar_2.png",
-                            lastMessage: "This was the last message")),
+                            lastMessage: "Hey",
+                            chatReference: "FZjcV1irTsrUVujUgBrM",)),
                     ChatCard(
                         inZoneChat: InZoneChat(
-                            personName: "John Monroe",
+                            personName: "Isabella Taylor",
                             profilePicturePath: "images/sample_avatar_2.png",
-                            lastMessage: "This was the last message")),
+                            lastMessage: "Oh nevermind")),
                     ChatCard(
                         inZoneChat: InZoneChat(
-                            personName: "John Monroe",
+                            personName: "Liam Anderson",
                             profilePicturePath: "images/sample_avatar_2.png",
-                            lastMessage: "This was the last message")),
+                            lastMessage:
+                                "I definitely find that so interesting",
+                            chatReference: "FZjcV1irTsrUVujUgBrM",)),
                     ChatCard(
                         inZoneChat: InZoneChat(
-                            personName: "John Monroe",
+                            personName: "Ethan Reynolds",
                             profilePicturePath: "images/sample_avatar_2.png",
-                            lastMessage: "This was the last message")),
+                            lastMessage: "See you later",
+                            chatReference: "FZjcV1irTsrUVujUgBrM",)),
                     ChatCard(
                         inZoneChat: InZoneChat(
-                            personName: "John Monroe",
+                            personName: "Olivia Thompson",
                             profilePicturePath: "images/sample_avatar_2.png",
-                            lastMessage: "This was the last message")),
-                    ChatCard(
-                        inZoneChat: InZoneChat(
-                            personName: "John Monroe",
-                            profilePicturePath: "images/sample_avatar_2.png",
-                            lastMessage: "This was the last message")),
-                    ChatCard(
-                        inZoneChat: InZoneChat(
-                            personName: "John Monroe",
-                            profilePicturePath: "images/sample_avatar_2.png",
-                            lastMessage: "This was the last message")),
-                    ChatCard(
-                        inZoneChat: InZoneChat(
-                            personName: "John Monroe",
-                            profilePicturePath: "images/sample_avatar_2.png",
-                            lastMessage: "This was the last message")),
-                    ChatCard(
-                        inZoneChat: InZoneChat(
-                            personName: "John Monroe",
-                            profilePicturePath: "images/sample_avatar_2.png",
-                            lastMessage: "This was the last message")),
+                            lastMessage: "Byee",
+                            chatReference: "FZjcV1irTsrUVujUgBrM",)),
                   ],
                 ),
               ),

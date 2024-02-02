@@ -11,8 +11,7 @@ import 'package:inzone/main_screens/me_screen.dart';
 import 'package:inzone/main_screens/post_screen.dart';
 
 class RootApp extends StatefulWidget {
-  RootApp({Key? key, required this.title}) : super(key: key);
-  final String title;
+  RootApp({Key? key}) : super(key: key);
 
   @override
   _RootAppState createState() => _RootAppState();

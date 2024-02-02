@@ -14,7 +14,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return SettingsPageSkeleton(
-      title: "User Details",
+      title: "Profile",
       subtitle: "",
       child: Container(
         margin: const EdgeInsets.only(top: 20),
@@ -65,32 +65,35 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
               ),
               Text("Gender",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          gender = 0;
-                        });
-                      },
-                      child: genderChoose(Icons.male, "Male", 0)),
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          gender = 1;
-                        });
-                      },
-                      child: genderChoose(Icons.male, "Female", 1)),
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          gender = 2;
-                        });
-                      },
-                      child: genderChoose(Icons.male, "Other", 2)),
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            gender = 0;
+                          });
+                        },
+                        child: genderChoose(Icons.male, "Male", 0)),
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            gender = 1;
+                          });
+                        },
+                        child: genderChoose(Icons.male, "Female", 1)),
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            gender = 2;
+                          });
+                        },
+                        child: genderChoose(Icons.male, "Other", 2)),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -215,9 +218,9 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                   SizedBox(
                       width: MediaQuery.of(context).size.width / 1.4,
                       child: Text(
-                          "I have read the terms and condition and i accept the general conditions of use.",
+                          "I have read the terms and condition and \nI accept the general conditions of use.",
                           style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.w500))),
+                              fontSize: 10, fontWeight: FontWeight.w500))),
                 ],
               ),
               GestureDetector(

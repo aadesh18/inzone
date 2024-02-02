@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:inzone/backend/database.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_message.dart';
 import 'package:inzone/main_screens/loading_screen.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 class ChatScreen extends StatefulWidget {
   final String name;
@@ -17,7 +20,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  var messageList = [];
+  List<InZoneMessage> messageList = [];
   var chatUsersList;
   var message = ValueNotifier("");
   final fieldText = TextEditingController();
@@ -58,10 +61,11 @@ class _ChatScreenState extends State<ChatScreen> {
                 const SizedBox(
                   width: 10,
                 ),
-                Image.asset(
-                  "images/sample_avatar_2.png",
-                  scale: 0.7,
-                ),
+                RandomAvatar(widget.name, height: 40, width: 40),
+                // Image.asset(
+                //   "images/sample_avatar_2.png",
+                //   scale: 0.7,
+                // ),
                 const SizedBox(
                   width: 10,
                 ),
@@ -126,10 +130,10 @@ class _ChatScreenState extends State<ChatScreen> {
                             itemCount: messageList.length,
                             controller: _controller,
                             itemBuilder: (BuildContext context, int index) {
-                              final message = messageList[index].message;
-                              const bool isMe = true;
+                              final message = messageList[index];
 
-                              return _buildMessage(message, isMe);
+                              return _buildMessage(
+                                  message.message, message.isMe);
                             },
                           );
                         }
@@ -154,8 +158,8 @@ class _ChatScreenState extends State<ChatScreen> {
   _buildMessage(String message, bool isMe) {
     final Container msg = Container(
       margin: isMe
-          ? const EdgeInsets.only(top: 2.5, bottom: 2.5, left: 200, right: 10)
-          : const EdgeInsets.only(top: 2.5, bottom: 2.5, right: 200, left: 10),
+          ? const EdgeInsets.only(top: 2.5, bottom: 2.5, left: 80, right: 10)
+          : const EdgeInsets.only(top: 2.5, bottom: 2.5, right: 80, left: 10),
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 13.0),
       width: MediaQuery.of(context).size.width * 0.75,
       decoration: BoxDecoration(
@@ -169,8 +173,8 @@ class _ChatScreenState extends State<ChatScreen> {
             : const BorderRadius.only(
                 topLeft: Radius.circular(20.0),
                 bottomLeft: Radius.circular(4.0),
-                topRight: Radius.circular(50),
-                bottomRight: Radius.circular(50)),
+                topRight: Radius.circular(20),
+                bottomRight: Radius.circular(20)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,8 +217,9 @@ class _ChatScreenState extends State<ChatScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       height: 70.0,
       decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(30))),
+        color: Colors.white,
+        // borderRadius: BorderRadius.all(Radius.circular(30))
+      ),
       child: Row(
         children: <Widget>[
           Expanded(

@@ -21,11 +21,17 @@ class InZoneBlockOutScreen extends StatelessWidget {
                       "This setting will block suicide content form your selected social media platforms",
                   color: Colors.blue,
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 BlockOutOption(
                   title: "Rap",
                   description:
                       "This setting will block suicide content form your selected social media platforms",
                   color: Colors.pink,
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 BlockOutOption(
                   title: "Porn/Soft Porn",
@@ -33,11 +39,17 @@ class InZoneBlockOutScreen extends StatelessWidget {
                       "This setting will block suicide content form your selected social media platforms",
                   color: Colors.blue,
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 BlockOutOption(
                   title: "PTSD",
                   description:
                       "This setting will block suicide content form your selected social media platforms",
                   color: Colors.orange,
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 BlockOutOption(
                   title: "Suicide",

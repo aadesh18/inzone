@@ -48,6 +48,16 @@ dependencies:
   flutter_util_widgets: ^1.1.0+2
   slide_to_act: ^2.0.2
   flutter_slidable: ^3.0.1
+  random_avatar: ^0.0.8
+  firebase_auth: ^4.15.3
+  pinput: ^3.0.1
+  sign_button: ^2.0.6
+  intl_phone_number_input: ^0.7.4
+  smooth_page_indicator: ^1.1.0
+  babylonjs_viewer:
+  o3d: ^3.1.0
+  image_picker: ^1.0.7
+
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +88,10 @@ flutter:
     - icons/post_icons/
     - images/
     - animations/
+    - assets/animations/
+    - assets/3D/
+    - assets/
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

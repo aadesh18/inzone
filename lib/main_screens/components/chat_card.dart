@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inzone/data/inzone_chat.dart';
 import 'package:inzone/main_screens/chat_screen.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 class ChatCard extends StatelessWidget {
   InZoneChat inZoneChat;
@@ -14,17 +15,19 @@ class ChatCard extends StatelessWidget {
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
-              return const ChatScreen(
-                name: "Smith Mathew",
+              return ChatScreen(
+                name: inZoneChat.personName!,
                 chatReference: "FZjcV1irTsrUVujUgBrM",
               );
             }));
           },
-          leading: inZoneChat.profilePicturePath == null
-              ? const CircleAvatar(
-                  backgroundColor: Colors.amber,
-                )
-              : Image.asset(inZoneChat.profilePicturePath!),
+          leading:
+              // inZoneChat.profilePicturePath == null
+              // ? const CircleAvatar(
+              //     backgroundColor: Colors.amber,
+              //   )
+              // : Image.asset(inZoneChat.profilePicturePath!),
+              RandomAvatar(inZoneChat.personName!, height: 40, width: 40),
           title: inZoneChat.personName == null
               ? const SizedBox()
               : Text(

@@ -20,6 +20,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
     await InZoneDatabase.getFeed("aiPosts").then((value) {
       value.forEach(
         (element) {
+          if (element.description.length > 280) {
+            element.description = element.description.substring(0, 279);
+          }
           posts.add(PostCard(post: element));
         },
       );

@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:inzone/backend/collection_names.dart';
 import 'package:inzone/data/inzone_user.dart';
@@ -34,20 +36,36 @@ class InZoneDatabase {
     print("Fetching data");
     await collectionRef.get().then((value) {
       value.docs.forEach((element) {
-        print(element);
-        // posts.add(InZonePost(
-        //     userName: element["firstName"] + " " + element["lastName"],
-        //     profilePicturePath: "images/sample_avatar_1.png",
-        //     description: element["content"]["textContent"]));
-
         posts.add(InZonePost(
-            userName: element["user_name"],
-            firstName: "David",
-            lastName: "Morel",
-            profilePicturePath: "images/sample_avatar_1.png",
-            description: element["post"]));
+          userName: element["user_name"],
+          firstName: "David",
+          lastName: "Morel",
+          profilePicturePath: "images/sample_avatar_1.png",
+          description: element["post"]["textContent"],
+        ));
       });
     });
+    posts.insert(
+        1,
+        InZonePost(
+            userName: "david_morel",
+            profilePicturePath: "images/sample_avatar_1.png",
+            description:
+                "I literally have been looking for this since the past two months. I FINALLY FOUND IT",
+            firstName: "David",
+            assetPath: "images/sample_picture_2.png",
+            lastName: "Morel"));
+
+    posts.insert(
+        3,
+        InZonePost(
+            userName: "david_morel",
+            profilePicturePath: "images/sample_avatar_1.png",
+            description:
+                "I literally have been looking for this since the past two months. I FINALLY FOUND IT",
+            firstName: "David",
+            assetPath: "images/sample_picture_1.png",
+            lastName: "Morel"));
     return posts;
   }
 
@@ -55,16 +73,19 @@ class InZoneDatabase {
       AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
     List<InZoneMessage> messageList = [];
     List tempList = [];
-
+    bool isMe;
     if (snapshot.hasData) {
       tempList = snapshot.data!.data()!['chatMessages'];
-
       tempList.reversed.forEach((element) {
-        print(element["message"]);
+        if (DateTime.now().microsecond % 2 == 0) {
+          isMe = false;
+        } else {
+          isMe = true;
+        }
         messageList.add(InZoneMessage(
             message: element['message'],
-            // isMe: currentUser.getUID()! == element['sender'],
-            isMe: true,
+            isMe: isMe,
+            // isMe: FirebaseAuth.instance.currentUser!.uid == element['sender'],
             timeSent: element['timeSent'].toDate(),
             senderID: element['sender']));
       });
