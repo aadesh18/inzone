@@ -14,25 +14,30 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 20),
-      padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+      //margin: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(40.0), // Adjust the radius as needed
           topRight: Radius.circular(40.0),
         ),
-        color: Colors.white,
+        color: backgroundColor,
       ),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Name",
+            const Text("Details",
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text("Name",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -56,10 +61,10 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text("Gender",
+            const Text("Gender",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -91,18 +96,18 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text("Age",
+            const Text("Age",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
               width: MediaQuery.of(context).size.width,
               height: 48,
-              padding: EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
                 color: Colors.white,
@@ -111,7 +116,8 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 1,
                     blurRadius: 3,
-                    offset: Offset(0, 0), // Changes the position of the shadow
+                    offset: const Offset(
+                        0, 0), // Changes the position of the shadow
                   ),
                 ],
               ),
@@ -127,7 +133,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                               margin: EdgeInsets.only(left: 5, right: 5),
                               width: 30.0,
                               height: 30.0,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors
                                     .blue, // You can change the color as needed
@@ -143,7 +149,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                               child: Center(
                                 child: Text(
                                   '${index + 1}', // Your content or icon goes here
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.bold,
@@ -163,16 +169,16 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text("Parents Email",
+            const Text("Parents Email",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
-              padding: EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: Colors.white,
@@ -185,39 +191,40 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                   ),
                 ],
               ),
-              child: TextField(
+              child: const TextField(
                 decoration: InputDecoration(
                   hintText: 'Enter parents email',
                   border: InputBorder.none,
                 ),
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 3,
-            ),
-            Row(
-              children: [
-                Checkbox(
-                  value: isChecked,
-                  onChanged: (value) {
-                    setState(() {
-                      isChecked = value ?? false;
-                    });
-                  },
-                  activeColor: Colors.blue,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Center(
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.4,
-                      child: Text(
-                          "I have read the terms and condition and I accept the general conditions of use.",
-                          style: TextStyle(
-                              fontSize: 10, fontWeight: FontWeight.w500))),
-                ),
-              ],
+
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 30),
+              child: Row(
+                children: [
+                  Checkbox(
+                    value: isChecked,
+                    onChanged: (value) {
+                      setState(() {
+                        isChecked = value ?? false;
+                      });
+                    },
+                    activeColor: Colors.blue,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Flexible(
+                    flex: 1,
+                    child: const Text(
+                        "I have read the terms and condition and I accept the general conditions of use.",
+                        overflow: TextOverflow.visible,
+                        style: TextStyle(
+                            fontSize: 10, fontWeight: FontWeight.w500)),
+                  ),
+                ],
+              ),
             ),
             // Center(
             //   child: GestureDetector(

@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inzone/constants.dart';
-import 'package:inzone/main_screens/root_app.dart';
 import 'package:inzone/welcome_screens/introduction_page.dart';
 
 class SplashPage extends StatelessWidget {

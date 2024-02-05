@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/root_app.dart';
 import 'package:inzone/main_screens/settings_screens/content_selection_screen.dart';
-import 'package:inzone/main_screens/settings_screens/inzone_blockout_screen.dart';
-import 'package:inzone/main_screens/settings_screens/inzone_schedule.dart';
-import 'package:inzone/main_screens/settings_screens/user_details_screen.dart';
 import 'package:inzone/welcome_screens/avatar_customise_page.dart';
 import 'package:inzone/welcome_screens/user_signup_screen.dart';
 
@@ -29,30 +26,24 @@ class _SignUpPagesState extends State<SignUpPages> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            height: screenHeight! * 0.97,
-            child: PageView(
-              controller: _controller,
-              onPageChanged: (index) {
-                setState(() {
-                  currentPage = index + 1;
-                  onLastPage = (currentPage == numPages);
-                  _value = ((index + 1) / numPages);
-                });
-              },
-              children: [
-                UserSignUpScreen(),
-                AvatarCustomisePage(),
-                ContentSelectionScreen(),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
+          PageView(
+            controller: _controller,
+            onPageChanged: (index) {
+              setState(() {
+                currentPage = index + 1;
+                onLastPage = (currentPage == numPages);
+                _value = ((index + 1) / numPages);
+              });
+            },
+            children: [
+              const UserSignUpScreen(),
+              AvatarCustomisePage(),
+              const ContentSelectionScreen(),
+            ],
           ),
           Container(
             alignment: const Alignment(0, 1),
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
