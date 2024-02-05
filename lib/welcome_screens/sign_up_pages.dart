@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/root_app.dart';
 import 'package:inzone/main_screens/settings_screens/content_selection_screen.dart';
-import 'package:inzone/welcome_screens/avatar_customise_page.dart';
 import 'package:inzone/welcome_screens/choose_avatar.dart';
+import 'package:inzone/welcome_screens/content_selection_signup_screen.dart';
 import 'package:inzone/welcome_screens/user_signup_screen.dart';
 
 class SignUpPages extends StatefulWidget {
@@ -38,7 +38,8 @@ class _SignUpPagesState extends State<SignUpPages> {
           automaticallyImplyLeading: false,
           backgroundColor: backgroundColor,
           title: Text(appBarNames[currentPage - 1],
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
+              style:
+                  const TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
         ),
       ),
       body: Stack(
@@ -56,7 +57,7 @@ class _SignUpPagesState extends State<SignUpPages> {
               UserSignUpScreen(),
               ChooseAvatarScreen(),
               //AvatarCustomisePage(),
-              ContentSelectionScreen(),
+              ContentSelectionSignupScreen(),
             ],
           ),
           Container(
@@ -65,45 +66,31 @@ class _SignUpPagesState extends State<SignUpPages> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                currentPage != 1
-                    ? GestureDetector(
-                        child: const Text(
-                          "Back",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Colors.transparent,
-                            shadows: [
-                              Shadow(color: Colors.black, offset: Offset(0, -4))
-                            ],
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.black,
-                          ),
-                        ),
-                        onTap: () {
-                          if (currentPage == 1) {
-                            Navigator.pop(context);
-                          }
-                          setState(() {
-                            _controller.previousPage(
-                                duration: const Duration(seconds: 1),
-                                curve: Curves.decelerate);
-                          });
-                        },
-                      )
-                    : const Text(
-                        "Back",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.transparent,
-                          shadows: [
-                            Shadow(color: Colors.black, offset: Offset(0, -4))
-                          ],
-                          decoration: TextDecoration.underline,
-                          decorationColor: Colors.black,
-                        ),
-                      ),
+                GestureDetector(
+                  child: const Text(
+                    "Back",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.transparent,
+                      shadows: [
+                        Shadow(color: Colors.black, offset: Offset(0, -4))
+                      ],
+                      decoration: TextDecoration.underline,
+                      decorationColor: Colors.black,
+                    ),
+                  ),
+                  onTap: () {
+                    if (currentPage == 1) {
+                      Navigator.pop(context);
+                    }
+                    setState(() {
+                      _controller.previousPage(
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.decelerate);
+                    });
+                  },
+                ),
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -116,11 +103,9 @@ class _SignUpPagesState extends State<SignUpPages> {
                       backgroundColor: Colors.grey,
                     ),
                     onLastPage
-                        ? const Center(
-                            child: Icon(
-                              Icons.done,
-                              color: Colors.green,
-                            ),
+                        ? const Icon(
+                            Icons.done,
+                            color: Colors.green,
                           )
                         : const SizedBox()
                   ],
