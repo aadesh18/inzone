@@ -1,5 +1,7 @@
 //import 'package:babylonjs_viewer/babylonjs_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:inzone/constants.dart';
 import 'package:o3d/o3d.dart';
 
 class AvatarCustomisePage extends StatefulWidget {
@@ -14,63 +16,63 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffdaf5ff),
+      backgroundColor: backgroundColor,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color(0xffdaf5ff),
         ),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 40),
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.close),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 50),
-                        child: Text(
-                          "Avatar",
-                          style: TextStyle(
-                            fontSize: 27,
-                            color: Colors.black,
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 40),
+              //   child: Container(
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         IconButton(
+              //           onPressed: () {},
+              //           icon: Icon(Icons.close),
+              //         ),
+              //         Padding(
+              //           padding: const EdgeInsets.only(left: 50),
+              //           child: Text(
+              //             "Avatar",
+              //             style: TextStyle(
+              //               fontSize: 27,
+              //               color: Colors.black,
 
-                            // fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: Container(
-                          height: 30,
-                          width: 90,
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Text(
-                                  "Save",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              //               // fontWeight: FontWeight.bold
+              //             ),
+              //           ),
+              //         ),
+              //         Padding(
+              //           padding: const EdgeInsets.only(right: 10),
+              //           child: Container(
+              //             height: 30,
+              //             width: 90,
+              //             decoration: BoxDecoration(
+              //                 color: Colors.blue,
+              //                 borderRadius: BorderRadius.circular(50)),
+              //             child: Column(
+              //               children: [
+              //                 Center(
+              //                   child: Text(
+              //                     "Save",
+              //                     style: TextStyle(
+              //                         color: Colors.white,
+              //                         fontWeight: FontWeight.bold,
+              //                         fontSize: 18),
+              //                   ),
+              //                 )
+              //               ],
+              //             ),
+              //           ),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Stack(
@@ -193,21 +195,17 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
-                    child: Text(
-                      "Explore Outfit",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    ),
+                    child: const Text("Select Your Avatar",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w700)),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      "Shoes",
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  )
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 10),
+                  //   child: Text(
+                  //     "Shoes",
+                  //     style: TextStyle(color: Colors.blue),
+                  //   ),
+                  // )
                 ],
               ),
               SizedBox(
@@ -377,125 +375,125 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 75,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                height: 90,
-                width: 40,
-                decoration: BoxDecoration(
-                  // color: Colors.amber,
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      image: AssetImage('assets/3D/first.png'),
-                      fit: BoxFit.cover),
-                ),
-                child: Center(
-                  child: Container(
-                    height: 10,
-                    width: 20,
-                    decoration: BoxDecoration(
-                      // color: Colors.white,
-                      image: DecorationImage(
-                          image: AssetImage('assets/3D/sho.png'),
-                          fit: BoxFit.cover),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                height: 90,
-                width: 40,
-                decoration: BoxDecoration(
-                  // color: Colors.amber,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      // color: Colors.white,
-                      image: DecorationImage(
-                          image: AssetImage('assets/3D/shirt.png'),
-                          fit: BoxFit.cover),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                height: 90,
-                width: 40,
-                decoration: BoxDecoration(
-                  // color: Colors.amber,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      // color: Colors.white,
-                      image: DecorationImage(
-                          image: AssetImage('assets/3D/pant.png'),
-                          fit: BoxFit.cover),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                height: 90,
-                width: 40,
-                decoration: BoxDecoration(
-                  // color: Colors.amber,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      // color: Colors.white,
-                      image: DecorationImage(
-                          image: AssetImage('assets/3D/cap.png'),
-                          fit: BoxFit.cover),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                height: 90,
-                width: 40,
-                decoration: BoxDecoration(
-                  // color: Colors.amber,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      // color: Colors.white,
-                      image: DecorationImage(
-                          image: AssetImage('assets/3D/last.png'),
-                          fit: BoxFit.cover),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      // bottomNavigationBar: Container(
+      //   height: 75,
+      //   width: double.infinity,
+      //   decoration: BoxDecoration(
+      //       color: Colors.white,
+      //       borderRadius: BorderRadius.only(
+      //           topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+      //   child: Padding(
+      //     padding: const EdgeInsets.all(15),
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //       children: [
+      //         Container(
+      //           height: 90,
+      //           width: 40,
+      //           decoration: BoxDecoration(
+      //             // color: Colors.amber,
+      //             borderRadius: BorderRadius.circular(10),
+      //             image: DecorationImage(
+      //                 image: AssetImage('assets/3D/first.png'),
+      //                 fit: BoxFit.cover),
+      //           ),
+      //           child: Center(
+      //             child: Container(
+      //               height: 10,
+      //               width: 20,
+      //               decoration: BoxDecoration(
+      //                 // color: Colors.white,
+      //                 image: DecorationImage(
+      //                     image: AssetImage('assets/3D/sho.png'),
+      //                     fit: BoxFit.cover),
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //         Container(
+      //           height: 90,
+      //           width: 40,
+      //           decoration: BoxDecoration(
+      //             // color: Colors.amber,
+      //             borderRadius: BorderRadius.circular(10),
+      //           ),
+      //           child: Center(
+      //             child: Container(
+      //               height: 30,
+      //               width: 30,
+      //               decoration: BoxDecoration(
+      //                 // color: Colors.white,
+      //                 image: DecorationImage(
+      //                     image: AssetImage('assets/3D/shirt.png'),
+      //                     fit: BoxFit.cover),
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //         Container(
+      //           height: 90,
+      //           width: 40,
+      //           decoration: BoxDecoration(
+      //             // color: Colors.amber,
+      //             borderRadius: BorderRadius.circular(10),
+      //           ),
+      //           child: Center(
+      //             child: Container(
+      //               height: 30,
+      //               width: 30,
+      //               decoration: BoxDecoration(
+      //                 // color: Colors.white,
+      //                 image: DecorationImage(
+      //                     image: AssetImage('assets/3D/pant.png'),
+      //                     fit: BoxFit.cover),
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //         Container(
+      //           height: 90,
+      //           width: 40,
+      //           decoration: BoxDecoration(
+      //             // color: Colors.amber,
+      //             borderRadius: BorderRadius.circular(10),
+      //           ),
+      //           child: Center(
+      //             child: Container(
+      //               height: 30,
+      //               width: 30,
+      //               decoration: BoxDecoration(
+      //                 // color: Colors.white,
+      //                 image: DecorationImage(
+      //                     image: AssetImage('assets/3D/cap.png'),
+      //                     fit: BoxFit.cover),
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //         Container(
+      //           height: 90,
+      //           width: 40,
+      //           decoration: BoxDecoration(
+      //             // color: Colors.amber,
+      //             borderRadius: BorderRadius.circular(10),
+      //           ),
+      //           child: Center(
+      //             child: Container(
+      //               height: 30,
+      //               width: 30,
+      //               decoration: BoxDecoration(
+      //                 // color: Colors.white,
+      //                 image: DecorationImage(
+      //                     image: AssetImage('assets/3D/last.png'),
+      //                     fit: BoxFit.cover),
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

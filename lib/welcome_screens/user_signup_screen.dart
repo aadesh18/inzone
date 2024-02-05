@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
-import 'package:inzone/main_screens/post_screen.dart';
-import 'package:inzone/main_screens/settings_screens/components/settings_page_skeleton.dart';
 
 class UserSignUpScreen extends StatefulWidget {
   const UserSignUpScreen({super.key});
@@ -13,28 +11,13 @@ class UserSignUpScreen extends StatefulWidget {
 class _UserSignUpScreenState extends State<UserSignUpScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      //margin: const EdgeInsets.only(top: 20),
-      padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(40.0), // Adjust the radius as needed
-          topRight: Radius.circular(40.0),
-        ),
-        color: backgroundColor,
-      ),
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Details",
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
-            const SizedBox(
-              height: 20,
-            ),
             const Text("Name",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             const SizedBox(

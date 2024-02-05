@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/welcome_screens/onboard_page.dart';
-import 'package:inzone/welcome_screens/phone_number_page.dart';
 import 'package:inzone/welcome_screens/sign_up_pages.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

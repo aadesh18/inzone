@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
-import 'package:inzone/welcome_screens/information_pages.dart';
 import 'package:inzone/welcome_screens/phone_number_page.dart';
 import 'package:inzone/welcome_screens/sign_up_pages.dart';
 
@@ -62,10 +61,10 @@ class IntroductionPage extends StatelessWidget {
                     //     context,
                     //     MaterialPageRoute(
                     //         builder: (context) => const InformationPages()));
-                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) => const SignUpPages())));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => const SignUpPages())));
                   },
                   style: ElevatedButton.styleFrom(
                       elevation: 10,
