@@ -3,6 +3,7 @@ import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/root_app.dart';
 import 'package:inzone/main_screens/settings_screens/content_selection_screen.dart';
 import 'package:inzone/welcome_screens/avatar_customise_page.dart';
+import 'package:inzone/welcome_screens/choose_avatar.dart';
 import 'package:inzone/welcome_screens/user_signup_screen.dart';
 
 class SignUpPages extends StatefulWidget {
@@ -21,9 +22,25 @@ class _SignUpPagesState extends State<SignUpPages> {
   int currentPage = 1;
   double _value = (1 / numPages);
 
+  List<String> appBarNames = [
+    "Details",
+    "Choose Your Username",
+    "Content Selection"
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          backgroundColor: backgroundColor,
+          title: Text(appBarNames[currentPage - 1],
+              style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
+        ),
+      ),
       body: Stack(
         children: [
           PageView(
@@ -35,10 +52,11 @@ class _SignUpPagesState extends State<SignUpPages> {
                 _value = ((index + 1) / numPages);
               });
             },
-            children: [
-              const UserSignUpScreen(),
-              AvatarCustomisePage(),
-              const ContentSelectionScreen(),
+            children: const [
+              UserSignUpScreen(),
+              ChooseAvatarScreen(),
+              //AvatarCustomisePage(),
+              ContentSelectionScreen(),
             ],
           ),
           Container(
@@ -63,6 +81,9 @@ class _SignUpPagesState extends State<SignUpPages> {
                           ),
                         ),
                         onTap: () {
+                          if (currentPage == 1) {
+                            Navigator.pop(context);
+                          }
                           setState(() {
                             _controller.previousPage(
                                 duration: const Duration(seconds: 1),
