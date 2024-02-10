@@ -127,36 +127,36 @@ class IntroductionPage extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
             ),
 
-            const MessageWithTitleSubtitleImage(
-                title: "InZone Avatars",
-                subTitleFirstLine:
-                    "Design fun avatars to interact with friends,",
-                subTitleSecondLine: "family and community",
-                imagePath: "assets/intro_img_1.png"),
+            // const MessageWithTitleSubtitleImage(
+            //     title: "InZone Avatars",
+            //     subTitleFirstLine:
+            //         "Design fun avatars to interact with friends,",
+            //     subTitleSecondLine: "family and community",
+            //     imagePath: "assets/intro_img_1.png"),
             const SizedBox(
               height: 100,
             ),
-            const MessageWithTitleSubtitleImage(
-                title: "InZone AI",
-                subTitleFirstLine: "Interact with the best AI Powered",
-                subTitleSecondLine: "avatars online",
-                imagePath: "assets/intro_img_2.png"),
+            // const MessageWithTitleSubtitleImage(
+            //     title: "InZone AI",
+            //     subTitleFirstLine: "Interact with the best AI Powered",
+            //     subTitleSecondLine: "avatars online",
+            //     imagePath: "assets/intro_img_2.png"),
             const SizedBox(
               height: 100,
             ),
-            const MessageWithTitleSubtitleImage(
-                title: "ToneShield",
-                subTitleFirstLine: "Shields users from distubing content",
-                subTitleSecondLine: "before it gets posted",
-                imagePath: "assets/intro_img_3.png"),
+            // const MessageWithTitleSubtitleImage(
+            //     title: "ToneShield",
+            //     subTitleFirstLine: "Shields users from distubing content",
+            //     subTitleSecondLine: "before it gets posted",
+            //     imagePath: "assets/intro_img_3.png"),
             const SizedBox(
               height: 100,
             ),
-            const MessageWithTitleSubtitleImage(
-                title: "InZone Scheduling",
-                subTitleFirstLine: "Become the 'algorithm' and choose what",
-                subTitleSecondLine: " works for you",
-                imagePath: "assets/intro_img_4.png"),
+            // const MessageWithTitleSubtitleImage(
+            //     title: "InZone Scheduling",
+            //     subTitleFirstLine: "Become the 'algorithm' and choose what",
+            //     subTitleSecondLine: " works for you",
+            //     imagePath: "assets/intro_img_4.png"),
             const SizedBox(
               height: 100,
             ),

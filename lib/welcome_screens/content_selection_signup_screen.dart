@@ -1,116 +1,78 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/settings_screens/content_selection_screen.dart';
+import 'package:inzone/welcome_screens/avatar_customise_page.dart';
+import 'package:inzone/welcome_screens/content_selection_pages/custom_page.dart';
+import 'package:inzone/welcome_screens/content_selection_pages/fallback_page.dart';
+import 'package:inzone/welcome_screens/content_selection_pages/focus_page.dart';
+import 'package:lottie/lottie.dart';
 
-class ContentSelectionSignupScreen extends StatelessWidget {
-  const ContentSelectionSignupScreen({super.key});
+class ContentSelectionSignupScreen extends StatefulWidget {
+  ContentSelectionSignupScreen({super.key});
+
+  static const int numPages = 3;
+
+  @override
+  State<ContentSelectionSignupScreen> createState() =>
+      _ContentSelectionSignupScreenState();
+}
+
+class _ContentSelectionSignupScreenState
+    extends State<ContentSelectionSignupScreen> {
+  final PageController _controller = PageController();
+
+  bool success = false;
+
+  bool onLastPage = false;
+
+  int currentPage = 1;
+
+  double _value = (1 / ContentSelectionSignupScreen.numPages);
+
+  List<String> appBarNames = [
+    "Details",
+    "Choose Your Username",
+    "Content Selection"
+  ];
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-        child: Column(
-          children: [
-            const Text(
-                "Swipe Low visibility and High visibility content in each mode of your choice.",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                        height: 300,
-                        margin: const EdgeInsets.only(top: 30, bottom: 25),
-                        child: const Text(
-                          "Fall Back",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w800),
-                        )),
-                    Container(
-                      height: 300,
-                      child: ListView.builder(
-                        itemCount: contentList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Slidable(
-                            key: Key('$index'),
-
-                            startActionPane: ActionPane(
-                              // A motion is a widget used to control how the pane animates.
-                              extentRatio: 0.2,
-                              motion: const ScrollMotion(),
-
-                              children: [
-                                // A SlidableAction can have an icon and/or a label.
-                                Image.asset("icons/content_icons/low.png")
-                              ],
-                            ),
-
-                            // The end action pane is the one at the right or the bottom side.
-                            endActionPane: ActionPane(
-                              extentRatio: 0.2,
-                              motion: const ScrollMotion(),
-                              children: [
-                                Image.asset("icons/content_icons/high.png"),
-                              ],
-                            ),
-                            child: SizedBox(
-                              height:
-                                  index != contentList.length - 1 ? 60 : 100,
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    height: 300,
-                                    margin: const EdgeInsets.only(
-                                        left: 10, right: 10, bottom: 5, top: 5),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      color: Colors.white,
-                                      // border: Border(
-                                      //     top: BorderSide(
-                                      //         color: backgroundColor)
-                                      //         ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color:
-                                              backgroundColor.withOpacity(0.5),
-                                          spreadRadius: 3,
-                                          blurRadius: 1,
-                                          offset: const Offset(0,
-                                              3), // Changes the position of the shadow
-                                        ),
-                                      ],
-                                    ),
-                                    child: ListTile(
-                                      title: Text(contentList[index].tittle,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700)),
-                                      leading: Image.asset(
-                                          "${contentList[index].iconPath}/$index.png"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          height: screenHeight! / 1.4,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                  "Swipe Low visibility and High visibility content in each mode of your choice.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: PageView(
+                  controller: _controller,
+                  onPageChanged: (index) {
+                    setState(() {
+                      currentPage = index + 1;
+                      onLastPage = (currentPage ==
+                          ContentSelectionSignupScreen.numPages);
+                      _value =
+                          ((index + 1) / ContentSelectionSignupScreen.numPages);
+                    });
+                  },
+                  children: const [FocusPage(), FallBackPage(), CustomPage()],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

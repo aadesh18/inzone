@@ -19,16 +19,16 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
         padding: const EdgeInsets.only(top: 10),
         child: Column(
           children: [
-            const Text(
-              "Chats",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+            // const Text(
+            //   "Chats",
+            //   style: TextStyle(
+            //       color: Colors.black,
+            //       fontWeight: FontWeight.bold,
+            //       fontSize: 30),
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: InZoneSearchBar(),

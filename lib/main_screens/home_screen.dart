@@ -49,62 +49,54 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                        flex: 5,
-                        child: TextButton(
-                          child: Text(
-                            "InZone",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25),
-                          ),
-                          style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              minimumSize: Size(50, 30),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              alignment: Alignment.centerLeft),
-                          onPressed: () {
-                            getFeed();
-                          },
-                        )),
-                    // Expanded(
-                    //     flex: 2,
-                    //     child: Container(
-                    //       padding: const EdgeInsets.symmetric(
-                    //           horizontal: 25, vertical: 10),
-                    //       decoration: BoxDecoration(
-                    //         color: const Color(0xffb8dfee).withOpacity(0.8),
-                    //         borderRadius: BorderRadius.circular(30),
-                    //       ),
-                    //       child: const Text(
-                    //         "120 Hr",
-                    //         style: TextStyle(
-                    //             color: Colors.black,
-                    //             fontWeight: FontWeight.bold),
-                    //       ),
-                    //     )),
-                    Expanded(
-                        flex: 1,
-                        child: SvgPicture.asset(CustomIcons.notifications))
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  "Focus",
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
+                // Row(
+                //   mainAxisSize: MainAxisSize.max,
+                //   children: [
+                //     Expanded(
+                //         flex: 5,
+                //         child: TextButton(
+                //           child: Text(
+                //             "InZone",
+                //             style: TextStyle(
+                //                 color: Colors.black,
+                //                 fontWeight: FontWeight.bold,
+                //                 fontSize: 25),
+                //           ),
+                //           style: TextButton.styleFrom(
+                //               padding: EdgeInsets.zero,
+                //               minimumSize: Size(50, 30),
+                //               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                //               alignment: Alignment.centerLeft),
+                //           onPressed: () {
+                //             getFeed();
+                //           },
+                //         )),
+                //     Expanded(
+                //         flex: 2,
+                //         child: Container(
+                //           padding: const EdgeInsets.symmetric(
+                //               horizontal: 25, vertical: 10),
+                //           decoration: BoxDecoration(
+                //             color: const Color(0xffb8dfee).withOpacity(0.8),
+                //             borderRadius: BorderRadius.circular(30),
+                //           ),
+                //           child: const Text(
+                //             "120 Hr",
+                //             style: TextStyle(
+                //                 color: Colors.black,
+                //                 fontWeight: FontWeight.bold),
+                //           ),
+                //         )),
+                //     Expanded(
+                //         flex: 1,
+                //         child: SvgPicture.asset(CustomIcons.notifications))
+                //   ],
+                // ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
+              
+          
                 CategorySelectorBar(),
                 const SizedBox(
                   height: 20,

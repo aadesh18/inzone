@@ -209,6 +209,9 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                 ],
               ),
             ),
+            SizedBox(
+              height: screenHeight! / 2,
+            )
             // Center(
             //   child: GestureDetector(
             //     onTap: () {

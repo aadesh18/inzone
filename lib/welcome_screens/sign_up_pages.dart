@@ -53,9 +53,9 @@ class _SignUpPagesState extends State<SignUpPages> {
                 _value = ((index + 1) / numPages);
               });
             },
-            children: const [
-              UserSignUpScreen(),
-              ChooseAvatarScreen(),
+            children: [
+              const UserSignUpScreen(),
+              const ChooseAvatarScreen(),
               //AvatarCustomisePage(),
               ContentSelectionSignupScreen(),
             ],

@@ -21,6 +21,36 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
   late int currentPage;
   late TabController tabController;
 
+  List<String> appBarNames = ["InZone", "", "Chats", "Profile"];
+  List<DropdownMenuItem<String>> get dropdownItems {
+    List<DropdownMenuItem<String>> menuItems = [
+      DropdownMenuItem(
+          child: const Text(
+            "Focus",
+            style: TextStyle(
+                color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          value: "Focus"),
+      DropdownMenuItem(
+          child: const Text(
+            "Fall Back",
+            style: TextStyle(
+                color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          value: "Fall Back"),
+      DropdownMenuItem(
+          child: const Text(
+            "Custom",
+            style: TextStyle(
+                color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          value: "Custom"),
+    ];
+    return menuItems;
+  }
+
+  String selectedValue = "Fall Back";
+
   @override
   void initState() {
     currentPage = 0;
@@ -50,124 +80,184 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        body: BottomBar(
-          clip: Clip.none,
-          fit: StackFit.expand,
-          icon: (width, height) => const Center(
-            child: IconButton(
-              padding: EdgeInsets.zero,
-              onPressed: null,
-              icon: Icon(
-                Icons.arrow_upward_rounded,
-                color: Colors.pink,
-                size: 200,
-              ),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize:
+            currentPage == 1 ? Size.fromHeight(0) : Size.fromHeight(50),
+        child: AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          backgroundColor: backgroundColor,
+          title: currentPage == 0
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(appBarNames[currentPage],
+                        style: const TextStyle(
+                            fontSize: 26, fontWeight: FontWeight.w700)),
+                    Spacer(),
+
+                    DropdownButton(
+                      elevation: 0,
+
+                      isDense: true,
+                      //alignment: Alignment.bottomCenter,
+                      underline: SizedBox(),
+                      padding: EdgeInsets.zero,
+
+                      // icon: Icon(
+                      //   Icons.keyboard_arrow_down,
+                      //   color: Colors.black,
+                      // ),
+                      icon: SizedBox.shrink(),
+                      value: selectedValue,
+                      items: dropdownItems,
+                      onChanged: (value) {
+                        if (value != null) {
+                          setState(() {
+                            selectedValue = value;
+                          });
+                        }
+                      },
+                    )
+                    // Row(
+                    //   children: [
+                    //     const Text(
+                    //       "Focus",
+                    //       style: TextStyle(
+                    //           color: Colors.blue,
+                    //           fontWeight: FontWeight.bold,
+                    //           fontSize: 20),
+                    //     ),
+                    //     Icon(
+                    //       Icons.keyboard_arrow_down,
+                    //       color: Colors.black,
+                    //       size: 12,
+                    //     )
+                    //   ],
+                    // ),
+                  ],
+                )
+              : Text(appBarNames[currentPage],
+                  style: const TextStyle(
+                      fontSize: 26, fontWeight: FontWeight.w700)),
+        ),
+      ),
+      backgroundColor: backgroundColor,
+      body: BottomBar(
+        clip: Clip.none,
+        fit: StackFit.expand,
+        icon: (width, height) => const Center(
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            onPressed: null,
+            icon: Icon(
+              Icons.arrow_upward_rounded,
+              color: Colors.pink,
+              size: 200,
             ),
           ),
+        ),
+        borderRadius: BorderRadius.circular(500),
+        duration: Duration(milliseconds: 500),
+        curve: Curves.decelerate,
+        showIcon: true,
+        width: MediaQuery.of(context).size.width * 0.8,
+        barColor: barColor,
+        start: 2,
+        end: 0,
+        offset: 10,
+        barAlignment: Alignment.bottomCenter,
+        iconHeight: 30,
+        iconWidth: 30,
+        reverse: false,
+        barDecoration: BoxDecoration(
+          color: barSelectedColor,
           borderRadius: BorderRadius.circular(500),
-          duration: Duration(milliseconds: 500),
-          curve: Curves.decelerate,
-          showIcon: true,
-          width: MediaQuery.of(context).size.width * 0.8,
-          barColor: barColor,
-          start: 2,
-          end: 0,
-          offset: 10,
-          barAlignment: Alignment.bottomCenter,
-          iconHeight: 30,
-          iconWidth: 30,
-          reverse: false,
-          barDecoration: BoxDecoration(
-            color: barSelectedColor,
-            borderRadius: BorderRadius.circular(500),
-          ),
-          iconDecoration: BoxDecoration(
-            color: barSelectedColor,
-            borderRadius: BorderRadius.circular(500),
-          ),
-          hideOnScroll: true,
-          scrollOpposite: false,
-          onBottomBarHidden: () {},
-          onBottomBarShown: () {},
-          body: (context, controller) => TabBarView(
+        ),
+        iconDecoration: BoxDecoration(
+          color: barSelectedColor,
+          borderRadius: BorderRadius.circular(500),
+        ),
+        hideOnScroll: true,
+        scrollOpposite: false,
+        onBottomBarHidden: () {},
+        onBottomBarShown: () {},
+        body: (context, controller) => TabBarView(
+            controller: tabController,
+            dragStartBehavior: DragStartBehavior.down,
+            physics: const BouncingScrollPhysics(),
+            children: const [
+              HomeScreen(),
+              ExploreScreen(),
+              AllChatsScreen(),
+              MeScreen(),
+              PostScreen()
+            ]),
+        child: Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: [
+            TabBar(
+              indicatorPadding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
               controller: tabController,
-              dragStartBehavior: DragStartBehavior.down,
-              physics: const BouncingScrollPhysics(),
-              children: const [
-                HomeScreen(),
-                ExploreScreen(),
-                AllChatsScreen(),
-                MeScreen(),
-                PostScreen()
-              ]),
-          child: Stack(
-            alignment: Alignment.center,
-            clipBehavior: Clip.none,
-            children: [
-              TabBar(
-                indicatorPadding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
-                controller: tabController,
-                indicator: UnderlineTabIndicator(
-                    borderSide: BorderSide(
-                      color: currentPage <= 4
-                          ? barSelectedColor
-                          : barUnselectedColor,
-                      width: 4,
-                    ),
-                    insets: EdgeInsets.fromLTRB(16, 0, 16, 8)),
-                tabs: [
-                  SizedBox(
-                    height: 70,
-                    width: 40,
-                    child: Center(
-                        child: currentPage == 0
-                            ? SvgPicture.asset(CustomIcons.homeSelected)
-                            : SvgPicture.asset(CustomIcons.homeUnselected)),
+              indicator: UnderlineTabIndicator(
+                  borderSide: BorderSide(
+                    color: currentPage <= 4
+                        ? barSelectedColor
+                        : barUnselectedColor,
+                    width: 4,
                   ),
-                  SizedBox(
-                    height: 70,
-                    width: 40,
-                    child: Center(
-                        child: currentPage == 1
-                            ? SvgPicture.asset(CustomIcons.exploreUnselected)
-                            : SvgPicture.asset(CustomIcons.exploreUnselected)),
-                  ),
-                  SizedBox(
-                    height: 70,
-                    width: 40,
-                    child: Center(
-                        child: currentPage == 2
-                            ? SvgPicture.asset(CustomIcons.message)
-                            : SvgPicture.asset(CustomIcons.message)),
-                  ),
-                  SizedBox(
-                    height: 70,
-                    width: 40,
-                    child: Center(
-                        child: currentPage == 3
-                            ? SvgPicture.asset(CustomIcons.me)
-                            : SvgPicture.asset(CustomIcons.meUnselected)),
-                  ),
-                  SizedBox(
-                    height: 70,
-                    width: 40,
-                  ),
-                ],
-              ),
-              Positioned(
-                right: 10,
-                child: FloatingActionButton(
-                  onPressed: () {
-                    tabController.index = 4;
-                  },
-                  child: Icon(Icons.add),
+                  insets: EdgeInsets.fromLTRB(16, 0, 16, 8)),
+              tabs: [
+                SizedBox(
+                  height: 70,
+                  width: 40,
+                  child: Center(
+                      child: currentPage == 0
+                          ? SvgPicture.asset(CustomIcons.homeSelected)
+                          : SvgPicture.asset(CustomIcons.homeUnselected)),
                 ),
-              )
-            ],
-          ),
+                SizedBox(
+                  height: 70,
+                  width: 40,
+                  child: Center(
+                      child: currentPage == 1
+                          ? SvgPicture.asset(CustomIcons.exploreUnselected)
+                          : SvgPicture.asset(CustomIcons.exploreUnselected)),
+                ),
+                SizedBox(
+                  height: 70,
+                  width: 40,
+                  child: Center(
+                      child: currentPage == 2
+                          ? SvgPicture.asset(CustomIcons.message)
+                          : SvgPicture.asset(CustomIcons.message)),
+                ),
+                SizedBox(
+                  height: 70,
+                  width: 40,
+                  child: Center(
+                      child: currentPage == 3
+                          ? SvgPicture.asset(CustomIcons.me)
+                          : SvgPicture.asset(CustomIcons.meUnselected)),
+                ),
+                SizedBox(
+                  height: 70,
+                  width: 40,
+                ),
+              ],
+            ),
+            Positioned(
+              right: 10,
+              child: FloatingActionButton(
+                onPressed: () {
+                  tabController.index = 4;
+                },
+                child: Icon(Icons.add),
+              ),
+            )
+          ],
         ),
       ),
     );

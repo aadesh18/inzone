@@ -23,7 +23,7 @@ class PostCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
-            color: Color(0xff959595).withOpacity(0.3),
+            color: const Color(0xff959595).withOpacity(0.3),
             spreadRadius: 0,
             blurRadius: 15,
             offset: const Offset(0, 4), // changes position of shadow
@@ -56,7 +56,7 @@ class PostCard extends StatelessWidget {
                 PopupMenuButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: SvgPicture.asset(
                     CustomIcons.threeDots,
                     height: 40,
@@ -81,20 +81,20 @@ class PostCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
               post.description,
-              style: TextStyle(height: 1.5),
+              style: const TextStyle(height: 1.5),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             post.assetPath == null
                 ? const SizedBox()
                 : Image.asset(post.assetPath!),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -136,7 +136,7 @@ PopupMenuItem menuOption(String iconPath, String title, String value) {
   return PopupMenuItem(
     child: Row(children: [
       SvgPicture.asset(iconPath),
-      SizedBox(
+      const SizedBox(
         width: 6,
       ),
       Text(title)
