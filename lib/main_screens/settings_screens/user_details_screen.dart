@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/post_screen.dart';
 import 'package:inzone/main_screens/settings_screens/components/settings_page_skeleton.dart';
 
@@ -21,7 +20,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
         padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40.0), // Adjust the radius as needed
             topRight: Radius.circular(40.0),
@@ -33,13 +32,13 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Name",
+              const Text("Name",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   color: Colors.white,
@@ -49,21 +48,21 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                       spreadRadius: 1,
                       blurRadius: 3,
                       offset:
-                          Offset(0, 0), // Changes the position of the shadow
+                          const Offset(0, 0), // Changes the position of the shadow
                     ),
                   ],
                 ),
-                child: TextField(
+                child: const TextField(
                   decoration: InputDecoration(
                     hintText: 'Enter name',
                     border: InputBorder.none,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text("Gender",
+              const Text("Gender",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -95,18 +94,18 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text("Age",
+              const Text("Age",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 48,
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.0),
                   color: Colors.white,
@@ -116,7 +115,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                       spreadRadius: 1,
                       blurRadius: 3,
                       offset:
-                          Offset(0, 0), // Changes the position of the shadow
+                          const Offset(0, 0), // Changes the position of the shadow
                     ),
                   ],
                 ),
@@ -129,10 +128,10 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                       children: [
                         age == index + 1
                             ? Container(
-                                margin: EdgeInsets.only(left: 5, right: 5),
+                                margin: const EdgeInsets.only(left: 5, right: 5),
                                 width: 30.0,
                                 height: 30.0,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors
                                       .blue, // You can change the color as needed
@@ -148,7 +147,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                                 child: Center(
                                   child: Text(
                                     '${index + 1}', // Your content or icon goes here
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.bold,
@@ -168,16 +167,16 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text("Parents Email",
+              const Text("Parents Email",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   color: Colors.white,
@@ -187,11 +186,11 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                       spreadRadius: 1,
                       blurRadius: 3,
                       offset:
-                          Offset(0, 0), // Changes the position of the shadow
+                          const Offset(0, 0), // Changes the position of the shadow
                     ),
                   ],
                 ),
-                child: TextField(
+                child: const TextField(
                   decoration: InputDecoration(
                     hintText: 'Enter parents email',
                     border: InputBorder.none,
@@ -212,12 +211,12 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                     },
                     activeColor: Colors.blue,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   SizedBox(
                       width: MediaQuery.of(context).size.width / 1.4,
-                      child: Text(
+                      child: const Text(
                           "I have read the terms and condition and \nI accept the general conditions of use.",
                           style: TextStyle(
                               fontSize: 10, fontWeight: FontWeight.w500))),
@@ -233,7 +232,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                 child: Container(
                   width: MediaQuery.of(context).size.width / 1.2,
                   height: 50.0,
-                  margin: EdgeInsets.only(bottom: 20, top: 20),
+                  margin: const EdgeInsets.only(bottom: 20, top: 20),
                   decoration: BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(46.0),
@@ -242,7 +241,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                       color: Colors.blue.shade800,
                     ),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Save',
                       style: TextStyle(
@@ -274,7 +273,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
           Container(
             // width: 110,
             height: 48,
-            margin: EdgeInsets.all(5),
+            margin: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: Colors.white,
@@ -285,7 +284,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                       : Colors.blue,
                   spreadRadius: 2,
                   blurRadius: 1,
-                  offset: Offset(0, 2), // Changes the position of the shadow
+                  offset: const Offset(0, 2), // Changes the position of the shadow
                 ),
               ],
             ),
@@ -310,7 +309,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
           ),
           gender != index
               ? Container()
-              : Align(
+              : const Align(
                   alignment: Alignment.topRight,
                   child: Icon(
                     Icons.check_circle,

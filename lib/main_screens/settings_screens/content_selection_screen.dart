@@ -47,6 +47,26 @@ class _ContentSelectionScreenState extends State<ContentSelectionScreen> {
                       itemBuilder: (BuildContext context, int index) {
                         return Slidable(
                           key: Key('$index'),
+
+                          startActionPane: ActionPane(
+                            // A motion is a widget used to control how the pane animates.
+                            extentRatio: 0.2,
+                            motion: const ScrollMotion(),
+
+                            children: [
+                              // A SlidableAction can have an icon and/or a label.
+                              Image.asset("icons/content_icons/low.png")
+                            ],
+                          ),
+
+                          // The end action pane is the one at the right or the bottom side.
+                          endActionPane: ActionPane(
+                            extentRatio: 0.2,
+                            motion: const ScrollMotion(),
+                            children: [
+                              Image.asset("icons/content_icons/high.png"),
+                            ],
+                          ),
                           child: SizedBox(
                             height: index != contentList.length - 1 ? 60 : 100,
                             child: Stack(
@@ -96,26 +116,6 @@ class _ContentSelectionScreenState extends State<ContentSelectionScreen> {
                                       ),
                               ],
                             ),
-                          ),
-
-                          startActionPane: ActionPane(
-                            // A motion is a widget used to control how the pane animates.
-                            extentRatio: 0.2,
-                            motion: const ScrollMotion(),
-
-                            children: [
-                              // A SlidableAction can have an icon and/or a label.
-                              Image.asset("icons/content_icons/low.png")
-                            ],
-                          ),
-
-                          // The end action pane is the one at the right or the bottom side.
-                          endActionPane: ActionPane(
-                            extentRatio: 0.2,
-                            motion: ScrollMotion(),
-                            children: [
-                              Image.asset("icons/content_icons/high.png"),
-                            ],
                           ),
                         );
                       },

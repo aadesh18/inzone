@@ -1,17 +1,12 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:inzone/constants.dart';
-import 'package:inzone/main_screens/settings_screens/content_selection_screen.dart';
-import 'package:inzone/welcome_screens/avatar_customise_page.dart';
 import 'package:inzone/welcome_screens/content_selection_pages/custom_page.dart';
 import 'package:inzone/welcome_screens/content_selection_pages/fallback_page.dart';
 import 'package:inzone/welcome_screens/content_selection_pages/focus_page.dart';
-import 'package:lottie/lottie.dart';
 
 class ContentSelectionSignupScreen extends StatefulWidget {
-  ContentSelectionSignupScreen({super.key});
+  const ContentSelectionSignupScreen({super.key});
 
   static const int numPages = 3;
 

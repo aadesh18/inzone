@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:inzone/backend/database.dart';
-import 'package:inzone/constants.dart';
-import 'package:inzone/data/post.dart';
 import 'package:inzone/main_screens/components/category_selector_bar.dart';
 import 'package:inzone/main_screens/components/post_card.dart';
-import 'package:inzone/main_screens/custom_icons.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,11 +16,9 @@ class _HomeScreenState extends State<HomeScreen> {
   getFeed() async {
     posts.clear();
     await InZoneDatabase.getFeed("aiPosts").then((value) {
-      value.forEach(
-        (element) {
+      for (var element in value) {
           posts.add(PostCard(post: element));
-        },
-      );
+        }
       setState(() {
         posts.reversed;
       });
@@ -97,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // ),
               
           
-                CategorySelectorBar(),
+                const CategorySelectorBar(),
                 const SizedBox(
                   height: 20,
                 ),

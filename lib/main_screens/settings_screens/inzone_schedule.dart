@@ -23,7 +23,7 @@ class _InZoneScheduleState extends State<InZoneSchedule> {
               startValue: 9.0,
               endValue: 17.0,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             DayTimeSelector(
@@ -33,7 +33,7 @@ class _InZoneScheduleState extends State<InZoneSchedule> {
               startValue: 17.0,
               endValue: 22.0,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             DayTimeSelector(
@@ -43,7 +43,7 @@ class _InZoneScheduleState extends State<InZoneSchedule> {
               startValue: 0.0,
               endValue: 24.0,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
           ],

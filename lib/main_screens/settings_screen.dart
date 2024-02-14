@@ -14,12 +14,12 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
           elevation: 0,
           backgroundColor: backgroundColor,
-          iconTheme: IconThemeData(color: Colors.black),
-          title: Text(
+          iconTheme: const IconThemeData(color: Colors.black),
+          title: const Text(
             "Settings",
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -36,12 +36,12 @@ class SettingsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Settings",
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -55,7 +55,7 @@ class SettingsScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return InZoneSchedule();
+                        return const InZoneSchedule();
                       }));
                     }),
                 SettingsTile(
@@ -64,7 +64,7 @@ class SettingsScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return ContentSelectionScreen();
+                        return const ContentSelectionScreen();
                       }));
                     }),
                 SettingsTile(
@@ -73,7 +73,7 @@ class SettingsScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return InZoneBlockOutScreen();
+                        return const InZoneBlockOutScreen();
                       }));
                     }),
                 SettingsTile(
@@ -82,15 +82,15 @@ class SettingsScreen extends StatelessWidget {
                     onPressed: () {}),
               ]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               "Other Settings",
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -104,7 +104,7 @@ class SettingsScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return UserDetailScreen();
+                        return const UserDetailScreen();
                       }));
                     }),
                 SettingsTile(

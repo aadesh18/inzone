@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:inzone/backend/database.dart';
-import 'package:inzone/data/post.dart';
 import 'package:inzone/main_screens/components/inzone_search_bar.dart';
 import 'package:inzone/main_screens/components/post_card.dart';
 import 'package:inzone/main_screens/settings_screens/components/explore_page_category_selector.dart';
@@ -18,14 +17,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
   getFeed() async {
     posts.clear();
     await InZoneDatabase.getFeed("aiPosts").then((value) {
-      value.forEach(
-        (element) {
+      for (var element in value) {
           if (element.description.length > 280) {
             element.description = element.description.substring(0, 279);
           }
           posts.add(PostCard(post: element));
-        },
-      );
+        }
       setState(() {
         posts.reversed;
       });
@@ -48,7 +45,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            InZoneSearchBar(),
+            const InZoneSearchBar(),
             // const Padding(
             //   padding: EdgeInsets.all(10),
             //   child: Text(
@@ -61,7 +58,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
             //   ),
             // ),
 
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height / 2.25,
               // width: MediaQuery.of(context).size.width - 40,
@@ -71,7 +68,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 scrollDirection: Axis.horizontal,
                 itemCount: posts.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
+                  return SizedBox(
                     width: MediaQuery.of(context).size.width - 20,
                     height: MediaQuery.of(context).size.height / 2,
                     child: Padding(
@@ -82,8 +79,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 },
               ),
             ),
-            ExplorePageCategorySelector(),
-            SizedBox(
+            const ExplorePageCategorySelector(),
+            const SizedBox(
               height: 20,
             ),
             Column(

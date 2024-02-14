@@ -4,7 +4,7 @@ class InZoneSearchBar extends StatelessWidget {
   final Color searchHintTextColor;
   final Color backgroundColor;
 
-  InZoneSearchBar({
+  const InZoneSearchBar({
     super.key,
     this.searchHintTextColor = Colors.black54,
     this.backgroundColor = Colors.white,

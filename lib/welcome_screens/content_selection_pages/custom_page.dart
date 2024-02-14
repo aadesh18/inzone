@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/settings_screens/content_selection_screen.dart';
-import 'package:lottie/lottie.dart';
 
 class CustomPage extends StatelessWidget {
   const CustomPage({super.key});
@@ -23,7 +22,7 @@ class CustomPage extends StatelessWidget {
                 "Custom",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
               )),
-          Container(
+          SizedBox(
             height: 325,
             child: ListView.builder(
               itemCount: contentList.length,
@@ -89,18 +88,18 @@ class CustomPage extends StatelessWidget {
               },
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Icon(
             Icons.check,
             color: Colors.grey.shade600,
           ),
-          Text(
+          const Text(
             "Done",
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.w500, fontSize: 14),
           ),
-          Spacer(),
+          const Spacer(),
           //  Lottie.asset("assets/animations/swipe_left.json")
         ],
       ),

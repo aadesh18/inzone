@@ -318,7 +318,7 @@ class DaysSelector<T> extends StatelessWidget {
   /// * activeColor: Default is `Theme.of(context).accentColor`;
   /// * comparingBy: Default is `==`;
   DaysSelector(
-      {required this.options,
+      {super.key, required this.options,
       this.multiple = false,
       value,
       onValueChanged,
@@ -374,7 +374,7 @@ class DaysSelector<T> extends StatelessWidget {
   /// * activeColor: Default is `Theme.of(context).accentColor`;
   /// * comparingBy: Default is `==`;
   DaysSelector.rect(
-      {required this.options,
+      {super.key, required this.options,
       this.multiple = false,
       value,
       onValueChanged,
@@ -447,7 +447,7 @@ class DaysSelector<T> extends StatelessWidget {
             itemCount: options.length,
             separatorBuilder: (_, __) => separatorWidth == 0.0
                 ? Container()
-                : Container(
+                : SizedBox(
                     height: constraints.maxHeight,
                     width: separatorWidth,
                   ),

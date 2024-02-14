@@ -29,8 +29,8 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
             // const SizedBox(
             //   height: 10,
             // ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: InZoneSearchBar(),
             ),
             const SizedBox(

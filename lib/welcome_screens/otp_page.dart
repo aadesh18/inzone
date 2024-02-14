@@ -101,12 +101,12 @@ class _OTPPageState extends State<OTPPage> {
                         codeEntered = pin;
                       },
                     )),
-                    Padding(
+                    const Padding(
                       padding:
                           EdgeInsets.symmetric(vertical: 14, horizontal: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Text(
                             "New Code will be sent in: ",
                             textAlign: TextAlign.center,
@@ -139,7 +139,7 @@ class _OTPPageState extends State<OTPPage> {
                         child: GestureDetector(
                       onTap: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => RootApp()));
+                            MaterialPageRoute(builder: (context) => const RootApp()));
                         // await firebaseMethods
                         //     .otpManualVerification(
                         //         Future<String>.value, codeEntered)

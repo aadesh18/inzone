@@ -120,11 +120,11 @@ class EmailLogInPage extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Expanded(
                           child: Divider(
                         thickness: 1.2,

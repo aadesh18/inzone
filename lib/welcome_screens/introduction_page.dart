@@ -18,16 +18,16 @@ class IntroductionPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Social Media made",
               style: TextStyle(
                 fontSize: 34,
               ),
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   "fun ",
                   style: TextStyle(
@@ -213,7 +213,7 @@ class MessageWithTitleSubtitleImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(
         children: [

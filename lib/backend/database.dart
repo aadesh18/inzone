@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:inzone/backend/collection_names.dart';
 import 'package:inzone/data/inzone_user.dart';
@@ -35,7 +33,7 @@ class InZoneDatabase {
     final collectionRef = FirebaseFirestore.instance.collection(collectionName);
     print("Fetching data");
     await collectionRef.get().then((value) {
-      value.docs.forEach((element) {
+      for (var element in value.docs) {
         posts.add(InZonePost(
           userName: element["user_name"],
           firstName: "David",
@@ -43,7 +41,7 @@ class InZoneDatabase {
           profilePicturePath: "images/sample_avatar_1.png",
           description: element["post"]["textContent"],
         ));
-      });
+      }
     });
     posts.insert(
         1,
@@ -76,7 +74,7 @@ class InZoneDatabase {
     bool isMe;
     if (snapshot.hasData) {
       tempList = snapshot.data!.data()!['chatMessages'];
-      tempList.reversed.forEach((element) {
+      for (var element in tempList.reversed) {
         if (DateTime.now().microsecond % 2 == 0) {
           isMe = false;
         } else {
@@ -88,7 +86,7 @@ class InZoneDatabase {
             // isMe: FirebaseAuth.instance.currentUser!.uid == element['sender'],
             timeSent: element['timeSent'].toDate(),
             senderID: element['sender']));
-      });
+      }
     }
     return messageList;
   }
@@ -99,13 +97,13 @@ class InZoneDatabase {
       required List<dynamic> messageList}) async {
     bool added = false;
     List<Map<String, dynamic>> tempList = [];
-    messageList.forEach((element) {
+    for (var element in messageList) {
       tempList.add({
         "message": element.message,
         "sender": element.senderID,
         "timeSent": Timestamp.fromDate(element.timeSent)
       });
-    });
+    }
     await FirebaseFirestore.instance
         .collection(CollectionNames.messagesCollection)
         .doc(chatReference)

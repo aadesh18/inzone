@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inzone/constants.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 class ChooseAvatarScreen extends StatefulWidget {
@@ -49,7 +48,7 @@ class _ChooseAvatarScreenState extends State<ChooseAvatarScreen> {
                       spreadRadius: 1,
                       blurRadius: 3,
                       offset:
-                          Offset(0, 0), // Changes the position of the shadow
+                          const Offset(0, 0), // Changes the position of the shadow
                     ),
                   ],
                 ),

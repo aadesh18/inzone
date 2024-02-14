@@ -3,7 +3,7 @@ import 'package:inzone/data/post.dart';
 import 'package:inzone/main_screens/components/post_card.dart';
 
 class CommentPage extends StatefulWidget {
-  CommentPage({Key? key, required this.post});
+  CommentPage({super.key, required this.post});
   InZonePost post;
 
   @override

@@ -1,4 +1,3 @@
-import 'package:flutter_util_widgets/flutter_util_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/settings_screens/components/days_selector.dart';

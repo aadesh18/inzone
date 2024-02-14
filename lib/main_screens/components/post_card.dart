@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/post.dart';
 import 'package:inzone/main_screens/comments_screen.dart';
-import 'package:inzone/main_screens/custom_icons.dart';
+import 'package:inzone/custom_icons.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:sliding_sheet2/sliding_sheet2.dart';
 
@@ -134,6 +134,7 @@ class PostCard extends StatelessWidget {
 
 PopupMenuItem menuOption(String iconPath, String title, String value) {
   return PopupMenuItem(
+    value: value,
     child: Row(children: [
       SvgPicture.asset(iconPath),
       const SizedBox(
@@ -141,6 +142,5 @@ PopupMenuItem menuOption(String iconPath, String title, String value) {
       ),
       Text(title)
     ]),
-    value: value,
   );
 }

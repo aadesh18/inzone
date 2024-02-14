@@ -13,7 +13,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -24,7 +24,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
               height: 10,
             ),
             Container(
-              padding: EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: Colors.white,
@@ -33,11 +33,11 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 1,
                     blurRadius: 3,
-                    offset: Offset(0, 0), // Changes the position of the shadow
+                    offset: const Offset(0, 0), // Changes the position of the shadow
                   ),
                 ],
               ),
-              child: TextField(
+              child: const TextField(
                 decoration: InputDecoration(
                   hintText: 'Enter name',
                   border: InputBorder.none,
@@ -113,7 +113,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                     children: [
                       age == index + 1
                           ? Container(
-                              margin: EdgeInsets.only(left: 5, right: 5),
+                              margin: const EdgeInsets.only(left: 5, right: 5),
                               width: 30.0,
                               height: 30.0,
                               decoration: const BoxDecoration(
@@ -170,7 +170,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 1,
                     blurRadius: 3,
-                    offset: Offset(0, 0), // Changes the position of the shadow
+                    offset: const Offset(0, 0), // Changes the position of the shadow
                   ),
                 ],
               ),
@@ -200,7 +200,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                   ),
                   const Flexible(
                     flex: 1,
-                    child: const Text(
+                    child: Text(
                         "I have read the terms and condition and I accept the general conditions of use.",
                         overflow: TextOverflow.visible,
                         style: TextStyle(
@@ -264,7 +264,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
           Container(
             // width: 110,
             height: 48,
-            margin: EdgeInsets.all(5),
+            margin: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: Colors.white,
@@ -275,7 +275,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                       : Colors.blue,
                   spreadRadius: 2,
                   blurRadius: 1,
-                  offset: Offset(0, 2), // Changes the position of the shadow
+                  offset: const Offset(0, 2), // Changes the position of the shadow
                 ),
               ],
             ),
@@ -300,7 +300,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
           ),
           gender != index
               ? Container()
-              : Align(
+              : const Align(
                   alignment: Alignment.topRight,
                   child: Icon(
                     Icons.check_circle,

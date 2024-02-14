@@ -73,12 +73,12 @@ class _FollowersFollowingScreenState extends State<FollowersFollowingScreen> {
           const SizedBox(
             height: 10,
           ),
-          Flexible(
+          const Flexible(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: InZoneSearchBar(
-                backgroundColor: const Color(0xffA8D7E9),
+                backgroundColor: Color(0xffA8D7E9),
               ),
             ),
           ),

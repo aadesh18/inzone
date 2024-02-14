@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/root_app.dart';
-import 'package:inzone/main_screens/settings_screens/content_selection_screen.dart';
 import 'package:inzone/welcome_screens/choose_avatar.dart';
 import 'package:inzone/welcome_screens/content_selection_signup_screen.dart';
 import 'package:inzone/welcome_screens/user_signup_screen.dart';
@@ -32,7 +31,7 @@ class _SignUpPagesState extends State<SignUpPages> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50),
+        preferredSize: const Size.fromHeight(50),
         child: AppBar(
           elevation: 0,
           automaticallyImplyLeading: false,
@@ -53,9 +52,9 @@ class _SignUpPagesState extends State<SignUpPages> {
                 _value = ((index + 1) / numPages);
               });
             },
-            children: [
-              const UserSignUpScreen(),
-              const ChooseAvatarScreen(),
+            children: const [
+              UserSignUpScreen(),
+              ChooseAvatarScreen(),
               //AvatarCustomisePage(),
               ContentSelectionSignupScreen(),
             ],
@@ -129,7 +128,7 @@ class _SignUpPagesState extends State<SignUpPages> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) => RootApp())));
+                                  builder: ((context) => const RootApp())));
                         },
                       )
                     : GestureDetector(

@@ -1,7 +1,5 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/me_screen/followers_following_screen.dart';
 import 'package:inzone/main_screens/me_screen/liked_screen.dart';
 import 'package:inzone/main_screens/me_screen/personal_feed_screen.dart';
@@ -41,7 +39,7 @@ class _MeScreenState extends State<MeScreen>
           //   "Profile",
           //   style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
           // ),
-          Container(
+          SizedBox(
             height: 80,
 //width: screenWidth!,
             child: Row(

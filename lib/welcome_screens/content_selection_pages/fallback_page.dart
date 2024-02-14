@@ -23,7 +23,7 @@ class FallBackPage extends StatelessWidget {
                 "Fall Back",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
               )),
-          Container(
+          SizedBox(
             height: 325,
             child: ListView.builder(
               itemCount: contentList.length,

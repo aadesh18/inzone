@@ -25,7 +25,7 @@ class _ExplorePageCategorySelectorState
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.only(left: 10),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -35,16 +35,16 @@ class _ExplorePageCategorySelectorState
           return GestureDetector(
             onTap: () {
               setState(() {
-                this.selectedCategoryIndex = index;
+                selectedCategoryIndex = index;
               });
             },
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 150),
+              duration: const Duration(milliseconds: 150),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: isSelected ? Colors.black : Colors.white),
-              padding: EdgeInsets.symmetric(vertical: 13, horizontal: 15),
-              margin: EdgeInsets.symmetric(horizontal: 2),
+              padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 15),
+              margin: const EdgeInsets.symmetric(horizontal: 2),
               child: Text(
                 category,
                 style: TextStyle(

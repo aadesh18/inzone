@@ -6,7 +6,7 @@ class SettingsPageSkeleton extends StatelessWidget {
   String subtitle;
   Widget child;
   SettingsPageSkeleton(
-      {required this.title, required this.child, required this.subtitle});
+      {super.key, required this.title, required this.child, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {

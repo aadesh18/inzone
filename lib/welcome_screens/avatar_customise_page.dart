@@ -1,11 +1,10 @@
 //import 'package:babylonjs_viewer/babylonjs_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:inzone/constants.dart';
 import 'package:o3d/o3d.dart';
 
 class AvatarCustomisePage extends StatefulWidget {
-  AvatarCustomisePage({Key? key}) : super(key: key);
+  const AvatarCustomisePage({Key? key}) : super(key: key);
 
   @override
   State<AvatarCustomisePage> createState() => _AvatarCustomisePageState();
@@ -80,7 +79,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                     Container(
                       height: 297,
                       width: double.infinity,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage('assets/3D/back.png'),
                               fit: BoxFit.cover),
@@ -96,7 +95,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                           Container(
                             height: 257,
                             width: 111,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 //color: Colors.pink,
                                 // image: DecorationImage(
                                 //     image: AssetImage('assets/3D/ava.png'),
@@ -119,7 +118,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                                     child: Container(
                                       height: 30,
                                       width: 120,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         // color: Colors.blue,
                                         image: DecorationImage(
                                             image: AssetImage(
@@ -131,7 +130,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                                   Container(
                                     height: 10,
                                     width: 120,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       // color: Colors.blue,
                                       image: DecorationImage(
                                           image:
@@ -156,7 +155,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                             child: Container(
                               height: 35,
                               width: 35,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 //color: Colors.blue,
                                 // borderRadius: BorderRadius.circular(10),
                                 //border: Border.all(width: 3, color: Colors.blue),
@@ -171,7 +170,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                             child: Container(
                               height: 35,
                               width: 35,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 //color: Colors.blue,
                                 // borderRadius: BorderRadius.circular(10),
                                 //border: Border.all(width: 3, color: Colors.blue),
@@ -179,7 +178,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                                     image: AssetImage('assets/3D/back1.png'),
                                     fit: BoxFit.cover),
                               ),
-                              child: Center(),
+                              child: const Center(),
                             ),
                           )
                         ],
@@ -188,14 +187,14 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 13,
               ),
-              Row(
+              const Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: const Text("Select Your Avatar",
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text("Select Your Avatar",
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.w700)),
                   ),
@@ -208,7 +207,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                   // )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 6,
               ),
               Row(
@@ -220,7 +219,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
                       color: Colors.white,
-                      border: Border(
+                      border: const Border(
                         bottom: BorderSide(width: 4, color: Colors.blue),
                         left: BorderSide(width: 1, color: Colors.blue),
                         right: BorderSide(width: 1, color: Colors.blue),
@@ -234,7 +233,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   Container(
@@ -243,7 +242,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
                       color: Colors.white,
-                      border: Border(
+                      border: const Border(
                         bottom: BorderSide(width: 4, color: Colors.blue),
                         left: BorderSide(width: 1, color: Colors.blue),
                         right: BorderSide(width: 1, color: Colors.blue),
@@ -259,7 +258,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 7,
               ),
               Row(
@@ -271,7 +270,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
                       color: Colors.white,
-                      border: Border(
+                      border: const Border(
                         bottom: BorderSide(width: 4, color: Colors.blue),
                         left: BorderSide(width: 1, color: Colors.blue),
                         right: BorderSide(width: 1, color: Colors.blue),
@@ -285,7 +284,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   Container(
@@ -294,7 +293,7 @@ class _AvatarCustomisePageState extends State<AvatarCustomisePage> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
                       color: Colors.white,
-                      border: Border(
+                      border: const Border(
                         bottom: BorderSide(width: 4, color: Colors.blue),
                         left: BorderSide(width: 1, color: Colors.blue),
                         right: BorderSide(width: 1, color: Colors.blue),

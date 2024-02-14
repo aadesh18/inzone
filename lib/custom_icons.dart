@@ -21,4 +21,6 @@ class CustomIcons {
   static String dontShow = "icons/dont_show.svg";
   static String manage = "icons/manage.svg";
   static String notInterested = "icons/not_interested.svg";
+  static String loadingAnimation = "assets/loading_animation.json";
+  static String confettiAnimation = "assets/confetti.json";
 }

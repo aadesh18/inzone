@@ -21,7 +21,7 @@ class InZoneBlockOutScreen extends StatelessWidget {
                       "This setting will block suicide content form your selected social media platforms",
                   color: Colors.blue,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 BlockOutOption(
@@ -30,7 +30,7 @@ class InZoneBlockOutScreen extends StatelessWidget {
                       "This setting will block suicide content form your selected social media platforms",
                   color: Colors.pink,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 BlockOutOption(
@@ -39,7 +39,7 @@ class InZoneBlockOutScreen extends StatelessWidget {
                       "This setting will block suicide content form your selected social media platforms",
                   color: Colors.blue,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 BlockOutOption(
@@ -48,7 +48,7 @@ class InZoneBlockOutScreen extends StatelessWidget {
                       "This setting will block suicide content form your selected social media platforms",
                   color: Colors.orange,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 BlockOutOption(

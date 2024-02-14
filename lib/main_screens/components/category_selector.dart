@@ -15,7 +15,7 @@ class CategorySelector extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             gradient: LinearGradient(

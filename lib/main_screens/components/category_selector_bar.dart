@@ -3,16 +3,16 @@ import 'package:inzone/data/inzone_category_list.dart';
 import 'package:inzone/main_screens/components/category_selector.dart';
 
 class CategorySelectorBar extends StatelessWidget {
-  CategorySelectorBar({
+  const CategorySelectorBar({
     super.key,
   });
 
   List<Widget> _getCategoryList() {
-    List<CategorySelector> _categorySelectorList = [];
-    inzone_category_list.forEach((element) {
-      _categorySelectorList.add(CategorySelector(category: element));
-    });
-    return _categorySelectorList;
+    List<CategorySelector> categorySelectorList = [];
+    for (var element in inzone_category_list) {
+      categorySelectorList.add(CategorySelector(category: element));
+    }
+    return categorySelectorList;
   }
 
   @override
