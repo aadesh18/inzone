@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math' as math;
 
 import 'package:action_slider/action_slider.dart';
 import 'package:choice/choice.dart';
@@ -123,7 +122,7 @@ class _PostScreenState extends State<PostScreen> {
                   Center(
                     child: ActionSlider.standard(
                       rolling: false,
-                    reverseSlideAnimationDuration: Duration(seconds: 0),
+                   // reverseSlideAnimationDuration: Duration(seconds: 0),
                       backgroundColor: Colors.blue,
                       toggleColor: Colors.white,
                       sliderBehavior: SliderBehavior.stretch,
@@ -136,7 +135,7 @@ class _PostScreenState extends State<PostScreen> {
                       ),
                       action: (controller)  async {
                         controller.loading(); //starts loading animation
-                        await Future.delayed(Duration(seconds: 2));
+                        await Future.delayed(const Duration(seconds: 2));
 
                         controller.success();
                         Navigator.pop(context);
@@ -144,15 +143,15 @@ class _PostScreenState extends State<PostScreen> {
                         showDialog(
                             context: context,
                             builder: (_) {
-                              _timer = Timer(Duration(seconds: 1), () {
+                              _timer = Timer(const Duration(seconds: 1), () {
                                 Navigator.of(_).pop();
                               });
                               return Dialog(
                               backgroundColor: Colors.transparent,
                               child:  Stack(
                                 children: [
-                                  RotatedBox(quarterTurns: 2, child: Container(height:MediaQuery.of(context).size.height, width:MediaQuery.of(context).size.width, child: Lottie.asset(CustomIcons.confettiAnimation)),),
-                                  Align(
+                                  RotatedBox(quarterTurns: 2, child: SizedBox(height:MediaQuery.of(context).size.height, width:MediaQuery.of(context).size.width, child: Lottie.asset(CustomIcons.confettiAnimation)),),
+                                  const Align(
                                     alignment: Alignment.center,
                                       child: Text("Post Sucessful", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w400),))
                                  ],
@@ -239,7 +238,7 @@ class _PostScreenState extends State<PostScreen> {
                       });
                     },
                   ),
-SizedBox(height: 20,),
+const SizedBox(height: 20,),
                   // Images
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -267,7 +266,7 @@ SizedBox(height: 20,),
                   //     : SizedBox(
                   //   height: MediaQuery.of(context).size.height / 2.8,
                   // ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   isTyping
@@ -289,9 +288,9 @@ SizedBox(height: 20,),
                               const SizedBox(
                                 height: 10,
                               ),
-                              Flexible(
+                              const Flexible(
                                 flex: 1,
-                                child: const Text(
+                                child: Text(
                                     "Suggestions based on your InZone post"),
                               ),
 
@@ -393,8 +392,8 @@ SizedBox(height: 20,),
                             ],
                           ),
                         )
-                      : SizedBox(),
-                  SizedBox(
+                      : const SizedBox(),
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -410,7 +409,7 @@ SizedBox(height: 20,),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               color: Colors.white,
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                     color: Color(0xffe064f7),
                                     blurRadius: 1.0,
@@ -421,8 +420,8 @@ SizedBox(height: 20,),
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SvgPicture.asset("assets/picture_icon.svg"),
-                              SizedBox(height: 5),
-                              Text(
+                              const SizedBox(height: 5),
+                              const Text(
                                 "Image",
                                 style: TextStyle(
                                     color: Colors.black,
@@ -439,7 +438,7 @@ SizedBox(height: 20,),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             color: Colors.white,
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                   color: Color(0xff00b2e7),
                                   blurRadius: 1.0,
@@ -450,8 +449,8 @@ SizedBox(height: 20,),
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset("assets/link_icon.svg"),
-                            SizedBox(height: 5),
-                            Text(
+                            const SizedBox(height: 5),
+                            const Text(
                               "Link",
                               style: TextStyle(
                                   color: Colors.black,

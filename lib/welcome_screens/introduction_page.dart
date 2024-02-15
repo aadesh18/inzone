@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inzone/backend/phone_auth_backend.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/welcome_screens/phone_number_page.dart';
 import 'package:inzone/welcome_screens/sign_up_pages.dart';
@@ -87,7 +88,7 @@ class IntroductionPage extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const PhoneNumberPage()));
+                          builder: (context) => const PhoneAuthBackEnd()));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

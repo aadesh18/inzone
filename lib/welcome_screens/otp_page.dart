@@ -1,5 +1,6 @@
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:inzone/backend/phone_auth_backend.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/root_app.dart';
 import 'package:pinput/pinput.dart';
@@ -97,9 +98,10 @@ class _OTPPageState extends State<OTPPage> {
                       submittedPinTheme: submittedPinTheme,
                       showCursor: true,
                       autofocus: true,
-                      onCompleted: (pin) {
+                      onChanged: (pin){
                         codeEntered = pin;
                       },
+
                     )),
                     const Padding(
                       padding:
@@ -138,8 +140,8 @@ class _OTPPageState extends State<OTPPage> {
                     Expanded(
                         child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const RootApp()));
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) => const RootApp()));
                         // await firebaseMethods
                         //     .otpManualVerification(
                         //         Future<String>.value, codeEntered)
@@ -154,6 +156,7 @@ class _OTPPageState extends State<OTPPage> {
                         //     print("Not proceeding forward");
                         //   }
                         // });
+                        // PhoneAuthBackEnd.of(context)!.setOtp(codeEntered);
                       },
                       child: Container(
                         decoration: const BoxDecoration(

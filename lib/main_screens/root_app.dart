@@ -111,7 +111,7 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
               builder: (context) => SlidingSheetDialog(
                 cornerRadius: 30,
 backdropColor:backgroundColor.withOpacity(0.6),
-duration: Duration(seconds: 1),
+duration: const Duration(seconds: 1),
                 snapSpec: const SnapSpec(snappings: [0.7, 0.9]),
                 builder: (context, state) {
                   return const PostScreen();

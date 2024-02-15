@@ -4,9 +4,12 @@ import 'package:inzone/welcome_screens/email_login.dart';
 import 'package:inzone/welcome_screens/otp_page.dart';
 import 'package:lottie/lottie.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:firebase_ui_auth/src/providers/phone_auth_provider.dart' as PhoneAuthP;
+
+import '../backend/phone_auth_backend.dart';
 
 class PhoneNumberPage extends StatefulWidget {
-  const PhoneNumberPage({super.key});
+  PhoneNumberPage({super.key});
 
   @override
   _PhoneNumberPageState createState() => _PhoneNumberPageState();
@@ -131,6 +134,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                               const SizedBox(width: 8),
                               InternationalPhoneNumberInput(
                                   inputBorder: InputBorder.none,
+                                  initialValue: PhoneNumber(isoCode: "US"),
                                   keyboardAction: TextInputAction.next,
                                   autoFocus: true,
                                   //scrollPadding: const EdgeInsets.all(8),
@@ -144,8 +148,11 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                                   hintText: "1234567890",
                                   autoValidateMode: AutovalidateMode.disabled,
                                   ignoreBlank: false,
+
                                   onInputChanged: (value) {
+                                    print(value);
                                     phoneNumber = value.phoneNumber!;
+
                                   })
                               // TextFieldWithOnlyHintText(hintText: "+911234567890")
                             ],
@@ -159,10 +166,12 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                           child: GestureDetector(
                             onTap: () {
                               OTPPage.phoneNumber = phoneNumber;
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const OTPPage()));
+                              print(phoneNumber);
+                              PhoneAuthBackEnd.of(context)!.setPhoneNumber(phoneNumber);
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => const OTPPage()));
                             },
                             child: Container(
                               decoration: const BoxDecoration(

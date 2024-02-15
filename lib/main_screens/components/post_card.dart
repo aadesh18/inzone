@@ -91,9 +91,12 @@ class PostCard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
+            // post.assetPath == null
+            //     ? const SizedBox()
+            //     : Image.asset(post.assetPath!),
             post.assetPath == null
                 ? const SizedBox()
-                : Image.asset(post.assetPath!),
+            : Image.network(post.assetPath!),
             const SizedBox(
               height: 10,
             ),

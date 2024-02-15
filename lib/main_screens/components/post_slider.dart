@@ -4,7 +4,7 @@ import 'package:inzone/constants.dart';
 class PostSlider extends StatefulWidget {
   final String afterSlideText;
   final String beforeSlideText;
-  PostSlider({required this.afterSlideText, required this.beforeSlideText});
+  const PostSlider({super.key, required this.afterSlideText, required this.beforeSlideText});
   @override
   State<PostSlider> createState() => _PostSliderState();
 }
@@ -16,7 +16,7 @@ class _PostSliderState extends State<PostSlider> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         color: Colors.lightBlue.withOpacity(0.4),
         borderRadius: BorderRadius.circular(50.00),
@@ -36,11 +36,11 @@ class _PostSliderState extends State<PostSlider> {
               child: Center(
                 child: Text(
                   widget.beforeSlideText,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             )
-                : SizedBox()
+                : const SizedBox()
           ],
         ),
       ),
@@ -50,7 +50,7 @@ class _PostSliderState extends State<PostSlider> {
   Widget postSuccessful() => Transform.translate(
     offset: Offset(translateX, translateY),
     child: AnimatedContainer(
-        duration: Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 200),
         curve: Curves.linear,
         width: 100 + myWidth,
         height: 100,
@@ -61,7 +61,7 @@ class _PostSliderState extends State<PostSlider> {
             ? Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.check,
               color: Colors.black,
               size: 28,
@@ -69,7 +69,7 @@ class _PostSliderState extends State<PostSlider> {
             Flexible(
               child: Text(
                 widget.afterSlideText,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
@@ -77,7 +77,7 @@ class _PostSliderState extends State<PostSlider> {
             )
           ],
         )
-            : Icon(
+            : const Icon(
           Icons.navigate_next,
           color: Colors.black,
           size: 28,
@@ -86,8 +86,8 @@ class _PostSliderState extends State<PostSlider> {
 
   _incTransXVal() async {
     int canLoop = -1;
-    for (var i = 0; canLoop == -1; i++)
-      await Future.delayed(Duration(milliseconds: 1), () {
+    for (var i = 0; canLoop == -1; i++) {
+      await Future.delayed(const Duration(milliseconds: 1), () {
         setState(() {
           if (translateX + 1 <
               MediaQuery.of(context).size.width - (118 + myWidth)) {
@@ -98,5 +98,6 @@ class _PostSliderState extends State<PostSlider> {
           }
         });
       });
+    }
   }
 }
