@@ -1,9 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
+import 'package:inzone/main_screens/root_app.dart';
 import 'package:sign_button/sign_button.dart';
 
-class EmailLogInPage extends StatelessWidget {
-  const EmailLogInPage({super.key});
+class EmailLogInPage extends StatefulWidget {
+  EmailLogInPage({super.key});
+
+  @override
+  State<EmailLogInPage> createState() => _EmailLogInPageState();
+}
+
+class _EmailLogInPageState extends State<EmailLogInPage> {
+  String? email;
+
+  String? password;
+
+  String? errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -62,12 +75,18 @@ class EmailLogInPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const TextField(
-                  decoration: InputDecoration(
+                 TextField(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       labelText: 'E-mail',
                       hintText: 'something@example.com'),
+                  onChanged: (value) {
+                    setState(() {
+                      email = value;
+                    });
+
+                  },
                 ),
                 const SizedBox(
                   height: 30,
@@ -77,24 +96,49 @@ class EmailLogInPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const TextField(
+                 TextField(
                   obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       labelText: "Password",
                       hintText: "Password"),
+                  onChanged: (value) {
+                    setState(() {
+                      password = value;
+                    });
+
+                  },
                 ),
                 const SizedBox(
                   height: 30,
                 ),
                 Center(
                   child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // Navigator.push(
                         //     context,
                         //     MaterialPageRoute(
                         //         builder: (context) => PhoneNumberPage()));
+                        if (email == null  || password == null){
+                          setState(() {
+                            errorMessage = "Please fill all fields!";
+                          });
+                        }  else {
+                          try {
+                            final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                              email: email!,
+                              password: password!,
+                            ).then((value) {
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RootApp()));
+                            });
+                          } on FirebaseAuthException catch (e) {
+
+                              errorMessage = e.message;
+
+                          }
+                        }
+
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
@@ -120,52 +164,53 @@ class EmailLogInPage extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                          child: Divider(
-                        thickness: 1.2,
-                        color: Colors.black,
-                      )),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("or", style: TextStyle(fontSize: 18)),
-                      ),
-                      Expanded(
-                          child: Divider(
-                        thickness: 1.2,
-                        color: Colors.black,
-                      ))
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SignInButton.mini(
-                      buttonType: ButtonType.facebook,
-                      buttonSize: ButtonSize.large,
-                      onPressed: () {},
-                    ),
-                    SignInButton.mini(
-                      buttonType: ButtonType.google,
-                      buttonSize: ButtonSize.large,
-                      onPressed: () {},
-                    ),
-                    SignInButton.mini(
-                      buttonType: ButtonType.twitter,
-                      buttonSize: ButtonSize.large,
-                      onPressed: () {},
-                    ),
-                  ],
-                )
+                errorMessage == null ? SizedBox() : Text(errorMessage!, style: TextStyle(color: Colors.red, fontSize: 15, ),)
+                // const Padding(
+                //   padding: EdgeInsets.all(8.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Expanded(
+                //           child: Divider(
+                //         thickness: 1.2,
+                //         color: Colors.black,
+                //       )),
+                //       Padding(
+                //         padding: EdgeInsets.all(8.0),
+                //         child: Text("or", style: TextStyle(fontSize: 18)),
+                //       ),
+                //       Expanded(
+                //           child: Divider(
+                //         thickness: 1.2,
+                //         color: Colors.black,
+                //       ))
+                //     ],
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     SignInButton.mini(
+                //       buttonType: ButtonType.facebook,
+                //       buttonSize: ButtonSize.large,
+                //       onPressed: () {},
+                //     ),
+                //     SignInButton.mini(
+                //       buttonType: ButtonType.google,
+                //       buttonSize: ButtonSize.large,
+                //       onPressed: () {},
+                //     ),
+                //     SignInButton.mini(
+                //       buttonType: ButtonType.twitter,
+                //       buttonSize: ButtonSize.large,
+                //       onPressed: () {},
+                //     ),
+                //   ],
+                // )
               ],
             ),
           ),

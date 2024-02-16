@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/root_app.dart';
@@ -124,11 +125,51 @@ class _SignUpPagesState extends State<SignUpPages> {
                             decorationColor: Colors.black,
                           ),
                         ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) => const RootApp())));
+                        onTap: () async {
+                          print(currentUser.getFirstName());
+                          print(currentUser.getAge());
+                          print(currentUser.getUserName());
+                          print(currentUser.getPassword());
+                          print(currentUser.getFocusTopics());
+                          print(currentUser.getFallbackTopics());
+
+                          if (currentUser.getFirstName() == null ||
+                              currentUser.getAge() == null ||
+                              currentUser.getUserName() == null ||
+                              currentUser.getPassword() == null||
+                              currentUser.getFocusTopics()== null ||
+                              currentUser.getFallbackTopics()== null){
+                            final snackBar = SnackBar(
+                              content: Text("Error: Please fill all fields !"),
+                              backgroundColor: (Colors.red),
+
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } else {
+                            try {
+                              final credential = await FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                  email: currentUser.getEmail()!,
+                                  password: currentUser.getPassword()!)
+                                  .then((value) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) =>
+                                        const RootApp())));
+                              });
+                            } on FirebaseAuthException catch (e) {
+                              final snackBar = SnackBar(
+                                content: Text("Error: ${e.message}"),
+                                backgroundColor: (Colors.red),
+
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          }
+
                         },
                       )
                     : GestureDetector(

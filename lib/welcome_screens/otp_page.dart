@@ -7,8 +7,10 @@ import 'package:pinput/pinput.dart';
 
 class OTPPage extends StatefulWidget {
   static String phoneNumber = "";
+  String? errorMessage;
 
-  const OTPPage({super.key});
+  OTPPage({super.key, String? this.errorMessage});
+
   @override
   _OTPPageState createState() => _OTPPageState();
 }
@@ -81,13 +83,16 @@ class _OTPPageState extends State<OTPPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8.0),
                       child: Text(
-                        "Text code is sent to ${OTPPage.phoneNumber}",
-                        style: const TextStyle(
+                       widget.errorMessage == null? "Text code is sent to ${OTPPage.phoneNumber}" : widget.errorMessage!,
+                        style:  widget.errorMessage == null? const TextStyle(
                           fontSize: 22,
                           color: Color(0xff818181),
-                        ),
+                        ) : const TextStyle(
+                          fontSize: 22,
+                          color: Colors.red,
+                        )
                       ),
                     ),
                     Expanded(
@@ -156,7 +161,7 @@ class _OTPPageState extends State<OTPPage> {
                         //     print("Not proceeding forward");
                         //   }
                         // });
-                        // PhoneAuthBackEnd.of(context)!.setOtp(codeEntered);
+                        PhoneAuthBackEnd.of(context)!.triggerOTPEntered(codeEntered);
                       },
                       child: Container(
                         decoration: const BoxDecoration(

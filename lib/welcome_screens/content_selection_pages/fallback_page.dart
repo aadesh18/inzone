@@ -1,12 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:inzone/constants.dart';
+import 'package:inzone/data/inzone_enums.dart';
 import 'package:inzone/main_screens/settings_screens/content_selection_screen.dart';
 import 'package:lottie/lottie.dart';
 
 class FallBackPage extends StatelessWidget {
-  const FallBackPage({super.key});
+   FallBackPage({super.key});
 
+  List<String> lowList = [];
+  List<String> highList = [];
+
+  onStart(int index){
+
+    lowList.add(contentList.elementAt(index).tittle);
+    print(lowList);
+    currentUser.setFallbackTopics(
+        [{InZoneEnums.lowVisibility : lowList.toSet().toList()},{ InZoneEnums.highVisibility : highList.toSet().toList()}
+        ]);
+    return ActionPane(
+
+      // A motion is a widget used to control how the pane animates.
+      extentRatio: 0.2,
+      motion: const ScrollMotion(),
+
+      children: [
+        // A SlidableAction can have an icon and/or a label.
+
+
+        Image.asset("icons/content_icons/low.png"),
+      ],
+    );
+  }
+
+  onEnd(int index){
+    highList.add(contentList.elementAt(index).tittle);
+    print(highList);
+    currentUser.setFallbackTopics(
+        [{InZoneEnums.lowVisibility : lowList.toSet().toList()},{ InZoneEnums.highVisibility : highList.toSet().toList()}
+        ]);
+    return ActionPane(
+      extentRatio: 0.2,
+      motion: const ScrollMotion(),
+      children: [
+        Image.asset("icons/content_icons/high.png"),
+      ],
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,25 +71,10 @@ class FallBackPage extends StatelessWidget {
                 return Slidable(
                   key: Key('$index'),
 
-                  startActionPane: ActionPane(
-                    // A motion is a widget used to control how the pane animates.
-                    extentRatio: 0.2,
-                    motion: const ScrollMotion(),
-
-                    children: [
-                      // A SlidableAction can have an icon and/or a label.
-                      Image.asset("icons/content_icons/low.png")
-                    ],
-                  ),
+                  startActionPane: onStart(index),
 
                   // The end action pane is the one at the right or the bottom side.
-                  endActionPane: ActionPane(
-                    extentRatio: 0.2,
-                    motion: const ScrollMotion(),
-                    children: [
-                      Image.asset("icons/content_icons/high.png"),
-                    ],
-                  ),
+                  endActionPane: onEnd(index),
                   child: SizedBox(
                     height: index != contentList.length - 1 ? 60 : 100,
                     child: Stack(

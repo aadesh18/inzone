@@ -63,7 +63,7 @@ class _ContentSelectionSignupScreenState
                           ((index + 1) / ContentSelectionSignupScreen.numPages);
                     });
                   },
-                  children: const [FocusPage(), FallBackPage(), CustomPage()],
+                  children:  [FocusPage(), FallBackPage(), CustomPage()],
                 ),
               ),
             ],

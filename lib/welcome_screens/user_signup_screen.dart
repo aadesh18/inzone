@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
+import 'package:inzone/data/inzone_enums.dart';
 
 class UserSignUpScreen extends StatefulWidget {
   const UserSignUpScreen({super.key});
@@ -37,11 +38,15 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                   ),
                 ],
               ),
-              child: const TextField(
+              child:  TextField(
                 decoration: InputDecoration(
                   hintText: 'Enter name',
                   border: InputBorder.none,
                 ),
+                onChanged: (value){
+                  currentUser.setName(value);
+
+                },
               ),
             ),
             const SizedBox(
@@ -60,6 +65,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                         setState(() {
                           gender = 0;
                         });
+                        currentUser.setGender(InZoneEnums.male);
                       },
                       child: genderChoose(Icons.male, "Male", 0)),
                   GestureDetector(
@@ -67,6 +73,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                         setState(() {
                           gender = 1;
                         });
+                        currentUser.setGender(InZoneEnums.female);
                       },
                       child: genderChoose(Icons.male, "Female", 1)),
                   GestureDetector(
@@ -74,6 +81,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                         setState(() {
                           gender = 2;
                         });
+                        currentUser.setGender(InZoneEnums.other);
                       },
                       child: genderChoose(Icons.male, "Other", 2)),
                 ],
@@ -145,6 +153,8 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                                 setState(() {
                                   age = index + 1;
                                 });
+
+                                currentUser.setAge(age);
                               },
                               child: Text("   ${index + 1}   ")),
                     ],
@@ -155,7 +165,8 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
             const SizedBox(
               height: 10,
             ),
-            const Text("Parents Email",
+
+            const Text("E-mail",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             const SizedBox(
               height: 10,
@@ -174,14 +185,89 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                   ),
                 ],
               ),
-              child: const TextField(
-                decoration: InputDecoration(
-                  hintText: 'Enter parents email',
+              child:  TextField(
+                decoration: const InputDecoration(
+                  hintText: 'Enter E-mail',
                   border: InputBorder.none,
                 ),
+                onChanged: (value){
+                  currentUser.setEmail(value);
+                },
               ),
             ),
+            age < 13 ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
 
+                const Text("Parent's E-mail",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: const Offset(0, 0), // Changes the position of the shadow
+                      ),
+                    ],
+                  ),
+                  child:  TextField(
+                    decoration: const InputDecoration(
+                      hintText: 'Enter Parent E-mail',
+                      border: InputBorder.none,
+                    ),
+                    onChanged: (value){
+                      currentUser.setParentEmail(value);
+                    },
+                  ),
+                ),
+              ],
+            ) : const SizedBox(),
+            const SizedBox(
+              height: 10,
+            ),
+
+            const Text("Password",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 3,
+                    offset: const Offset(0, 0), // Changes the position of the shadow
+                  ),
+                ],
+              ),
+              child:  TextField(
+                obscureText: true,
+                decoration: const InputDecoration(
+                  hintText: 'Enter Password',
+
+                  border: InputBorder.none,
+                ),
+                onChanged: (value){
+                  currentUser.setPassword(value);
+                },
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 30),
               child: Row(

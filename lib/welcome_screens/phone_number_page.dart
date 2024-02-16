@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/welcome_screens/email_login.dart';
@@ -94,10 +95,10 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const EmailLogInPage()));
+                          builder: (context) => EmailLogInPage()));
                 },
                 child: const Text(
-                  "Use e-mail or username",
+                  "Use e-mail instead",
                   style: TextStyle(
                       fontSize: 17, decoration: TextDecoration.underline),
                 ),
@@ -167,7 +168,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                             onTap: () {
                               OTPPage.phoneNumber = phoneNumber;
                               print(phoneNumber);
-                              PhoneAuthBackEnd.of(context)!.setPhoneNumber(phoneNumber);
+                              PhoneAuthBackEnd.of(context)!.triggerPhoneNumberEntered(phoneNumber);
                               // Navigator.push(
                               //     context,
                               //     MaterialPageRoute(

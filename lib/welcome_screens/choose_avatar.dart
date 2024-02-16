@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inzone/constants.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 class ChooseAvatarScreen extends StatefulWidget {
@@ -61,6 +62,8 @@ class _ChooseAvatarScreenState extends State<ChooseAvatarScreen> {
                     setState(() {
                       username = value;
                     });
+
+                    currentUser.setUserName(value);
                   },
                 ),
               ),
