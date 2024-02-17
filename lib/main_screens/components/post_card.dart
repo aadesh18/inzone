@@ -1,15 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:inzone/constants.dart';
-import 'package:inzone/data/post.dart';
+import 'package:inzone/data/inzone_post.dart';
 import 'package:inzone/main_screens/comments_screen.dart';
 import 'package:inzone/custom_icons.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:sliding_sheet2/sliding_sheet2.dart';
+import 'package:http/http.dart' as http;
 
-class PostCard extends StatelessWidget {
+class PostCard extends StatefulWidget {
   InZonePost post;
   PostCard({super.key, required this.post});
+
+  @override
+  State<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
+  bool imageSuccess = false;
+
+  void checkInternet() async {
+    if (widget.post.imageContent! !=null ){
+      print("eneeted");
+      try {
+        final response = await http.head(Uri.parse(widget.post.imageContent!.elementAt(0))).then((value) {
+          if (value.statusCode == 200){
+            imageSuccess = true;
+          }
+        });
+
+      } catch (_) {
+        imageSuccess = false;
+      }
+    } else {
+
+        imageSuccess = false;
+
+    }
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    //checkInternet();
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +54,7 @@ class PostCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20.0),
       child: Container(
         constraints: BoxConstraints(
-          minHeight: post.assetPath == null ? 190 : 350,
+          minHeight: imageSuccess ? 350 : 190,
         ),
         width: screenWidth! - 30,
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -35,13 +72,13 @@ class PostCard extends StatelessWidget {
             Row(
               children: [
                 // Image.asset(post.profilePicturePath),
-                RandomAvatar(post.userName, height: 40, width: 40),
+                RandomAvatar(widget.post.userName, height: 40, width: 40),
                 const SizedBox(
                   width: 10,
                 ),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(
-                    post.userName,
+                    widget.post.userName,
                     style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -72,7 +109,7 @@ class PostCard extends StatelessWidget {
                           "Not Interested in this", "not_interested"),
                       menuOption(
                           CustomIcons.dontShow,
-                          "Don't show content of ${post.userName}",
+                          "Don't show content of ${widget.post.userName}",
                           "dont_show"),
                       menuOption(
                           CustomIcons.manage, "Manage your interests", "manage")
@@ -84,19 +121,61 @@ class PostCard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
+            widget.post.textContent == null ? SizedBox() :
             Text(
-              post.description,
+              widget.post.textContent!,
               style: const TextStyle(height: 1.5),
             ),
             const SizedBox(
               height: 10,
             ),
-            post.assetPath == null
-                ? const SizedBox()
-                : Image.asset(post.assetPath!),
-            // post.assetPath == null
-            //     ? const SizedBox()
-            // : Image.network(post.assetPath!),
+
+widget.post.imageContent == null  ? SizedBox() :
+
+widget.post.imageContent!.length == 0 ? SizedBox(): Container(
+width: screenWidth!-30,
+  height: 200,
+  child: ClipRRect(
+
+    borderRadius: BorderRadius.circular(8.0),
+    child: Image.network(widget.post.imageContent!.elementAt(0),
+
+      fit: BoxFit.fitWidth,
+      errorBuilder: (context, object, st){
+
+      setState(() {
+        imageSuccess = false;
+      });
+      print("Error");
+
+      return const SizedBox();
+    },),
+  ),
+),
+//       widget.post.imageContent == null ?  SizedBox()  :
+//
+//               imageSuccess ? Container(
+// height:  100,
+//                  width:  200,
+//
+//                  child: ListView.builder(
+//                   scrollDirection: Axis.horizontal, itemCount: widget.post.imageContent == null ?  0 : widget.post.imageContent!.length , itemBuilder: (context, index) {
+//
+//                   return
+//                   ClipRRect(
+//                     borderRadius: BorderRadius.circular(8.0),
+//                     child: Image.network(widget.post.imageContent!.elementAt(index),errorBuilder: (context, object, st){
+//                       setState(() {
+//                         imageSuccess = false;
+//                       });
+//
+//                       return const SizedBox();
+//                     }),
+//                   );
+//                                },),
+//                ) : SizedBox(),
+//
+
             const SizedBox(
               height: 10,
             ),
@@ -115,7 +194,7 @@ class PostCard extends StatelessWidget {
                                 snapSpec: const SnapSpec(snappings: [0.7, 0.9]),
                                 builder: (context, state) {
                                   return CommentPage(
-                                    post: post,
+                                    post: widget.post,
                                   );
                                 },
                               ));

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inzone/backend/database.dart';
-import 'package:inzone/data/post.dart';
+import 'package:inzone/data/inzone_post.dart';
 import 'package:inzone/main_screens/components/category_selector_bar.dart';
 import 'package:inzone/main_screens/components/post_card.dart';
 
@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getFeed() async {
     posts.clear();
-    await InZoneDatabase.getFeed("aiPosts").then((value) {
+    await InZoneDatabase.getFeed("posts").then((value) {
       for (var element in value) {
           posts.add(PostCard(post: element));
         }

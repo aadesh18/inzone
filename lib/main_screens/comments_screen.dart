@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inzone/data/post.dart';
+import 'package:inzone/data/inzone_post.dart';
 import 'package:inzone/main_screens/components/post_card.dart';
 
 class CommentPage extends StatefulWidget {

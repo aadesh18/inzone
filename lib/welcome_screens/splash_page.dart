@@ -3,10 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inzone/constants.dart';
+import 'package:inzone/main_screens/root_app.dart';
 import 'package:inzone/welcome_screens/introduction_page.dart';
 
 class SplashPage extends StatelessWidget {
-  const SplashPage({super.key});
+  bool loggedIn;
+  SplashPage({super.key, required this.loggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,8 @@ class SplashPage extends StatelessWidget {
         ],
       ),
       backgroundColor: backgroundColor,
-      nextScreen: const IntroductionPage(),
+      nextScreen: loggedIn ? const RootApp() : IntroductionPage(),
+
     );
   }
 }

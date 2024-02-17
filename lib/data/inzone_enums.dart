@@ -4,5 +4,4 @@ enum InZoneEnums {
   male,
   female,
   other
-
 }

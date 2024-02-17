@@ -10,14 +10,14 @@ class InZoneCurrentUser extends InZoneUser {
       {String? firstName,
       String? lastName,
       bool? adult,
-        String? password,
+      String? password,
       String? email,
       List<dynamic>? family,
       String? userName,
       List<dynamic>? followers,
       List<dynamic>? following})
       : _followers = followers,
-  _password = password,
+        _password = password,
         _following = following,
         super(
             firstName: firstName,
@@ -60,12 +60,11 @@ class InZoneCurrentUser extends InZoneUser {
     return _following;
   }
 
-  setPassword(String password){
-    _password = password
-    ;
+  setPassword(String password) {
+    _password = password;
   }
 
-  String? getPassword(){
+  String? getPassword() {
     return _password;
   }
 }

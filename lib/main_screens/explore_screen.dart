@@ -18,10 +18,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
     posts.clear();
     await InZoneDatabase.getFeed("aiPosts").then((value) {
       for (var element in value) {
-          if (element.description.length > 280) {
-            element.description = element.description.substring(0, 279);
+        if (element.textContent != null){
+          if (element.textContent!.length > 280) {
+            element.textContent = element.textContent!.substring(0, 279);
           }
           posts.add(PostCard(post: element));
+        }
+
         }
       setState(() {
         posts.reversed;

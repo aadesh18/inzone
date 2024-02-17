@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:inzone/backend/collection_names.dart';
 import 'package:inzone/data/inzone_user.dart';
-import 'package:inzone/data/post.dart';
+import 'package:inzone/data/inzone_post.dart';
 
 import '../data/inzone_message.dart';
 
@@ -30,40 +30,25 @@ class InZoneDatabase {
 
   static Future<List<InZonePost>> getFeed(collectionName) async {
     List<InZonePost> posts = [];
-    final collectionRef = FirebaseFirestore.instance.collection(collectionName);
+    final collectionRef = FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
     print("Fetching data");
     await collectionRef.get().then((value) {
       for (var element in value.docs) {
         posts.add(InZonePost(
+          category: element["category"] == null ? "Sports" : element["category"]  ,
           userName: element["user_name"],
-          firstName: "David",
-          lastName: "Morel",
-          profilePicturePath: "images/sample_avatar_1.png",
-          description: element["post"]["textContent"],
+          comments: element["comments"],
+          datePosted: element["date_posted"],
+          likes: element['likes'],
+          imageContent: element['post']['image_content'] ,
+          //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+          videoContent: element['post']['video_content'] ,
+          textContent: element['post']['textContent'], userReference: element['user_references'],
         ));
       }
     });
-    posts.insert(
-        1,
-        InZonePost(
-            userName: "david_morel",
-            profilePicturePath: "images/sample_avatar_1.png",
-            description:
-                "I literally have been looking for this since the past two months. I FINALLY FOUND IT",
-            firstName: "David",
-            assetPath: "images/sample_picture_2.png",
-            lastName: "Morel"));
 
-    posts.insert(
-        3,
-        InZonePost(
-            userName: "david_morel",
-            profilePicturePath: "images/sample_avatar_1.png",
-            description:
-                "I literally have been looking for this since the past two months. I FINALLY FOUND IT",
-            firstName: "David",
-            assetPath: "images/sample_picture_1.png",
-            lastName: "Morel"));
+
     return posts;
   }
 
