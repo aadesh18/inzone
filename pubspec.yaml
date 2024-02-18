@@ -61,7 +61,6 @@ dependencies:
   confetti: ^0.7.0
   choice: ^2.3.0
   action_slider: ^0.7.0
-  firebase_ui_auth: ^1.13.0
   firebase_dynamic_links: ^5.4.13
   http: ^1.2.0
   firebase_storage:
