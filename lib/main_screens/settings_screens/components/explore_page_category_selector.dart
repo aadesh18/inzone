@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:inzone/data/string_extension.dart';
+
 
 class ExplorePageCategorySelector extends StatefulWidget {
 List<String> categoryList = [];
@@ -9,10 +11,40 @@ List<String> categoryList = [];
       _ExplorePageCategorySelectorState();
 }
 
+
 class _ExplorePageCategorySelectorState
     extends State<ExplorePageCategorySelector> {
 
+
+  String replaceAndCapitalize(String text) {
+    // Split the text into words based on underscores.
+    if (text.contains("_")){
+      List<String> words = text.split('_');
+
+      // Capitalize the first letter of each word.
+      words = words
+          .map((word) => word.replaceFirst(word[0], word[0].toUpperCase()))
+          .toList();
+
+      // Join the words back together with spaces.
+      return words.join(' ');
+    }
+    
+    
+
+    return text.capitalize();
+
+
+  }
+
   int selectedCategoryIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    widget.categoryList = [...{...widget.categoryList}];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +70,7 @@ class _ExplorePageCategorySelectorState
               padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 15),
               margin: const EdgeInsets.symmetric(horizontal: 2),
               child: Text(
-                category,
+                replaceAndCapitalize(category),
                 style: TextStyle(
                     fontSize: 15,
                     color: isSelected ? Colors.white : Colors.black),

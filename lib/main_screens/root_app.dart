@@ -152,8 +152,9 @@ duration: const Duration(seconds: 1),
              const Size.fromHeight(50),
           child: AppBar(
             elevation: 0,
-            automaticallyImplyLeading: false,
-            backgroundColor: backgroundColor,
+            automaticallyImplyLeading: false,surfaceTintColor: Colors.transparent
+,
+              backgroundColor: backgroundColor,
             title:Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -192,12 +193,12 @@ textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w300),
 selectedTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w300),
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             boxDecoration: BoxDecoration(
-                              color: backgroundColor.withOpacity(0.7),
+                              color: backgroundColor,
 
                         ),
                             selectedPadding: EdgeInsets.symmetric(horizontal: 10),
                             selectedBoxDecoration: BoxDecoration(
-                              color: backgroundColor.withOpacity(0.7),
+                              color: backgroundColor,
 
                             ),
                           ),

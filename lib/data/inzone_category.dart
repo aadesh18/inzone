@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:inzone/data/string_extension.dart';
 class InZoneCategory {
   final String categoryName;
   String? categoryIconPath;
@@ -45,7 +45,10 @@ class InZoneCategory {
       // Join the words back together with spaces.
       return words.join(' ');
     }
-    return text[0].toUpperCase() + text.substring(1);
+
+
+
+    return text.capitalize();
 
 
   }

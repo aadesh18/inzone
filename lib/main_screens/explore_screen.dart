@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inzone/data/string_extension.dart';
 import 'package:inzone/backend/database.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_category.dart';
@@ -20,6 +21,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   getFeed() async {
     explorePostsWithImages.clear()   ;
     explorePostsWithoutImages.clear();
+    categoriesList.clear();
     await InZoneDatabase.getExploreFeed("aiPosts").then((value) {
       for (var element in value) {
         if (element.textContent != null){
@@ -44,10 +46,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
 
         }
+
         categoriesList.add(
             element.category
-
         );
+        setState(() {
+          explorePostsWithImages.reversed;
+          explorePostsWithoutImages.reversed;
+          categoriesList.reversed;
+        });
 
         }
 
@@ -68,7 +75,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
       return words.join(' ');
     }
 
-    return text[0].toUpperCase() + text.substring(1);
+
+
+    return text.capitalize();
 
 
   }
@@ -147,7 +156,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   },
                 ),
               ),
-              ExplorePageCategorySelector(categoryList: categoriesList,),
+           ExplorePageCategorySelector(categoryList: categoriesList,),
               const SizedBox(
                 height: 20,
               ),

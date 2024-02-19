@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<PostCard> posts = [];
   List<Widget>  categories = [];
-
+  List<String> categoriesList = [];
   getCategoryList() {
     List<CategorySelector> categorySelectorList = [];
     for (var element in InZoneCurrentUser.subCategories) {
@@ -34,12 +34,17 @@ class _HomeScreenState extends State<HomeScreen> {
   getFeed() async {
     posts.clear();
     await InZoneDatabase.getFeed("posts").then((value) {
+      categoriesList.clear();
       for (var element in value) {
           posts.add(PostCard(post: element));
+          categoriesList.add(
+              element.category
+          );
         }
+
       setState(() {
         posts.reversed;
-        categories.reversed;
+        categoriesList.reversed;
         // posts.insert(0,
         //     PostCard(post: InZonePost(userName: 'Aadesh', description: "This is the description", firstName: "Aadesh", lastName: "Kheria", profilePicturePath: "", assetPath: "https://oaidalleapiprodscus.blob.core.windows.net/private/org-L8uhbbIqhLcpNhQ4vJz5ttcZ/user-FOFdXqaSxmHDK27p1kzl8H4Y/img-soxVKmpSQsGIRccnN2Otc6BA.png?st=2024-02-14T23%3A22%3A27Z&se=2024-02-15T01%3A22%3A27Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-02-14T23%3A36%3A16Z&ske=2024-02-15T23%3A36%3A16Z&sks=b&skv=2021-08-06&sig=laLHIhamIfJFjl5XXiUdetgCClEd%2BMe8LEonqoV3kwk%3D"))
         // );
@@ -51,7 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     getFeed();
-    getCategoryList();
     super.initState();
   }
 
@@ -116,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // ),
 
 
-                   CategorySelectorBar(categories: categories,),
+                   CategorySelectorBar(categories: categoriesList,),
                   const SizedBox(
                     height: 20,
                   ),

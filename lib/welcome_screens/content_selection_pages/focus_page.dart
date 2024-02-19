@@ -5,7 +5,7 @@ import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_enums.dart';
 import 'package:inzone/main_screens/settings_screens/content_selection_screen.dart';
 import 'package:lottie/lottie.dart';
-
+import 'package:inzone/data/string_extension.dart';
 class FocusPage extends StatelessWidget {
   FocusPage({super.key});
 
@@ -61,7 +61,10 @@ class FocusPage extends StatelessWidget {
       // Join the words back together with spaces.
       return words.join(' ');
     }
-    return text[0].toUpperCase() + text.substring(1);
+
+
+
+    return text.capitalize();
 
 
   }

@@ -36,6 +36,7 @@ class InZoneDatabase {
     Random random = Random();
     int randomIndex = random.nextInt(7);
     List<InZonePost> posts = [];
+    int currentIndex = 0;
     InZoneCurrentUser.subCategories = [];
     final collectionRef = FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
     DateTime now = DateTime.now();
@@ -46,11 +47,16 @@ class InZoneDatabase {
       await collectionRef.where('main_category', isEqualTo: "focus")
         .limit(30).get().then((value) {
         for (var element in value.docs) {
-          randomIndex = random.nextInt(7);
+          randomIndex = currentIndex;
           InZoneCurrentUser.subCategories.add(
               element["category"] == null ?
               InZoneCategory(categoryName: "animals", index: randomIndex) :
               InZoneCategory(categoryName: element['category'], index: randomIndex), );
+          if (currentIndex == 6){
+            currentIndex = 0;
+          } else {
+            currentIndex +=1 ;
+          }
           posts.add(InZonePost(
             category: element["category"] == null ? "animals" : element["category"]  ,
             userName: element["user_name"],
@@ -65,14 +71,20 @@ class InZoneDatabase {
         }
       });
     } else if (currentHour >= 17 && currentHour < 22) {
+      // Focus
       await collectionRef.where('main_category', isEqualTo: "fallback")
           .limit(30).get().then((value) {
         for (var element in value.docs) {
-          randomIndex = random.nextInt(7);
+          randomIndex = currentIndex;
           InZoneCurrentUser.subCategories.add(
-
-            InZoneCategory(
-              categoryName: element['category'],  index: randomIndex, ) );
+            element["category"] == null ?
+            InZoneCategory(categoryName: "animals", index: randomIndex) :
+            InZoneCategory(categoryName: element['category'], index: randomIndex), );
+          if (currentIndex == 6){
+            currentIndex = 0;
+          } else {
+            currentIndex +=1 ;
+          }
           posts.add(InZonePost(
             category: element["category"] == null ? "animals" : element["category"]  ,
             userName: element["user_name"],
@@ -91,11 +103,16 @@ class InZoneDatabase {
       await collectionRef.where('main_category', isEqualTo: "custom")
           .limit(30).get().then((value) {
         for (var element in value.docs) {
-          randomIndex = random.nextInt(7);
+          randomIndex = currentIndex;
           InZoneCurrentUser.subCategories.add(
             element["category"] == null ?
             InZoneCategory(categoryName: "animals", index: randomIndex) :
             InZoneCategory(categoryName: element['category'], index: randomIndex), );
+          if (currentIndex == 6){
+            currentIndex = 0;
+          } else {
+            currentIndex +=1 ;
+          }
           posts.add(InZonePost(
             category: element["category"] == null ? "animals" : element["category"]  ,
             userName: element["user_name"],
@@ -111,14 +128,20 @@ class InZoneDatabase {
       });
     }
     if (posts.length < 5){
-      await collectionRef.where('main_category', isEqualTo: "focus")
+      // Focus
+      await collectionRef
           .limit(30).get().then((value) {
         for (var element in value.docs) {
-          randomIndex = random.nextInt(7);
+          randomIndex = currentIndex;
           InZoneCurrentUser.subCategories.add(
             element["category"] == null ?
             InZoneCategory(categoryName: "animals", index: randomIndex) :
             InZoneCategory(categoryName: element['category'], index: randomIndex), );
+          if (currentIndex == 6){
+            currentIndex = 0;
+          } else {
+            currentIndex +=1 ;
+          }
           posts.add(InZonePost(
             category: element["category"] == null ? "animals" : element["category"]  ,
             userName: element["user_name"],
@@ -132,7 +155,6 @@ class InZoneDatabase {
           ));
         }
       });
-
     }
     return posts;
   }
