@@ -9,9 +9,11 @@ class CategorySelectorBar extends StatefulWidget {
 
 
   List<String>  categories = [];
+  Function(String) onTap;
    CategorySelectorBar({
     super.key,
-     required this.categories
+     required this.categories,
+     required this.onTap
   });
 
   @override
@@ -102,7 +104,7 @@ class _CategorySelectorBarState extends State<CategorySelectorBar> {
                       selectedCategoryIndex = index;
                     });
                   },
-                  child: CategorySelector(category: InZoneCategory(categoryName: replaceAndCapitalize(category), index: colorIndex, categoryIconPath: "icons/category_icons/${category}.svg"))
+                  child: CategorySelector(category: InZoneCategory(categoryName: replaceAndCapitalize(category), index: colorIndex, categoryIconPath: "icons/category_icons/${category}.svg"), onTap: widget.onTap,)
                 );
               })),
         ),

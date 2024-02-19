@@ -7,6 +7,7 @@ import 'package:inzone/main_screens/components/inzone_search_bar.dart';
 import 'package:inzone/main_screens/components/post_card.dart';
 import 'package:inzone/main_screens/settings_screens/components/explore_page_category_selector.dart';
 import 'package:intl/intl.dart';
+import 'package:string_similarity/string_similarity.dart';
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
 
@@ -90,6 +91,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   }
 
+  triggerSortingBy(String value){
+    setState(() {
+      explorePostsWithImages.sort((a, b) =>
+          b.post.category.similarityTo(value).compareTo(a.post.category.similarityTo(value)));
+
+    });
+    explorePostsWithImages.forEach((element) {print(element.post.category);});
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,7 +166,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   },
                 ),
               ),
-           ExplorePageCategorySelector(categoryList: categoriesList,),
+           ExplorePageCategorySelector(categoryList: categoriesList, onTap: triggerSortingBy,),
               const SizedBox(
                 height: 20,
               ),

@@ -4,7 +4,8 @@ import 'package:inzone/data/string_extension.dart';
 
 class ExplorePageCategorySelector extends StatefulWidget {
 List<String> categoryList = [];
-   ExplorePageCategorySelector({super.key, required this.categoryList}) ;
+Function(String) onTap;
+   ExplorePageCategorySelector({super.key, required this.categoryList, required this.onTap}) ;
 
   @override
   _ExplorePageCategorySelectorState createState() =>
@@ -61,6 +62,7 @@ class _ExplorePageCategorySelectorState
               setState(() {
                 selectedCategoryIndex = index;
               });
+              widget.onTap(widget.categoryList[index]);
             },
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 150),

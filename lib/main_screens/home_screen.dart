@@ -4,9 +4,13 @@ import 'package:inzone/data/inzone_current_user.dart';
 import 'package:inzone/main_screens/components/category_selector.dart';
 import 'package:inzone/main_screens/components/category_selector_bar.dart';
 import 'package:inzone/main_screens/components/post_card.dart';
+import  'package:string_similarity/string_similarity.dart';
+
+
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+
+  HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -16,26 +20,14 @@ class _HomeScreenState extends State<HomeScreen> {
   List<PostCard> posts = [];
   List<Widget>  categories = [];
   List<String> categoriesList = [];
-  getCategoryList() {
-    List<CategorySelector> categorySelectorList = [];
-    for (var element in InZoneCurrentUser.subCategories) {
-      print(element.categoryName);
-      element.categoryIconPath = "icons/category_icons/${element.categoryName}.svg";
-      //element.categoryIconPath = "icons/category_icons/artoons.svg";
 
-      categories.add(CategorySelector(category: element ));
-
-    }
-    setState(() {
-      categories.reversed;
-    });
-  }
 
   getFeed() async {
     posts.clear();
     await InZoneDatabase.getFeed("posts").then((value) {
       categoriesList.clear();
       for (var element in value) {
+        print(element.category);
           posts.add(PostCard(post: element));
           categoriesList.add(
               element.category
@@ -51,6 +43,17 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     });
   }
+ triggerSortingBy(String value){
+    setState(() {
+      posts.sort((a, b) =>
+          b.post.category.similarityTo(value).compareTo(a.post.category.similarityTo(value)));
+
+    });
+posts.forEach((element) {print(element.post.category);});
+
+ }
+
+
 
   @override
   void initState() {
@@ -120,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // ),
 
 
-                   CategorySelectorBar(categories: categoriesList,),
+                   CategorySelectorBar(categories: categoriesList,onTap: triggerSortingBy,),
                   const SizedBox(
                     height: 20,
                   ),
@@ -135,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //         return PostCard(post: posts[index]);
                   //       }),
                   // ),
-                  Column(children: posts)
+                  Column(children:posts)
                 ]),
           ),
         ),
