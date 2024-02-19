@@ -60,7 +60,7 @@ class _SignUpPagesState extends State<SignUpPages> {
               ContentSelectionSignupScreen(),
             ],
           ),
-          Container(
+          MediaQuery.of(context).viewInsets.bottom == 0 ? Container(
             alignment: const Alignment(0, 1),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
             child: Row(
@@ -126,12 +126,6 @@ class _SignUpPagesState extends State<SignUpPages> {
                           ),
                         ),
                         onTap: () async {
-                          print(currentUser.getFirstName());
-                          print(currentUser.getAge());
-                          print(currentUser.getUserName());
-                          print(currentUser.getPassword());
-                          print(currentUser.getFocusTopics());
-                          print(currentUser.getFallbackTopics());
 
                           if (currentUser.getFirstName() == null ||
                               currentUser.getAge() == null ||
@@ -194,7 +188,7 @@ class _SignUpPagesState extends State<SignUpPages> {
                       )
               ],
             ),
-          )
+          ) : SizedBox()
         ],
       ),
     );

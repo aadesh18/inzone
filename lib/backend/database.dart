@@ -1,11 +1,14 @@
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:inzone/backend/collection_names.dart';
+import 'package:inzone/constants.dart';
+import 'package:inzone/data/inzone_category.dart';
+import 'package:inzone/data/inzone_current_user.dart';
 import 'package:inzone/data/inzone_user.dart';
 import 'package:inzone/data/inzone_post.dart';
 
 import '../data/inzone_message.dart';
-
 class InZoneDatabase {
   static Future<InZoneUser?> getUserData(String docID) async {
     final docRef = FirebaseFirestore.instance
@@ -28,27 +31,140 @@ class InZoneDatabase {
     return user;
   }
 
+
   static Future<List<InZonePost>> getFeed(collectionName) async {
+    Random random = Random();
+    int randomIndex = random.nextInt(7);
     List<InZonePost> posts = [];
+    InZoneCurrentUser.subCategories = [];
     final collectionRef = FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
-    print("Fetching data");
-    await collectionRef.get().then((value) {
-      for (var element in value.docs) {
-        posts.add(InZonePost(
-          category: element["category"] == null ? "Sports" : element["category"]  ,
-          userName: element["user_name"],
-          comments: element["comments"],
-          datePosted: element["date_posted"],
-          likes: element['likes'],
-          imageContent: element['post']['image_content'] ,
-          //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
-          videoContent: element['post']['video_content'] ,
-          textContent: element['post']['textContent'], userReference: element['user_references'],
-        ));
-      }
-    });
+    DateTime now = DateTime.now();
+    int currentHour = now.hour;
+
+    if (currentHour >= 9 && currentHour < 17) {
+      // Focus
+      await collectionRef.where('main_category', isEqualTo: "focus")
+        .limit(30).get().then((value) {
+        for (var element in value.docs) {
+          randomIndex = random.nextInt(7);
+          InZoneCurrentUser.subCategories.add(
+              element["category"] == null ?
+              InZoneCategory(categoryName: "animals", index: randomIndex) :
+              InZoneCategory(categoryName: element['category'], index: randomIndex), );
+          posts.add(InZonePost(
+            category: element["category"] == null ? "animals" : element["category"]  ,
+            userName: element["user_name"],
+            comments: element["comments"],
+            datePosted: element["date_posted"],
+            likes: element['likes'],
+            imageContent: element['post']['image_content'] ,
+            //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+            videoContent: element['post']['video_content'] ,
+            textContent: element['post']['textContent'], userReference: element['user_references'], mainCategory: element['main_category'],
+          ));
+        }
+      });
+    } else if (currentHour >= 17 && currentHour < 22) {
+      await collectionRef.where('main_category', isEqualTo: "fallback")
+          .limit(30).get().then((value) {
+        for (var element in value.docs) {
+          randomIndex = random.nextInt(7);
+          InZoneCurrentUser.subCategories.add(
+
+            InZoneCategory(
+              categoryName: element['category'],  index: randomIndex, ) );
+          posts.add(InZonePost(
+            category: element["category"] == null ? "animals" : element["category"]  ,
+            userName: element["user_name"],
+            comments: element["comments"],
+            datePosted: element["date_posted"],
+            likes: element['likes'],
+            imageContent: element['post']['image_content'] ,
+            //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+            videoContent: element['post']['video_content'] ,
+            textContent: element['post']['textContent'], userReference: element['user_references'], mainCategory: element['main_category'],
+          ));
+        }
+      });
+    } else {
+      // Custom
+      await collectionRef.where('main_category', isEqualTo: "custom")
+          .limit(30).get().then((value) {
+        for (var element in value.docs) {
+          randomIndex = random.nextInt(7);
+          InZoneCurrentUser.subCategories.add(
+            element["category"] == null ?
+            InZoneCategory(categoryName: "animals", index: randomIndex) :
+            InZoneCategory(categoryName: element['category'], index: randomIndex), );
+          posts.add(InZonePost(
+            category: element["category"] == null ? "animals" : element["category"]  ,
+            userName: element["user_name"],
+            comments: element["comments"],
+            datePosted: element["date_posted"],
+            likes: element['likes'],
+            imageContent: element['post']['image_content'] ,
+            //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+            videoContent: element['post']['video_content'] ,
+            textContent: element['post']['textContent'], userReference: element['user_references'], mainCategory: element['main_category'],
+          ));
+        }
+      });
+    }
+    if (posts.length < 5){
+      await collectionRef.where('main_category', isEqualTo: "focus")
+          .limit(30).get().then((value) {
+        for (var element in value.docs) {
+          randomIndex = random.nextInt(7);
+          InZoneCurrentUser.subCategories.add(
+            element["category"] == null ?
+            InZoneCategory(categoryName: "animals", index: randomIndex) :
+            InZoneCategory(categoryName: element['category'], index: randomIndex), );
+          posts.add(InZonePost(
+            category: element["category"] == null ? "animals" : element["category"]  ,
+            userName: element["user_name"],
+            comments: element["comments"],
+            datePosted: element["date_posted"],
+            likes: element['likes'],
+            imageContent: element['post']['image_content'] ,
+            //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+            videoContent: element['post']['video_content'] ,
+            textContent: element['post']['textContent'], userReference: element['user_references'], mainCategory: element['main_category'],
+          ));
+        }
+      });
+
+    }
+    return posts;
+  }
+
+  static Future<List<InZonePost>> getExploreFeed(collectionName) async {
+
+    List<InZonePost> posts = [];
+    InZoneCurrentUser.subCategories = [];
+    final collectionRef = FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
+    DateTime now = DateTime.now();
+    int currentHour = now.hour;
+      // Focus
+      await collectionRef
+          .limit(20).get().then((value) {
+        for (var element in value.docs) {
+
+          posts.add(InZonePost(
+            category: element["category"] == null ? "Sports" : element["category"]  ,
+            userName: element["user_name"],
+            comments: element["comments"],
+            datePosted: element["date_posted"],
+            likes: element['likes'],
+            imageContent: element['post']['image_content'] ,
+            videoContent: element['post']['video_content'] ,
+            textContent: element['post']['textContent'], userReference: element['user_references'], mainCategory: element['main_category'],
+          ));
+        }
+      });
 
 
+    print("Explore Functin");
+    print(posts);
     return posts;
   }
 

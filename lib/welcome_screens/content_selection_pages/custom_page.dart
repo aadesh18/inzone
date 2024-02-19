@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_enums.dart';
 import 'package:inzone/main_screens/settings_screens/content_selection_screen.dart';
@@ -9,10 +10,26 @@ class CustomPage extends StatelessWidget {
 
   List<String> lowList = [];
   List<String> highList = [];
+   String replaceAndCapitalize(String text) {
+     // Split the text into words based on underscores.
+     if (text.contains("_")){
+       List<String> words = text.split('_');
 
+       // Capitalize the first letter of each word.
+       words = words
+           .map((word) => word.replaceFirst(word[0], word[0].toUpperCase()))
+           .toList();
+
+       // Join the words back together with spaces.
+       return words.join(' ');
+     }
+     return text[0].toUpperCase() + text.substring(1);
+
+
+   }
   onStart(int index){
 
-    lowList.add(contentList.elementAt(index).tittle);
+    lowList.add(customContentList.elementAt(index).tittle);
     print(lowList);
     currentUser.setCustomTopics(
         [{InZoneEnums.lowVisibility : lowList.toSet().toList()},{ InZoneEnums.highVisibility : highList.toSet().toList()}
@@ -33,7 +50,7 @@ class CustomPage extends StatelessWidget {
   }
 
   onEnd(int index){
-    highList.add(contentList.elementAt(index).tittle);
+    highList.add(customContentList.elementAt(index).tittle);
     print(highList);
     currentUser.setCustomTopics(
         [{InZoneEnums.lowVisibility : lowList.toSet().toList()},{ InZoneEnums.highVisibility : highList.toSet().toList()}
@@ -65,7 +82,7 @@ class CustomPage extends StatelessWidget {
           SizedBox(
             height: 325,
             child: ListView.builder(
-              itemCount: contentList.length,
+              itemCount: customContentList.length,
               itemBuilder: (BuildContext context, int index) {
                 return Slidable(
                   key: Key('$index'),
@@ -90,7 +107,7 @@ class CustomPage extends StatelessWidget {
                     ],
                   ),
                   child: SizedBox(
-                    height: index != contentList.length - 1 ? 60 : 100,
+                    height: index != customContentList.length - 1 ? 60 : 100,
                     child: Stack(
                       children: [
                         Container(
@@ -114,11 +131,16 @@ class CustomPage extends StatelessWidget {
                             ],
                           ),
                           child: ListTile(
-                            title: Text(contentList[index].tittle,
+                            title: Text(replaceAndCapitalize(customContentList[index].tittle),
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w700)),
-                            leading: Image.asset(
-                                "${contentList[index].iconPath}/$index.png"),
+                            leading: SvgPicture.asset(
+
+                              "icons/category_icons/${customContentList[index].tittle}.svg",
+                              height: 25,
+                              width: 25,
+
+                            ),
                           ),
                         ),
                       ],

@@ -3,10 +3,12 @@ import 'dart:io';
 
 import 'package:action_slider/action_slider.dart';
 import 'package:choice/choice.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inzone/constants.dart';
+import 'package:inzone/welcome_screens/introduction_page.dart';
 import 'package:lottie/lottie.dart';
 
 import '../custom_icons.dart';
@@ -94,379 +96,40 @@ class _PostScreenState extends State<PostScreen> {
     return AnimatedContainer(
         duration: const Duration(seconds: 1),
         padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-        height: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height * 0.75,
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
-            color: backgroundColor,
+            color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20))),
         child: Scaffold(
-          backgroundColor: backgroundColor,
-          // appBar: AppBar(
-          //   elevation: 0,
-          //   backgroundColor: backgroundColor,
-          //   leading: IconButton(
-          //       onPressed: () {},
-          //       icon: const Icon(
-          //         Icons.highlight_remove_outlined,
-          //         color: Colors.grey,
-          //       )),
-          // ),
+          backgroundColor: Colors.white,
           body: Padding(
-            padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: ActionSlider.standard(
-                      rolling: false,
-                   // reverseSlideAnimationDuration: Duration(seconds: 0),
-                      backgroundColor: Colors.blue,
-                      toggleColor: Colors.white,
-                      sliderBehavior: SliderBehavior.stretch,
-                      child: const Text(
-                        'Post to InZone',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 23),
-                      ),
-                      action: (controller)  async {
-                        controller.loading(); //starts loading animation
-                        await Future.delayed(const Duration(seconds: 2));
+            padding: EdgeInsets.only(bottom: 20.0, left: 40.0, right: 30.0),
+            child: Column(
+              children: [
+                SizedBox(
+                    height: 300,
+                    width: 300,
+                  child: LottieBuilder.asset('assets/waiting.json'),
 
-                        controller.success();
-                        Navigator.pop(context);
+                   ),
+                SizedBox(height: 30,),
+                Text(
+                    "You have been signed up for the waitlist for the full version.\n\nSit back and relax ;)", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),),
+              Spacer(),
 
-                        showDialog(
-                            context: context,
-                            builder: (_) {
-                              _timer = Timer(const Duration(seconds: 1), () {
-                                Navigator.of(_).pop();
-                              });
-                              return Dialog(
-                              backgroundColor: Colors.transparent,
-                              child:  Stack(
-                                children: [
-                                  RotatedBox(quarterTurns: 2, child: SizedBox(height:MediaQuery.of(context).size.height, width:MediaQuery.of(context).size.width, child: Lottie.asset(CustomIcons.confettiAnimation)),),
-                                  const Align(
-                                    alignment: Alignment.center,
-                                      child: Text("Post Sucessful", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w400),))
-                                 ],
-                              ),
-                            );
-                            }
-                            ).then((value) {
-                          if (_timer.isActive) {
-                            _timer.cancel();
-                          }
-                        });
+                GestureDetector(
+                    onTap: ()async {
 
-                        //starts success animation
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.pushReplacement(
+                            context, MaterialPageRoute(builder: (context) => IntroductionPage()));
 
-                      },
-                    ),
-                  ),
-                  //
-                  // SlideAction(
-                  //   sliderButtonIconPadding: 6,
-                  //   sliderRotate: false,
-                  //   outerColor: Colors.blue,
-                  //   text: "Post to InZone",
-                  //   height: 60,
-                  //   elevation: 0,
-                  //   onSubmit: () {
-                  //     setState(() {
-                  //       submitted = true;
-                  //     });
-                  //   },
-                  // ),
-                  // PostSlider(
-                  //     afterSlideText: "Post Successful",
-                  //     beforeSlideText: "Post to InZone"),
-                  // SizedBox(
-                  //   height: 5,
-                  // ),
-                  const Center(
-                    child: Text(
-                      "Share your thoughts to millions across the globe",
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  const Divider(),
-                  TextField(
-                    maxLines: null, // Set maxLines to null for multiline
-                    textInputAction: TextInputAction.send,
-                    decoration: InputDecoration(
-                      // labelText: 'What do you want you talk about?',
-                      //
-                      // labelStyle: TextStyle(color: Colors.grey.shade900),
-                      hintText: 'What do you want to talk about ?',
-
-                      hintStyle: TextStyle(color: Colors.grey.shade900),
-
-                      border: InputBorder.none, // Remove the border
-                      contentPadding: const EdgeInsets.only(
-                          bottom: 8.0), // Adjust padding as needed
-                    ),
-                    onEditingComplete: () {
-                      setState(() {
-                        isTyping = false;
-
-                      });
                     },
-                    onSubmitted: (t) {
-                      setState(() {
-                        submitted = true;
-                      });
-                    },
-                    onTapOutside: (t) {
-
-                      setState(() {
-                        isTyping = true;
-                      });
-                    },
-                    onTap: () {
-                      setState(() {
-
-                        isTyping = true;
-                      });
-                    },
-                  ),
-const SizedBox(height: 20,),
-                  // Images
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      imageFile == null
-                          ? const SizedBox(
-                              height: 5,
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20.0),
-                                child: Image(
-                                  height: 150,
-                                  width: 150,
-                                  fit: BoxFit.cover,
-                                  image: FileImage(imageFile!),
-                                ),
-                              ),
-                            ),
-                    ],
-                  ),
-                  // isTyping
-                  //     ? Container()
-                  //     : SizedBox(
-                  //   height: MediaQuery.of(context).size.height / 2.8,
-                  // ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  isTyping
-                      ? Container(
-                          margin: const EdgeInsets.only(top: 0),
-                          padding: const EdgeInsets.only(
-                              top: 0, left: 10, right: 10),
-                          width: MediaQuery.of(context).size.width,
-                          height: 250,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(40.0)),
-                            color: isTyping ? Colors.white : backgroundColor,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Flexible(
-                                flex: 1,
-                                child: Text(
-                                    "Suggestions based on your InZone post"),
-                              ),
-
-                              // TODO: Replace the row with ListView.builder
-
-                              Flexible(
-                                flex: 5,
-                                child: SingleChildScrollView(
-                                  child: InlineChoice(
-                                    multiple: true,
-                                    clearable: true,
-                                    value: multipleSelected,
-                                    onChanged: setMultipleSelected,
-                                    itemCount: choices.length,
-                                    itemBuilder: (selection, i) {
-                                      return ChoiceChip(
-                                        color:
-                                            MaterialStateProperty.resolveWith(
-                                                (states) {
-                                          if (states.contains(
-                                              MaterialState.selected)) {
-                                            return backgroundColor;
-                                          }
-                                          return Colors.white;
-                                        }),
-                                        selected:
-                                            selection.selected(choices[i]),
-                                        onSelected:
-                                            selection.onSelected(choices[i]),
-                                        label: Text(choices[i]),
-                                      );
-                                    },
-                                    listBuilder: ChoiceList.createWrapped(
-                                      spacing: 10,
-                                      runSpacing: 10,
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                        vertical: 25,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              Flexible(
-                                flex: 1,
-                                child: Stack(
-                                  alignment: AlignmentDirectional.centerStart,
-                                  children: [
-                                    LayoutBuilder(builder:
-                                        (BuildContext context,
-                                            BoxConstraints constraints) {
-                                      maxWidth = constraints.maxWidth;
-                                      return Container(
-                                        height: 14,
-                                        width: double.infinity,
-                                        margin: const EdgeInsets.all(8.0),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          gradient: const LinearGradient(
-                                            colors: [
-                                              Color(0xffff8d6c),
-                                              Color(0xffe064f7),
-                                              Color(0xff00b2e7)
-                                            ],
-                                          ),
-                                        ),
-                                        // transform:  (Matrix4.identity() + Matrix4.rotationZ(math.pi / 4))
-                                      );
-                                    }),
-                                    AnimatedContainer(
-                                      height: 14,
-                                      width: 16,
-                                      margin: EdgeInsets.only(
-                                          left: maxWidth * maxMovable * 0.9),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: backgroundColor),
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          color: Colors.white),
-                                      duration: const Duration(seconds: 1),
-                                      // transform:  (Matrix4.identity() + Matrix4.rotationZ(math.pi / 4))
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Your post works well with InZone guidelines",
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      : const SizedBox(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          _pickImagefromGallery();
-                        },
-                        child: Container(
-                          height: 70,
-                          width: 70,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: Color(0xffe064f7),
-                                    blurRadius: 1.0,
-                                    spreadRadius: 1.0,
-                                    offset: Offset(1, 1))
-                              ]),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset("assets/picture_icon.svg"),
-                              const SizedBox(height: 5),
-                              const Text(
-                                "Image",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.white,
-                            boxShadow: const [
-                              BoxShadow(
-                                  color: Color(0xff00b2e7),
-                                  blurRadius: 1.0,
-                                  spreadRadius: 1.0,
-                                  offset: Offset(1, 1))
-                            ]),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset("assets/link_icon.svg"),
-                            const SizedBox(height: 5),
-                            const Text(
-                              "Link",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 14),
-                            )
-                          ],
-                        ),
-                      ),
-
-                      // Image.asset("icons/post_icons/1.png"),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+                    child: Text("Sign Out", style: TextStyle(color: Colors.black, fontSize: 10, fontWeight: FontWeight.w500)))
+              ],
+            )
           ),
         ));
   }

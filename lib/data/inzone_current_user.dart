@@ -1,3 +1,4 @@
+import 'package:inzone/data/inzone_category.dart';
 import 'package:inzone/data/inzone_enums.dart';
 import 'package:inzone/data/inzone_user.dart';
 
@@ -5,6 +6,7 @@ class InZoneCurrentUser extends InZoneUser {
   List<dynamic>? _followers;
   List<dynamic>? _following;
   String? _password;
+  static List<InZoneCategory> subCategories = [];
 
   InZoneCurrentUser(
       {String? firstName,
@@ -19,6 +21,7 @@ class InZoneCurrentUser extends InZoneUser {
       : _followers = followers,
         _password = password,
         _following = following,
+
         super(
             firstName: firstName,
             lastName: lastName,

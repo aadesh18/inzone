@@ -23,4 +23,8 @@ class CustomIcons {
   static String notInterested = "icons/not_interested.svg";
   static String loadingAnimation = "assets/loading_animation.json";
   static String confettiAnimation = "assets/confetti.json";
+  static String custom = "assets/custom.svg";
+  static String fallback = "assets/fallback.svg";
+  static String focus = "assets/focus.svg";
+  static String notlike = "assets/notlike.svg";
 }

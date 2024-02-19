@@ -54,8 +54,7 @@ dependencies:
   sign_button: ^2.0.6
   intl_phone_number_input: ^0.7.4
   smooth_page_indicator: ^1.1.0
-  babylonjs_viewer:
-  o3d: ^3.1.0
+
   image_picker: ^1.0.7
   floating_draggable_widget: ^2.1.5
   confetti: ^0.7.0
@@ -72,6 +71,8 @@ dependencies:
   email_validator: ^2.1.17
   firebase_messaging: ^14.1.4
   flutter_local_notifications: ^12.0.4
+  cool_dropdown: ^2.1.0
+  flutter_launcher_icons: ^0.13.1
 
 
 dev_dependencies:
@@ -84,6 +85,13 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/inzonelogo.png"
+  remove_alpha_ios: true
+  min_sdk_android: 21 # android min sdk min:16, default 21
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -101,10 +109,10 @@ flutter:
     - icons/
     - icons/content_icons/
     - icons/post_icons/
+    - icons/category_icons/
     - images/
     - animations/
     - assets/animations/
-    - assets/3D/
     - assets/
     
 

@@ -1,3 +1,6 @@
+import 'package:cool_dropdown/controllers/dropdown_controller.dart';
+import 'package:cool_dropdown/cool_dropdown.dart';
+import 'package:cool_dropdown/models/cool_dropdown_item.dart';
 import 'package:floating_draggable_widget/floating_draggable_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +23,47 @@ class RootApp extends StatefulWidget {
 }
 
 class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
-  late int currentPage;
-  late TabController tabController;
+  List<String> modes = [
+    'Focus',
+    'Fall Back',
+    'Custom',
+  ];
 
-  List<String> appBarNames = ["InZone", "", "Chats", "Profile" ];
+  final modeDropdownController = DropdownController();
+  List<CoolDropdownItem<String>> modeDropdownItems = [
+    CoolDropdownItem<String>(
+        label: 'Focus',
+        icon: Container(
+          height: 21,
+          width: 21,
+          child: SvgPicture.asset(
+            CustomIcons.focus,
+          ),
+        ),
+        value: 'Focus'),
+    CoolDropdownItem<String>(
+        label: 'Fall Back',
+        icon: Container(
+          height: 21,
+          width: 21,
+          child: SvgPicture.asset(
+            CustomIcons.fallback,
+          ),
+        ),
+        value: 'Fall Back'),
+    CoolDropdownItem<String>(
+        label: 'Custom',
+
+        icon: Container(
+          height: 21,
+          width: 21,
+          child: SvgPicture.asset(
+            CustomIcons.custom,
+          ),
+        ),
+        value: 'Custom'),
+  ];
+
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = const [
        DropdownMenuItem(
@@ -56,28 +96,13 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    currentPage = 0;
-    tabController = TabController(length: 4, vsync: this);
-    tabController.animation?.addListener(
-      () {
-        final value = tabController.animation!.value.round();
-        if (value != currentPage && mounted) {
-          changePage(value);
-        }
-      },
-    );
+
     super.initState();
   }
 
-  void changePage(int newPage) {
-    setState(() {
-      currentPage = newPage;
-    });
-  }
 
   @override
   void dispose() {
-    tabController.dispose();
     super.dispose();
   }
 
@@ -87,7 +112,7 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
       floatingWidgetHeight: 60,
       floatingWidgetWidth: 60,
       dy: screenHeight! * 0.80,
-      dx: screenWidth! * 0.82,
+      dx: screenWidth! * 0.80,
       widgetWhenDragging: FloatingActionButton(
         backgroundColor: backgroundColor.withOpacity(1) ,
         shape: const CircleBorder(),
@@ -124,179 +149,130 @@ duration: const Duration(seconds: 1),
       mainScreenWidget: Scaffold(
         appBar: PreferredSize(
           preferredSize:
-              currentPage == 1 ? const Size.fromHeight(0) : const Size.fromHeight(50),
+             const Size.fromHeight(50),
           child: AppBar(
             elevation: 0,
             automaticallyImplyLeading: false,
             backgroundColor: backgroundColor,
-            title: currentPage == 0
-                ? Row(
+            title:Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(appBarNames[currentPage],
+                    Text("InZone",
                           style: const TextStyle(
                               fontSize: 26, fontWeight: FontWeight.w700)),
+
+                      Center(
+                        child: CoolDropdown<String>(
+
+                          controller: modeDropdownController,
+                          dropdownList: modeDropdownItems,
+                          defaultItem: modeDropdownItems.first,
+
+                          onChange: (a) {
+                            modeDropdownController.close();
+                          },
+                          resultOptions: ResultOptions(
+                            width: 70,
+                            height: 70,
+
+                            render: ResultRender.icon,
+                            boxDecoration: BoxDecoration(color: backgroundColor, borderRadius: BorderRadius.circular(30), ),
+                            openBoxDecoration: BoxDecoration(color: backgroundColor, borderRadius: BorderRadius.circular(30), ),
+                            icon: SizedBox(
+
+
+                            ),
+                          ),
+                          dropdownOptions: DropdownOptions(
+
+                            width: 140,
+                          ),
+                          dropdownItemOptions: DropdownItemOptions(
+textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w300),
+selectedTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w300),
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            boxDecoration: BoxDecoration(
+                              color: backgroundColor.withOpacity(0.7),
+
+                        ),
+                            selectedPadding: EdgeInsets.symmetric(horizontal: 10),
+                            selectedBoxDecoration: BoxDecoration(
+                              color: backgroundColor.withOpacity(0.7),
+
+                            ),
+                          ),
+                        ),
+                      ),
+                      // DropdownButton(
+                      //   elevation: 0,
+                      //
+                      //   isDense: true,
+                      //   //alignment: Alignment.bottomCenter,
+                      //   underline: const SizedBox(),
+                      //   padding: EdgeInsets.zero,
+                      //
+                      //   // icon: Icon(
+                      //   //   Icons.keyboard_arrow_down,
+                      //   //   color: Colors.black,
+                      //   // ),
+                      //   icon: const Icon(Icons.keyboard_arrow_down_sharp, color: Colors.grey,),
+                      //   value: selectedValue,
+                      //   items: dropdownItems,
+                      //   onChanged: (value) {
+                      //     if (value != null) {
+                      //       setState(() {
+                      //         selectedValue = value;
+                      //       });
+                      //     }
+                      //   },
+                      // ),
+
+
                       const Spacer(),
 
-                      DropdownButton(
-                        elevation: 0,
-
-                        isDense: true,
-                        //alignment: Alignment.bottomCenter,
-                        underline: const SizedBox(),
-                        padding: EdgeInsets.zero,
-
-                        // icon: Icon(
-                        //   Icons.keyboard_arrow_down,
-                        //   color: Colors.black,
-                        // ),
-                        icon: const SizedBox.shrink(),
-                        value: selectedValue,
-                        items: dropdownItems,
-                        onChanged: (value) {
-                          if (value != null) {
-                            setState(() {
-                              selectedValue = value;
-                            });
-                          }
-                        },
-                      )
-                      // Row(
-                      //   children: [
-                      //     const Text(
-                      //       "Focus",
-                      //       style: TextStyle(
-                      //           color: Colors.blue,
-                      //           fontWeight: FontWeight.bold,
-                      //           fontSize: 20),
-                      //     ),
-                      //     Icon(
-                      //       Icons.keyboard_arrow_down,
-                      //       color: Colors.black,
-                      //       size: 12,
-                      //     )
-                      //   ],
-                      // ),
+                      GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ExploreScreen())
+                            );
+                          },
+                          child: Icon(Icons.search, color: Colors.black,)),
+SizedBox(width: 10,),
+                      GestureDetector(
+                          onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AllChatsScreen())
+                        );
+                      },
+                          child: Icon(Icons.bubble_chart_outlined, color: Colors.black,)),
+                      // DropdownButton(
+                      //   elevation: 0,
+                      //
+                      //   isDense: true,
+                      //   //alignment: Alignment.bottomCenter,
+                      //   underline: const SizedBox(),
+                      //   padding: EdgeInsets.zero,
+                      //
+                      //   // icon: Icon(
+                      //   //   Icons.keyboard_arrow_down,
+                      //   //   color: Colors.black,
+                      //   // ),
+                      //   icon: const SizedBox.shrink(),
+                      //   value: selectedValue,
+                      //   items: dropdownItems,
+                      //   onChanged: (value) {
+                      //     if (value != null) {
+                      //       setState(() {
+                      //         selectedValue = value;
+                      //       });
+                      //     }
+                      //   },
+                      // )
                     ],
                   )
-                : Text(appBarNames[currentPage],
-                    style: const TextStyle(
-                        fontSize: 26, fontWeight: FontWeight.w700)),
+
           ),
         ),
         backgroundColor: backgroundColor,
-        body: BottomBar(
-          clip: Clip.none,
-          fit: StackFit.expand,
-          icon: (width, height) => const Center(
-            child: IconButton(
-              padding: EdgeInsets.zero,
-              onPressed: null,
-              icon: Icon(
-                Icons.arrow_upward_rounded,
-                color: Colors.pink,
-                size: 200,
-              ),
-            ),
-          ),
-          borderRadius: BorderRadius.circular(500),
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.decelerate,
-          showIcon: true,
-          width: MediaQuery.of(context).size.width * 0.8,
-          barColor: barColor,
-          start: 2,
-          end: 0,
-          offset: 10,
-          barAlignment: Alignment.bottomCenter,
-          iconHeight: 30,
-          iconWidth: 30,
-          reverse: false,
-          barDecoration: BoxDecoration(
-            color: barSelectedColor,
-            borderRadius: BorderRadius.circular(500),
-          ),
-          iconDecoration: BoxDecoration(
-            color: barSelectedColor,
-            borderRadius: BorderRadius.circular(500),
-          ),
-          hideOnScroll: true,
-          scrollOpposite: false,
-          onBottomBarHidden: () {},
-          onBottomBarShown: () {},
-          body: (context, controller) => TabBarView(
-              controller: tabController,
-              dragStartBehavior: DragStartBehavior.down,
-              physics: const BouncingScrollPhysics(),
-              children: const [
-                HomeScreen(),
-                ExploreScreen(),
-                AllChatsScreen(),
-                MeScreen(),
-              ]),
-          child: Stack(
-            alignment: Alignment.center,
-            clipBehavior: Clip.none,
-            children: [
-              TabBar(
-                indicatorPadding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
-                controller: tabController,
-                indicator: UnderlineTabIndicator(
-                    borderSide: BorderSide(
-                      color: currentPage <= 4
-                          ? barSelectedColor
-                          : barUnselectedColor,
-                      width: 4,
-                    ),
-                    insets: const EdgeInsets.fromLTRB(16, 0, 16, 8)),
-                tabs: [
-                  SizedBox(
-                    height: 70,
-                    width: 40,
-                    child: Center(
-                        child: currentPage == 0
-                            ? SvgPicture.asset(CustomIcons.homeSelected)
-                            : SvgPicture.asset(CustomIcons.homeUnselected)),
-                  ),
-                  SizedBox(
-                    height: 70,
-                    width: 40,
-                    child: Center(
-                        child: currentPage == 1
-                            ? SvgPicture.asset(CustomIcons.exploreUnselected)
-                            : SvgPicture.asset(CustomIcons.exploreUnselected)),
-                  ),
-                  SizedBox(
-                    height: 70,
-                    width: 40,
-                    child: Center(
-                        child: currentPage == 2
-                            ? SvgPicture.asset(CustomIcons.message)
-                            : SvgPicture.asset(CustomIcons.message)),
-                  ),
-                  SizedBox(
-                    height: 70,
-                    width: 40,
-                    child: Center(
-                        child: currentPage == 3
-                            ? SvgPicture.asset(CustomIcons.me)
-                            : SvgPicture.asset(CustomIcons.meUnselected)),
-                  ),
-
-                ],
-              ),
-              // Positioned(
-              //   right: 10,
-              //   child: FloatingActionButton(
-              //     onPressed: () {
-              //       tabController.index = 4;
-              //     },
-              //     child: Icon(Icons.add),
-              //   ),
-              // )
-            ],
-          ),
-        ),
+        body: HomeScreen()
       ),
     );
   }

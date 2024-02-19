@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_post.dart';
 import 'package:inzone/main_screens/comments_screen.dart';
@@ -18,6 +18,8 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool imageSuccess = false;
+
+  bool isLiked = false;
 
   void checkInternet() async {
     if (widget.post.imageContent! !=null ){
@@ -107,12 +109,12 @@ class _PostCardState extends State<PostCard> {
                       menuOption(CustomIcons.save, "Save", "save"),
                       menuOption(CustomIcons.notInterested,
                           "Not Interested in this", "not_interested"),
-                      menuOption(
-                          CustomIcons.dontShow,
-                          "Don't show content of ${widget.post.userName}",
-                          "dont_show"),
-                      menuOption(
-                          CustomIcons.manage, "Manage your interests", "manage")
+                      // menuOption(
+                      //     CustomIcons.dontShow,
+                      //     "Don't show content of ${widget.post.userName}",
+                      //     "dont_show"),
+                      // menuOption(
+                      //     CustomIcons.manage, "Manage your interests", "manage")
                     ];
                   },
                 ),
@@ -182,7 +184,24 @@ width: screenWidth!-30,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SvgPicture.asset(CustomIcons.like),
+               isLiked ? GestureDetector(
+
+                   onTap: (){
+                     setState(() {
+                       isLiked = false
+                       ;
+                     });
+                   },
+                   child: SvgPicture.asset(CustomIcons.like)
+               ) : GestureDetector(
+
+                 onTap: (){
+                   setState(() {
+                     isLiked = true;
+                   });
+                 },
+                 child: SvgPicture.asset(CustomIcons.notlike),
+               ),
                 const SizedBox(
                   width: 10,
                 ),
@@ -203,7 +222,21 @@ width: screenWidth!-30,
                 const SizedBox(
                   width: 10,
                 ),
-                SvgPicture.asset(CustomIcons.send),
+                GestureDetector(
+                    onTap: () {
+                      showSlidingBottomSheet(context,
+                          builder: (context) => SlidingSheetDialog(
+                            cornerRadius: 30,
+                            snapSpec: const SnapSpec(snappings: [0.7, 0.9]),
+                            builder: (context, state) {
+                              return CommentPage(
+                                post: widget.post,
+                              );
+                            },
+                          ));
+                    },
+                    child: SvgPicture.asset(CustomIcons.send)),
+
                 const Spacer(),
               ],
             )

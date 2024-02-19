@@ -3,5 +3,8 @@ enum InZoneEnums {
   lowVisibility,
   male,
   female,
-  other
+  other,
+  focus,
+  fallback,
+  custom
 }

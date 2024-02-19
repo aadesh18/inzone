@@ -5,6 +5,7 @@ class InZonePost {
   String userName;
   String? textContent;
   String category;
+  String mainCategory;
   Map? comments;
   Timestamp datePosted;
   List<dynamic>? imageContent;
@@ -18,6 +19,7 @@ class InZonePost {
     required this.datePosted,
     required this.textContent,
     required this.userReference,
+    required this.mainCategory,
     this.likes = 0,
     this.videoContent,
     this.imageContent,

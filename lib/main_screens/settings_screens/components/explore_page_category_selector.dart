@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ExplorePageCategorySelector extends StatefulWidget {
-  const ExplorePageCategorySelector({Key? key}) : super(key: key);
+List<String> categoryList = [];
+   ExplorePageCategorySelector({super.key, required this.categoryList}) ;
 
   @override
   _ExplorePageCategorySelectorState createState() =>
@@ -10,16 +11,7 @@ class ExplorePageCategorySelector extends StatefulWidget {
 
 class _ExplorePageCategorySelectorState
     extends State<ExplorePageCategorySelector> {
-  List categories = [
-    "Sports",
-    "Movies",
-    "Biology",
-    "Music",
-    "Sports",
-    "Movies",
-    "Biology",
-    "Music",
-  ];
+
   int selectedCategoryIndex = 0;
 
   @override
@@ -29,8 +21,8 @@ class _ExplorePageCategorySelectorState
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-            children: List.generate(categories.length, (index) {
-          String category = categories[index];
+            children: List.generate(widget.categoryList.length, (index) {
+          String category = widget.categoryList[index];
           bool isSelected = index == selectedCategoryIndex;
           return GestureDetector(
             onTap: () {

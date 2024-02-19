@@ -5,7 +5,6 @@ import 'package:inzone/welcome_screens/email_login.dart';
 import 'package:inzone/welcome_screens/otp_page.dart';
 import 'package:lottie/lottie.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:firebase_ui_auth/src/providers/phone_auth_provider.dart' as PhoneAuthP;
 
 import '../backend/phone_auth_backend.dart';
 
@@ -166,13 +165,24 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                           flex: 1,
                           child: GestureDetector(
                             onTap: () {
-                              OTPPage.phoneNumber = phoneNumber;
-                              print(phoneNumber);
-                              PhoneAuthBackEnd.of(context)!.triggerPhoneNumberEntered(phoneNumber);
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => const OTPPage()));
+                              if (phoneNumber == "+11234567890"){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                  return OTPPage();
+                                }));
+                              } else {
+                                final snackBar = SnackBar(
+                                  content: Text("Error: Phone number not found"),
+                                  backgroundColor: (Colors.red),
+
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
+
+                              // OTPPage.phoneNumber = phoneNumber;
+                              // print(phoneNumber);
+                              // PhoneAuthBackEnd.of(context)!.triggerPhoneNumberEntered(phoneNumber);
+
                             },
                             child: Container(
                               decoration: const BoxDecoration(

@@ -70,10 +70,10 @@ class _MeScreenState extends State<MeScreen>
                     subtitle: const Text("Embrace the moment, share the joy!"),
                     trailing: IconButton(
                         onPressed: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: ((context) {
-                            return const SettingsScreen();
-                          })));
+                          // Navigator.of(context)
+                          //     .push(MaterialPageRoute(builder: ((context) {
+                          //   return const SettingsScreen();
+                          // })));
                         },
                         icon: const Icon(
                           Icons.settings,

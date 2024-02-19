@@ -7,22 +7,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 
-
-Future<void> _backgroundMessageHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
-  await FirebaseMessaging.instance.getInitialMessage();
 
-  FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
   runApp(const MyApp());
 }
 
@@ -34,7 +25,7 @@ class MyApp extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'InZone',
       theme: ThemeData(
         textTheme: GoogleFonts.latoTextTheme(textTheme),
         primarySwatch: Colors.blue,

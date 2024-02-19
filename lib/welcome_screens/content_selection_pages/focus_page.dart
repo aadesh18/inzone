@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_enums.dart';
 import 'package:inzone/main_screens/settings_screens/content_selection_screen.dart';
@@ -13,7 +14,7 @@ class FocusPage extends StatelessWidget {
 
   onStart(int index){
 
-    lowList.add(contentList.elementAt(index).tittle);
+    lowList.add(focusContentList.elementAt(index).tittle);
     print(lowList);
     currentUser.setFocusTopics(
         [{InZoneEnums.lowVisibility : lowList.toSet().toList()},{ InZoneEnums.highVisibility : highList.toSet().toList()}
@@ -34,7 +35,7 @@ class FocusPage extends StatelessWidget {
   }
 
   onEnd(int index){
-    highList.add(contentList.elementAt(index).tittle);
+    highList.add(focusContentList.elementAt(index).tittle);
     print(highList);
     currentUser.setFocusTopics(
         [{InZoneEnums.lowVisibility : lowList.toSet().toList()},{ InZoneEnums.highVisibility : highList.toSet().toList()}
@@ -47,6 +48,24 @@ class FocusPage extends StatelessWidget {
       ],
     );
   }
+  String replaceAndCapitalize(String text) {
+    // Split the text into words based on underscores.
+    if (text.contains("_")){
+      List<String> words = text.split('_');
+
+      // Capitalize the first letter of each word.
+      words = words
+          .map((word) => word.replaceFirst(word[0], word[0].toUpperCase()))
+          .toList();
+
+      // Join the words back together with spaces.
+      return words.join(' ');
+    }
+    return text[0].toUpperCase() + text.substring(1);
+
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +86,7 @@ class FocusPage extends StatelessWidget {
           SizedBox(
             height: 325,
             child: ListView.builder(
-              itemCount: contentList.length,
+              itemCount: focusContentList.length,
               itemBuilder: (BuildContext context, int index) {
                 return Slidable(
 
@@ -78,7 +97,7 @@ class FocusPage extends StatelessWidget {
                   // The end action pane is the one at the right or the bottom side.
                   endActionPane: onEnd(index),
                   child: SizedBox(
-                    height: index != contentList.length - 1 ? 60 : 100,
+                    height: index != focusContentList.length - 1 ? 60 : 100,
                     child: Stack(
                       children: [
                         Container(
@@ -102,11 +121,16 @@ class FocusPage extends StatelessWidget {
                             ],
                           ),
                           child: ListTile(
-                            title: Text(contentList[index].tittle,
+                            title: Text(replaceAndCapitalize(focusContentList[index].tittle),
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w700)),
-                            leading: Image.asset(
-                                "${contentList[index].iconPath}/$index.png"),
+                            leading: SvgPicture.asset(
+
+                              "icons/category_icons/${focusContentList[index].tittle}.svg",
+                              height: 25,
+                              width: 25,
+
+                            ),
                           ),
                         ),
                       ],

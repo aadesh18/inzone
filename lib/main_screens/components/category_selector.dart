@@ -1,14 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inzone/data/inzone_category.dart';
 
-class CategorySelector extends StatelessWidget {
+import '../../custom_icons.dart';
+
+class CategorySelector extends StatefulWidget {
   final InZoneCategory category;
 
   const CategorySelector({
     super.key,
     required this.category,
   });
+
+  @override
+  State<CategorySelector> createState() => _CategorySelectorState();
+}
+
+class _CategorySelectorState extends State<CategorySelector> {
+  _getSvg(String? iconPath){
+    print(iconPath);
+    if (iconPath == null){
+      return SizedBox();
+    } else {
+      try {
+        return SvgPicture.asset(
+          iconPath,
+          height: 25,
+          width: 25,
+        );
+      } catch (e){
+        return SvgPicture.asset(
+          "icons/humor_and_memes.svg",
+          height: 25,
+          width: 25,
+        );
+      }
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +50,20 @@ class CategorySelector extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
-              colors: [category.startColor!, category.endColor!],
+              colors: [widget.category.getStartColor(), widget.category.getEndColor()],
             )),
         child: Row(
           children: [
-            category.categoryIconPath == null
-                ? const SizedBox()
-                : SvgPicture.asset(category.categoryIconPath!),
+        SvgPicture.asset(
+          widget.category.categoryIconPath!,
+          height: 25,
+          width: 25,
+        ),
             const SizedBox(
               width: 2,
             ),
             Text(
-              category.getCategoryName(),
+              widget.category.getCategoryName(),
               style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 15,

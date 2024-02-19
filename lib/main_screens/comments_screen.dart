@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inzone/data/inzone_post.dart';
 import 'package:inzone/main_screens/components/post_card.dart';
+import 'package:lottie/lottie.dart';
 
 class CommentPage extends StatefulWidget {
   CommentPage({super.key, required this.post});
@@ -27,49 +28,26 @@ class _CommentPageState extends State<CommentPage> {
             children: [
               PostCard(post: widget.post),
               const Divider(),
-              Row(
-                children: [
-                  Image.asset("images/sample_avatar_1.png"),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    "Robert Fox",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                "If you think you are too small to make a difference, try sleeping with a mosquito",
-                style: TextStyle(
-                    fontWeight: FontWeight.normal, color: Colors.black54),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Image.asset("images/sample_avatar_1.png"),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    "Mira Culhane",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                "If you think you are too small to make a difference, try sleeping with a mosquito",
-                style: TextStyle(
-                    fontWeight: FontWeight.normal, color: Colors.black54),
-              )
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    child: Column(
+                    children: [
+                      SizedBox(
+                        height: 300,
+                        width: 300,
+                        child: LottieBuilder.asset('assets/waiting.json'),
+
+                      ),
+                      SizedBox(height: 30,),
+                      Text(
+                        "You have been signed up for the waitlist for the full version.\n\nSit back and relax ;)", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),),
+
+                    ],
+                    ),
+                  )
+
+
+
             ],
           ),
         ),

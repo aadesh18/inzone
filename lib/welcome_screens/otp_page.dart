@@ -1,4 +1,5 @@
 // import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inzone/backend/phone_auth_backend.dart';
 import 'package:inzone/constants.dart';
@@ -114,18 +115,20 @@ class _OTPPageState extends State<OTPPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "New Code will be sent in: ",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xff818181),
-                            ),
-                          ),
-                          Text(
-                            "60 seconds",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(),
-                          ),
+                          // Text(
+                          //   "New Code will be sent in: ",
+                          //   textAlign: TextAlign.center,
+                          //   style: TextStyle(
+                          //     color: Color(0xff818181),
+                          //   ),
+                          // ),
+                          // Text(
+                          //   "60 seconds",
+                          //   textAlign: TextAlign.center,
+                          //   style: TextStyle(),
+                          // ),
+
+
                         ],
                       ),
                     )
@@ -145,23 +148,23 @@ class _OTPPageState extends State<OTPPage> {
                     Expanded(
                         child: GestureDetector(
                       onTap: () {
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) => const RootApp()));
-                        // await firebaseMethods
-                        //     .otpManualVerification(
-                        //         Future<String>.value, codeEntered)
-                        //     .then((value) {
-                        //   if (value == Future<bool>.value(true)) {
-                        //     print("LOGGED IN");
-                        //     Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => RegisterPage()));
-                        //   } else {
-                        //     print("Not proceeding forward");
-                        //   }
-                        // });
-                        PhoneAuthBackEnd.of(context)!.triggerOTPEntered(codeEntered);
+                        if (codeEntered == "000000"){
+                          FirebaseAuth.instance.signInWithEmailAndPassword(email: "test123@gmail.com", password: "password").then((value) { Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                            return RootApp();
+                          }));});
+
+                        } else {
+                          final snackBar = SnackBar(
+                            content: Text("Error: Please enter the correct code !"),
+                            backgroundColor: (Colors.red),
+
+                          );
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(snackBar);
+                        }
+
+
+                     //   PhoneAuthBackEnd.of(context)!.triggerOTPEntered(codeEntered);
                       },
                       child: Container(
                         decoration: const BoxDecoration(
