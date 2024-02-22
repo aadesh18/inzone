@@ -80,11 +80,15 @@ class FallBackPage extends StatelessWidget {
         children: [
           Container(
             //height: 300,
-              margin: const EdgeInsets.only(top: 30, bottom: 20),
+              margin: const EdgeInsets.only(top: 30, bottom: 5),
               child: const Text(
                 "Fall Back",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
               )),
+          Text(
+            "5pm to 10pm",
+            style: TextStyle(fontSize: 13,color: Colors.grey, fontWeight: FontWeight.w200),
+          ),
           SizedBox(
             height: 325,
             child: ListView.builder(

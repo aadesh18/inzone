@@ -76,12 +76,16 @@ class CustomPage extends StatelessWidget {
       child: Column(
         children: [
           Container(
-              //height: 300,
-              margin: const EdgeInsets.only(top: 30, bottom: 20),
+            //height: 300,
+              margin: const EdgeInsets.only(top: 30, bottom: 5),
               child: const Text(
                 "Custom",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
               )),
+          const Text(
+            "Other times",
+            style: TextStyle(fontSize: 13,color: Colors.grey, fontWeight: FontWeight.w200),
+          ),
           SizedBox(
             height: 325,
             child: ListView.builder(

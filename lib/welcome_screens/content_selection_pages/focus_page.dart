@@ -81,11 +81,15 @@ class FocusPage extends StatelessWidget {
         children: [
           Container(
               //height: 300,
-              margin: const EdgeInsets.only(top: 30, bottom: 20),
+              margin: const EdgeInsets.only(top: 30, bottom: 5),
               child: const Text(
                 "Focus",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
               )),
+       const  Text(
+                "9am to 5pm",
+                style: TextStyle(fontSize: 13,color: Colors.grey, fontWeight: FontWeight.w200),
+              ),
           SizedBox(
             height: 325,
             child: ListView.builder(
