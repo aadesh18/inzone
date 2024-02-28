@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_enums.dart';
 
+
+
+
+
+
+
 class UserSignUpScreen extends StatefulWidget {
   const UserSignUpScreen({super.key});
 
@@ -52,7 +58,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
             const SizedBox(
               height: 10,
             ),
-            const Text("Gender",
+            const Text("Gender (optional)",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -90,7 +96,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
             const SizedBox(
               height: 10,
             ),
-            const Text("Age",
+            const Text("Age (optional)",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             const SizedBox(
               height: 10,
@@ -274,8 +280,10 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                 children: [
                   Checkbox(
                     value: isChecked,
+                    tristate: false,
                     onChanged: (value) {
                       setState(() {
+                        continueSignUp = value!;
                         isChecked = value ?? false;
                       });
                     },
@@ -284,13 +292,34 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                   const SizedBox(
                     width: 10,
                   ),
-                  const Flexible(
+                   Flexible(
                     flex: 1,
-                    child: Text(
-                        "I have read the terms and condition and I accept the general conditions of use.",
-                        overflow: TextOverflow.visible,
-                        style: TextStyle(
-                            fontSize: 10, fontWeight: FontWeight.w500)),
+                    child: GestureDetector(
+                      onTap: (){
+                        showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            actions: [
+                              TextButton(onPressed: (){Navigator.pop(context);}, child: Text("Close"))
+                            ],
+                            
+                            content: SingleChildScrollView(
+                              child: Text(
+                              licenseAgreement
+                              ),
+                            )
+                          );
+                        },
+                        );
+
+                      },
+                      child: Text(
+                          "I have read the terms and condition and I accept the general conditions of use. Tap to learn more.",
+                          overflow: TextOverflow.visible,
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500)),
+                    ),
                   ),
                 ],
               ),

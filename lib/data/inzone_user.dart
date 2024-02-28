@@ -137,7 +137,7 @@ _gender = gender,
     _adult = adult;
   }
 
-  setEmail(String email) {
+  setEmail(String? email) {
     _email = email;
   }
 

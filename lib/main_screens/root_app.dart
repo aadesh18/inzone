@@ -1,6 +1,7 @@
 import 'package:cool_dropdown/controllers/dropdown_controller.dart';
 import 'package:cool_dropdown/cool_dropdown.dart';
 import 'package:cool_dropdown/models/cool_dropdown_item.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:floating_draggable_widget/floating_draggable_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:inzone/main_screens/explore_screen.dart';
 import 'package:inzone/main_screens/home_screen.dart';
 import 'package:inzone/main_screens/me_screen.dart';
 import 'package:inzone/main_screens/post_screen.dart';
+import 'package:inzone/welcome_screens/introduction_page.dart';
 import 'package:sliding_sheet2/sliding_sheet2.dart';
 
 class RootApp extends StatefulWidget {
@@ -27,6 +29,7 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
     'Focus',
     'Fall Back',
     'Custom',
+    'Log Out',
   ];
 
   final modeDropdownController = DropdownController();
@@ -62,10 +65,21 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
           ),
         ),
         value: 'Custom'),
+    CoolDropdownItem<String>(
+        label: 'Log Out',
+
+        icon: Container(
+          height: 21,
+          width: 21,
+          child: Icon(
+  Icons.logout
+  ),
+          ),
+        value: 'Log Out')
   ];
 
   List<DropdownMenuItem<String>> get dropdownItems {
-    List<DropdownMenuItem<String>> menuItems = const [
+    List<DropdownMenuItem<String>> menuItems =  [
        DropdownMenuItem(
           value: "Focus",
           child: Text(
@@ -86,6 +100,20 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
             "Custom",
             style: TextStyle(
                 color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 20),
+          )),
+      DropdownMenuItem(
+          value: "Log Out",
+          child: GestureDetector(
+            onTap: ()async{
+              await FirebaseAuth.instance.signOut();
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => IntroductionPage()));
+            },
+            child: Text(
+              "Log Out",
+              style: TextStyle(
+                  color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
           )),
     ];
     return menuItems;
@@ -169,8 +197,13 @@ duration: const Duration(seconds: 1),
                           dropdownList: modeDropdownItems,
                           defaultItem: modeDropdownItems.first,
 
-                          onChange: (a) {
+                          onChange: (a) async {
                             modeDropdownController.close();
+                            if (a == "Log Out"){
+                              await FirebaseAuth.instance.signOut();
+                              Navigator.pushReplacement(
+                                  context, MaterialPageRoute(builder: (context) => IntroductionPage()));
+                            }
                           },
                           resultOptions: ResultOptions(
                             width: 70,

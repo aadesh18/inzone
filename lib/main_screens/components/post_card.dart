@@ -108,13 +108,13 @@ class _PostCardState extends State<PostCard> {
                     return [
                       menuOption(CustomIcons.save, "Save", "save"),
                       menuOption(CustomIcons.notInterested,
-                          "Not Interested in this", "not_interested"),
-                      // menuOption(
-                      //     CustomIcons.dontShow,
-                      //     "Don't show content of ${widget.post.userName}",
-                      //     "dont_show"),
-                      // menuOption(
-                      //     CustomIcons.manage, "Manage your interests", "manage")
+                          "Flag this post", "not_interested"),
+                      menuOption(
+                          CustomIcons.dontShow,
+                          "Block this user ${widget.post.userName}",
+                          "dont_show"),
+                      menuOption(
+                          CustomIcons.manage, "Report this post", "manage")
                     ];
                   },
                 ),

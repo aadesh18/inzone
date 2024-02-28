@@ -60,115 +60,17 @@ class _SignUpPagesState extends State<SignUpPages> {
               ContentSelectionSignupScreen(),
             ],
           ),
-          MediaQuery.of(context).viewInsets.bottom == 0 ? Container(
-            alignment: const Alignment(0, 1),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GestureDetector(
-                  child: const Text(
-                    "Back",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.transparent,
-                      shadows: [
-                        Shadow(color: Colors.black, offset: Offset(0, -4))
-                      ],
-                      decoration: TextDecoration.underline,
-                      decorationColor: Colors.black,
-                    ),
-                  ),
-                  onTap: () {
-                    if (currentPage == 1) {
-                      Navigator.pop(context);
-                    }
-                    setState(() {
-                      _controller.previousPage(
-                          duration: const Duration(seconds: 1),
-                          curve: Curves.decelerate);
-                    });
-                  },
-                ),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Text(
-                      onLastPage ? "" : currentPage.toString(),
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    CircularProgressIndicator(
-                      value: _value,
-                      backgroundColor: Colors.grey,
-                    ),
-                    onLastPage
-                        ? const Icon(
-                            Icons.done,
-                            color: Colors.green,
-                          )
-                        : const SizedBox()
-                  ],
-                ),
-                onLastPage
-                    ? GestureDetector(
+          MediaQuery.of(context).viewInsets.bottom == 0
+              ? Container(
+                  alignment: const Alignment(0, 1),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
                         child: const Text(
-                          "Done",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Colors.transparent,
-                            shadows: [
-                              Shadow(color: Colors.black, offset: Offset(0, -4))
-                            ],
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.black,
-                          ),
-                        ),
-                        onTap: () async {
-
-                          if (currentUser.getFirstName() == null ||
-                              currentUser.getAge() == null ||
-                              currentUser.getUserName() == null ||
-                              currentUser.getPassword() == null||
-                              currentUser.getFocusTopics()== null ||
-                              currentUser.getFallbackTopics()== null){
-                            final snackBar = SnackBar(
-                              content: Text("Error: Please fill all fields !"),
-                              backgroundColor: (Colors.red),
-
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          } else {
-                            try {
-                              final credential = await FirebaseAuth.instance
-                                  .createUserWithEmailAndPassword(
-                                  email: currentUser.getEmail()!,
-                                  password: currentUser.getPassword()!)
-                                  .then((value) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: ((context) =>
-                                        const RootApp())));
-                              });
-                            } on FirebaseAuthException catch (e) {
-                              final snackBar = SnackBar(
-                                content: Text("Error: ${e.message}"),
-                                backgroundColor: (Colors.red),
-
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            }
-                          }
-
-                        },
-                      )
-                    : GestureDetector(
-                        child: const Text(
-                          "Next",
+                          "Back",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -181,14 +83,127 @@ class _SignUpPagesState extends State<SignUpPages> {
                           ),
                         ),
                         onTap: () {
-                          _controller.nextPage(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeIn);
+                          if (currentPage == 1) {
+                            Navigator.pop(context);
+                          }
+                          setState(() {
+                            _controller.previousPage(
+                                duration: const Duration(seconds: 1),
+                                curve: Curves.decelerate);
+                          });
                         },
-                      )
-              ],
-            ),
-          ) : SizedBox()
+                      ),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text(
+                            onLastPage ? "" : currentPage.toString(),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          CircularProgressIndicator(
+                            value: _value,
+                            backgroundColor: Colors.grey,
+                          ),
+                          onLastPage
+                              ? const Icon(
+                                  Icons.done,
+                                  color: Colors.green,
+                                )
+                              : const SizedBox()
+                        ],
+                      ),
+                      onLastPage
+                          ? GestureDetector(
+                              child: const Text(
+                                "Done",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.transparent,
+                                  shadows: [
+                                    Shadow(
+                                        color: Colors.black,
+                                        offset: Offset(0, -4))
+                                  ],
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.black,
+                                ),
+                              ),
+                              onTap: () async {
+                                if (continueSignUp) {
+                                  print(continueSignUp);
+                                  if (currentUser.getFirstName() == null ||
+                                      currentUser.getUserName() == null ||
+                                      currentUser.getPassword() == null ||
+                                      currentUser.getFocusTopics() == null ||
+                                      currentUser.getFallbackTopics() == null) {
+                                    final snackBar = SnackBar(
+                                      content: Text(
+                                          "Error: Please fill all fields !"),
+                                      backgroundColor: (Colors.red),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  } else {
+                                    print("ELSE");
+                                    try {
+                                      final credential = await FirebaseAuth.instance
+                                          .createUserWithEmailAndPassword(
+                                          email: currentUser.getEmail()!,
+                                          password: currentUser.getPassword()!)
+                                          .then((value) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: ((context) =>
+                                                const RootApp())));
+                                      });
+                                    } on FirebaseAuthException catch (e) {
+                                      final snackBar = SnackBar(
+                                        content: Text("Error: ${e.message}"),
+                                        backgroundColor: (Colors.red),
+
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    }
+                                  }
+                                } else {
+                                  final snackBar = const SnackBar(
+                                    content: Text(
+                                        "Error: Please agree with our Terms of Service!"),
+                                    backgroundColor: (Colors.red),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
+                              })
+                          : GestureDetector(
+                              child: const Text(
+                                "Next",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.transparent,
+                                  shadows: [
+                                    Shadow(
+                                        color: Colors.black,
+                                        offset: Offset(0, -4))
+                                  ],
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.black,
+                                ),
+                              ),
+                              onTap: () {
+                                _controller.nextPage(
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeIn);
+                              },
+                            )
+                    ],
+                  ),
+                )
+              : SizedBox()
         ],
       ),
     );
