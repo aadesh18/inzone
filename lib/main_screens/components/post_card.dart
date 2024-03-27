@@ -1,12 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_post.dart';
 import 'package:inzone/main_screens/comments_screen.dart';
 import 'package:inzone/custom_icons.dart';
+import 'package:inzone/main_screens/components/video_position_indicator.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:sliding_sheet2/sliding_sheet2.dart';
 import 'package:http/http.dart' as http;
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class PostCard extends StatefulWidget {
   InZonePost post;
@@ -18,6 +21,8 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool imageSuccess = false;
+  int photoCount = 0, videoCount = 0;
+  late YoutubePlayerController _controller;
 
   bool isLiked = false;
 
@@ -48,6 +53,41 @@ class _PostCardState extends State<PostCard> {
     //checkInternet();
     super.initState();
 
+    if (widget.post.imageContent != null){
+      photoCount = widget.post.imageContent!.length;
+    }
+
+    if (widget.post.videoContent!=null){
+      videoCount = widget.post.videoContent!.length;
+    }
+    _controller = YoutubePlayerController(
+      params: const YoutubePlayerParams(
+        showControls: true,
+        mute: true
+        ,
+        showFullscreenButton: true,
+        loop: false,
+      ),
+    );
+
+    _controller.setFullScreenListener(
+          (isFullScreen) {
+      //  log('${isFullScreen ? 'Entered' : 'Exited'} Fullscreen.');
+      },
+    );
+
+    // _controller.loadPlaylist(
+    //   list: _videoIds,
+    //   listType: ListType.playlist,
+    //   startSeconds: 136,
+    // );
+
+  }
+
+  @override
+  void dispose() {
+    _controller.close();
+    super.dispose();
   }
 
   @override
@@ -132,28 +172,59 @@ class _PostCardState extends State<PostCard> {
               height: 10,
             ),
 
-widget.post.imageContent == null  ? SizedBox() :
-
-widget.post.imageContent!.length == 0 ? SizedBox(): Container(
-width: screenWidth!-30,
+            (videoCount >0) | (photoCount > 0) ? SizedBox(
+  width: screenWidth!-30,
   height: 200,
-  child: ClipRRect(
+  child: ListView.builder(
+      itemCount: videoCount + photoCount,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index){
+        int total = videoCount + photoCount;
+        Widget returnWidget = SizedBox();
+        if (index+1<=total-videoCount){
+if (photoCount>0){
+  returnWidget =   Container(
+    width: screenWidth!-30,
+    height: 200,
+    child: ClipRRect(
 
-    borderRadius: BorderRadius.circular(8.0),
-    child: Image.network(widget.post.imageContent!.elementAt(0),
+      borderRadius: BorderRadius.circular(8.0),
+      child: Image.network(widget.post.imageContent!.elementAt(index),
 
-      fit: BoxFit.fitWidth,
-      errorBuilder: (context, object, st){
+        fit: BoxFit.fitWidth,
+        errorBuilder: (context, object, st){
 
-      setState(() {
-        imageSuccess = false;
-      });
-      print("Error");
+          setState(() {
+            imageSuccess = false;
+          });
+          print("Error");
 
-      return const SizedBox();
-    },),
-  ),
-),
+          return const SizedBox();
+        },),
+    ),
+  );
+}
+
+        } else {
+          if (videoCount > 0){
+            _controller.loadVideo(widget.post.videoContent!.elementAt(index-photoCount));
+            returnWidget =   YoutubePlayer(
+              controller: _controller,
+              aspectRatio: 16 / 9,
+            );
+          }
+
+        }
+
+
+
+
+
+        return returnWidget;
+      }),
+) :SizedBox(),
+
+
 //       widget.post.imageContent == null ?  SizedBox()  :
 //
 //               imageSuccess ? Container(

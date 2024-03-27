@@ -143,8 +143,6 @@ duration: const Duration(seconds: 1),
                 },
               ));
         },
-
-
       ),
       mainScreenWidget: Scaffold(
         appBar: PreferredSize(
@@ -171,6 +169,9 @@ duration: const Duration(seconds: 1),
 
                           onChange: (a) {
                             modeDropdownController.close();
+                            if (a == "Log Out"){
+                              // Remove this line and paste the code here
+                            }
                           },
                           resultOptions: ResultOptions(
                             width: 70,

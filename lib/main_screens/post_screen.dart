@@ -121,7 +121,6 @@ class _PostScreenState extends State<PostScreen> {
 
                 GestureDetector(
                     onTap: ()async {
-
                         await FirebaseAuth.instance.signOut();
                         Navigator.pushReplacement(
                             context, MaterialPageRoute(builder: (context) => IntroductionPage()));
