@@ -10,6 +10,7 @@ import 'package:inzone/data/inzone_user.dart';
 import 'package:inzone/data/inzone_post.dart';
 
 import '../data/inzone_message.dart';
+
 class InZoneDatabase {
   static Future<InZoneUser?> getUserData(String docID) async {
     final docRef = FirebaseFirestore.instance
