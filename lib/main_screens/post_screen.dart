@@ -131,409 +131,408 @@ class _PostScreenState extends State<PostScreen> {
           // ),
           body: Padding(
             padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 6.0,),
-                    child: Center(
-                      child: Text(
-                        "Your post works well with InZone guidelines",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500),
-                      ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 6.0,),
+                  child: Center(
+                    child: Text(
+                      "Your post works well with InZone guidelines",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
+                ),
 
-                  Container(
-                    width: screenWidth,
-                    height: 30,
-                    child: Stack(
-                      alignment: AlignmentDirectional.centerStart,
-                      children: [
-                        LayoutBuilder(builder:
-                            (BuildContext context,
-                            BoxConstraints constraints) {
-                          maxWidth = constraints.maxWidth;
-                          return Container(
-                            height: 14,
-                            width: double.infinity,
-                            margin: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.circular(30),
-                              gradient: const LinearGradient(
-                                colors: [
-                                  Color(0xffff8d6c),
-                                  Color(0xffe064f7),
-                                  Color(0xff00b2e7)
-                                ],
-                              ),
-                            ),
-                            // transform:  (Matrix4.identity() + Matrix4.rotationZ(math.pi / 4))
-                          );
-                        }),
-                        AnimatedContainer(
-                          height: 14,
-                          width: 16,
-                          margin: EdgeInsets.only(
-                              left: maxWidth * maxMovable * 0.9),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: backgroundColor),
-                              borderRadius:
-                              BorderRadius.circular(30),
-                              color: Colors.white),
-                          duration: const Duration(seconds: 1),
-                          // transform:  (Matrix4.identity() + Matrix4.rotationZ(math.pi / 4))
-                        ),
-                      ],
-                    ),
-                  ),
-
-
-                  //
-                  // SlideAction(
-                  //   sliderButtonIconPadding: 6,
-                  //   sliderRotate: false,
-                  //   outerColor: Colors.blue,
-                  //   text: "Post to InZone",
-                  //   height: 60,
-                  //   elevation: 0,
-                  //   onSubmit: () {
-                  //     setState(() {
-                  //       submitted = true;
-                  //     });
-                  //   },
-                  // ),
-                  // PostSlider(
-                  //     afterSlideText: "Post Successful",
-                  //     beforeSlideText: "Post to InZone"),
-                  // SizedBox(
-                  //   height: 5,
-                  // ),
-
-                //  const Divider(),
-                  SizedBox(height: 10,),
-                  TextField(
-                    maxLines: null, // Set maxLines to null for multiline
-                    textInputAction: TextInputAction.send,
-                    decoration: InputDecoration(
-                      // labelText: 'What do you want you talk about?',
-                      //
-                      // labelStyle: TextStyle(color: Colors.grey.shade900),
-                      hintText: 'What do you want to talk about ?',
-
-                      hintStyle: TextStyle(color: Colors.grey.shade900),
-
-                      border: InputBorder.none, // Remove the border
-                      contentPadding: const EdgeInsets.only(
-                          bottom: 8.0), // Adjust padding as needed
-                    ),
-                    onEditingComplete: () {
-                      setState(() {
-                        isTyping = false;
-
-                      });
-                    },
-                    onSubmitted: (t) {
-                      setState(() {
-                        submitted = true;
-                      });
-                    },
-                    onTapOutside: (t) {
-
-                      setState(() {
-                        isTyping = true;
-                      });
-                    },
-                    onTap: () {
-                      setState(() {
-
-                        isTyping = true;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 20,),
-                  // Images
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                Container(
+                  width: screenWidth,
+                  height: 30,
+                  child: Stack(
+                    alignment: AlignmentDirectional.centerStart,
                     children: [
-                      imageFile == null
-                          ? const SizedBox(
-                        height: 5,
-                      )
-                          : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20.0),
-                          child: Image(
-                            height: 150,
-                            width: 150,
-                            fit: BoxFit.cover,
-                            image: FileImage(imageFile!),
+                      LayoutBuilder(builder:
+                          (BuildContext context,
+                          BoxConstraints constraints) {
+                        maxWidth = constraints.maxWidth;
+                        return Container(
+                          height: 14,
+                          width: double.infinity,
+                          margin: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.circular(30),
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xffff8d6c),
+                                Color(0xffe064f7),
+                                Color(0xff00b2e7)
+                              ],
+                            ),
                           ),
-                        ),
+                          // transform:  (Matrix4.identity() + Matrix4.rotationZ(math.pi / 4))
+                        );
+                      }),
+                      AnimatedContainer(
+                        height: 14,
+                        width: 16,
+                        margin: EdgeInsets.only(
+                            left: maxWidth * maxMovable * 0.9),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: backgroundColor),
+                            borderRadius:
+                            BorderRadius.circular(30),
+                            color: Colors.white),
+                        duration: const Duration(seconds: 1),
+                        // transform:  (Matrix4.identity() + Matrix4.rotationZ(math.pi / 4))
                       ),
                     ],
                   ),
-                  // isTyping
-                  //     ? Container()
-                  //     : SizedBox(
-                  //   height: MediaQuery.of(context).size.height / 2.8,
-                  // ),
-
-                 // const  Divider(),
+                ),
 
 
+                //
+                // SlideAction(
+                //   sliderButtonIconPadding: 6,
+                //   sliderRotate: false,
+                //   outerColor: Colors.blue,
+                //   text: "Post to InZone",
+                //   height: 60,
+                //   elevation: 0,
+                //   onSubmit: () {
+                //     setState(() {
+                //       submitted = true;
+                //     });
+                //   },
+                // ),
+                // PostSlider(
+                //     afterSlideText: "Post Successful",
+                //     beforeSlideText: "Post to InZone"),
+                // SizedBox(
+                //   height: 5,
+                // ),
 
-             // const  Text(
-             //            "Suggestions based on your InZone post"),
-             //
-             //
-             //
-             //      SingleChildScrollView(
-             //          child: InlineChoice(
-             //            multiple: true,
-             //            clearable: true,
-             //            value: multipleSelected,
-             //            onChanged: setMultipleSelected,
-             //            itemCount: choices.length,
-             //            itemBuilder: (selection, i) {
-             //              return ChoiceChip(
-             //                color:
-             //                MaterialStateProperty.resolveWith(
-             //                        (states) {
-             //                      if (states.contains(
-             //                          MaterialState.selected)) {
-             //                        return backgroundColor;
-             //                      }
-             //                      return Colors.white;
-             //                    }),
-             //                selected:
-             //                selection.selected(choices[i]),
-             //                onSelected:
-             //                selection.onSelected(choices[i]),
-             //                label: Text(choices[i]),
-             //              );
-             //            },
-             //            listBuilder: ChoiceList.createWrapped(
-             //              spacing: 10,
-             //              runSpacing: 10,
-             //              padding: const EdgeInsets.symmetric(
-             //                horizontal: 20,
-             //                vertical: 25,
-             //              ),
-             //            ),
-             //          ),
-             //        ),
+              //  const Divider(),
+                SizedBox(height: 10,),
+                TextField(
+                  maxLines: null, // Set maxLines to null for multiline
+                  textInputAction: TextInputAction.send,
+                  decoration: InputDecoration(
+                    // labelText: 'What do you want you talk about?',
+                    //
+                    // labelStyle: TextStyle(color: Colors.grey.shade900),
+                    hintText: 'What do you want to talk about ?',
 
-                  //
-                  // isTyping
-                  //     ? Container(
-                  //   margin: const EdgeInsets.only(top: 0),
-                  //   padding: const EdgeInsets.only(
-                  //       top: 0, left: 10, right: 10),
-                  //   width: MediaQuery.of(context).size.width,
-                  //   height: 250,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius:
-                  //     const BorderRadius.all(Radius.circular(40.0)),
-                  //     color: isTyping ? Colors.white : backgroundColor,
-                  //   ),
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     mainAxisAlignment: MainAxisAlignment.start,
-                  //     children: [
-                  //       const SizedBox(
-                  //         height: 10,
-                  //       ),
-                  //       const Flexible(
-                  //         flex: 1,
-                  //         child: Text(
-                  //             "Suggestions based on your InZone post"),
-                  //       ),
-                  //
-                  //       // TODO: Replace the row with ListView.builder
-                  //
-                  //       Flexible(
-                  //         flex: 5,
-                  //         child: SingleChildScrollView(
-                  //           child: InlineChoice(
-                  //             multiple: true,
-                  //             clearable: true,
-                  //             value: multipleSelected,
-                  //             onChanged: setMultipleSelected,
-                  //             itemCount: choices.length,
-                  //             itemBuilder: (selection, i) {
-                  //               return ChoiceChip(
-                  //                 color:
-                  //                 MaterialStateProperty.resolveWith(
-                  //                         (states) {
-                  //                       if (states.contains(
-                  //                           MaterialState.selected)) {
-                  //                         return backgroundColor;
-                  //                       }
-                  //                       return Colors.white;
-                  //                     }),
-                  //                 selected:
-                  //                 selection.selected(choices[i]),
-                  //                 onSelected:
-                  //                 selection.onSelected(choices[i]),
-                  //                 label: Text(choices[i]),
-                  //               );
-                  //             },
-                  //             listBuilder: ChoiceList.createWrapped(
-                  //               spacing: 10,
-                  //               runSpacing: 10,
-                  //               padding: const EdgeInsets.symmetric(
-                  //                 horizontal: 20,
-                  //                 vertical: 25,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //
-                  //
-                  //
-                  //     ],
-                  //   ),
-                  // )
-                  //     : const SizedBox(),
+                    hintStyle: TextStyle(color: Colors.grey.shade900),
 
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: [
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         _pickImagefromGallery();
-                  //       },
-                  //       child: Container(
-                  //         height: 70,
-                  //         width: 70,
-                  //         decoration: BoxDecoration(
-                  //             borderRadius: BorderRadius.circular(15),
-                  //             color: Colors.white,
-                  //             boxShadow: const [
-                  //               BoxShadow(
-                  //                   color: Color(0xffe064f7),
-                  //                   blurRadius: 1.0,
-                  //                   spreadRadius: 1.0,
-                  //                   offset: Offset(1, 1))
-                  //             ]),
-                  //         child: Column(
-                  //           mainAxisAlignment: MainAxisAlignment.center,
-                  //           children: [
-                  //             SvgPicture.asset("assets/picture_icon.svg"),
-                  //             const SizedBox(height: 5),
-                  //             const Text(
-                  //               "Image",
-                  //               style: TextStyle(
-                  //                   color: Colors.black,
-                  //                   fontWeight: FontWeight.w700,
-                  //                   fontSize: 14),
-                  //             )
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     Container(
-                  //       height: 70,
-                  //       width: 70,
-                  //       decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(15),
-                  //           color: Colors.white,
-                  //           boxShadow: const [
-                  //             BoxShadow(
-                  //                 color: Color(0xff00b2e7),
-                  //                 blurRadius: 1.0,
-                  //                 spreadRadius: 1.0,
-                  //                 offset: Offset(1, 1))
-                  //           ]),
-                  //       child: Column(
-                  //         mainAxisAlignment: MainAxisAlignment.center,
-                  //         children: [
-                  //           SvgPicture.asset("assets/link_icon.svg"),
-                  //           const SizedBox(height: 5),
-                  //           const Text(
-                  //             "Link",
-                  //             style: TextStyle(
-                  //                 color: Colors.black,
-                  //                 fontWeight: FontWeight.w700,
-                  //                 fontSize: 14),
-                  //           )
-                  //         ],
-                  //       ),
-                  //     ),
-                  //
-                  //     // Image.asset("icons/post_icons/1.png"),
-                  //   ],
-                  // ),
+                    border: InputBorder.none, // Remove the border
+                    contentPadding: const EdgeInsets.only(
+                        bottom: 8.0), // Adjust padding as needed
+                  ),
+                  onEditingComplete: () {
+                    setState(() {
+                      isTyping = false;
 
-const SizedBox(height: 500,),
+                    });
+                  },
+                  onSubmitted: (t) {
+                    setState(() {
+                      submitted = true;
+                    });
+                  },
+                  onTapOutside: (t) {
 
-                     Container(
-                       width: double.infinity,
-                      child: ActionSlider.standard(
+                    setState(() {
+                      isTyping = true;
+                    });
+                  },
+                  onTap: () {
+                    setState(() {
 
-                        rolling: false,
-                        // reverseSlideAnimationDuration: Duration(seconds: 0),
-                        backgroundColor: Colors.blue,
-                        toggleColor: Colors.white,
-                        sliderBehavior: SliderBehavior.stretch,
-                        child: const Text(
-                          'Post to InZone',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 23),
+                      isTyping = true;
+                    });
+                  },
+                ),
+                const SizedBox(height: 20,),
+                // Images
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    imageFile == null
+                        ? const SizedBox(
+                      height: 5,
+                    )
+                        : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Image(
+                          height: 150,
+                          width: 150,
+                          fit: BoxFit.cover,
+                          image: FileImage(imageFile!),
                         ),
-                        action: (controller)  async {
-                          controller.loading(); //starts loading animation
-                          await Future.delayed(const Duration(seconds: 2));
-
-                          controller.success();
-                          Navigator.pop(context);
-
-                          showDialog(
-                              context: context,
-                              builder: (_) {
-                                _timer = Timer(const Duration(seconds: 1), () {
-                                  Navigator.of(_).pop();
-                                });
-                                return Dialog(
-                                  backgroundColor: Colors.transparent,
-                                  child:  Stack(
-                                    children: [
-                                      RotatedBox(quarterTurns: 2, child: SizedBox(height:MediaQuery.of(context).size.height, width:MediaQuery.of(context).size.width, child: Lottie.asset(CustomIcons.confettiAnimation)),),
-                                      const Align(
-                                          alignment: Alignment.center,
-                                          child: Text("Post Sucessful", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w400),))
-                                    ],
-                                  ),
-                                );
-                              }
-                          ).then((value) {
-                            if (_timer.isActive) {
-                              _timer.cancel();
-                            }
-                          });
-
-                          //starts success animation
-
-                        },
                       ),
                     ),
+                  ],
+                ),
+                // isTyping
+                //     ? Container()
+                //     : SizedBox(
+                //   height: MediaQuery.of(context).size.height / 2.8,
+                // ),
 
-                ],
-              ),
+               // const  Divider(),
+
+
+
+                         // const  Text(
+                         //            "Suggestions based on your InZone post"),
+                         //
+                         //
+                         //
+                         //      SingleChildScrollView(
+                         //          child: InlineChoice(
+                         //            multiple: true,
+                         //            clearable: true,
+                         //            value: multipleSelected,
+                         //            onChanged: setMultipleSelected,
+                         //            itemCount: choices.length,
+                         //            itemBuilder: (selection, i) {
+                         //              return ChoiceChip(
+                         //                color:
+                         //                MaterialStateProperty.resolveWith(
+                         //                        (states) {
+                         //                      if (states.contains(
+                         //                          MaterialState.selected)) {
+                         //                        return backgroundColor;
+                         //                      }
+                         //                      return Colors.white;
+                         //                    }),
+                         //                selected:
+                         //                selection.selected(choices[i]),
+                         //                onSelected:
+                         //                selection.onSelected(choices[i]),
+                         //                label: Text(choices[i]),
+                         //              );
+                         //            },
+                         //            listBuilder: ChoiceList.createWrapped(
+                         //              spacing: 10,
+                         //              runSpacing: 10,
+                         //              padding: const EdgeInsets.symmetric(
+                         //                horizontal: 20,
+                         //                vertical: 25,
+                         //              ),
+                         //            ),
+                         //          ),
+                         //        ),
+
+                //
+                // isTyping
+                //     ? Container(
+                //   margin: const EdgeInsets.only(top: 0),
+                //   padding: const EdgeInsets.only(
+                //       top: 0, left: 10, right: 10),
+                //   width: MediaQuery.of(context).size.width,
+                //   height: 250,
+                //   decoration: BoxDecoration(
+                //     borderRadius:
+                //     const BorderRadius.all(Radius.circular(40.0)),
+                //     color: isTyping ? Colors.white : backgroundColor,
+                //   ),
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     children: [
+                //       const SizedBox(
+                //         height: 10,
+                //       ),
+                //       const Flexible(
+                //         flex: 1,
+                //         child: Text(
+                //             "Suggestions based on your InZone post"),
+                //       ),
+                //
+                //       // TODO: Replace the row with ListView.builder
+                //
+                //       Flexible(
+                //         flex: 5,
+                //         child: SingleChildScrollView(
+                //           child: InlineChoice(
+                //             multiple: true,
+                //             clearable: true,
+                //             value: multipleSelected,
+                //             onChanged: setMultipleSelected,
+                //             itemCount: choices.length,
+                //             itemBuilder: (selection, i) {
+                //               return ChoiceChip(
+                //                 color:
+                //                 MaterialStateProperty.resolveWith(
+                //                         (states) {
+                //                       if (states.contains(
+                //                           MaterialState.selected)) {
+                //                         return backgroundColor;
+                //                       }
+                //                       return Colors.white;
+                //                     }),
+                //                 selected:
+                //                 selection.selected(choices[i]),
+                //                 onSelected:
+                //                 selection.onSelected(choices[i]),
+                //                 label: Text(choices[i]),
+                //               );
+                //             },
+                //             listBuilder: ChoiceList.createWrapped(
+                //               spacing: 10,
+                //               runSpacing: 10,
+                //               padding: const EdgeInsets.symmetric(
+                //                 horizontal: 20,
+                //                 vertical: 25,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //
+                //
+                //
+                //     ],
+                //   ),
+                // )
+                //     : const SizedBox(),
+
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   children: [
+                //     GestureDetector(
+                //       onTap: () {
+                //         _pickImagefromGallery();
+                //       },
+                //       child: Container(
+                //         height: 70,
+                //         width: 70,
+                //         decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(15),
+                //             color: Colors.white,
+                //             boxShadow: const [
+                //               BoxShadow(
+                //                   color: Color(0xffe064f7),
+                //                   blurRadius: 1.0,
+                //                   spreadRadius: 1.0,
+                //                   offset: Offset(1, 1))
+                //             ]),
+                //         child: Column(
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           children: [
+                //             SvgPicture.asset("assets/picture_icon.svg"),
+                //             const SizedBox(height: 5),
+                //             const Text(
+                //               "Image",
+                //               style: TextStyle(
+                //                   color: Colors.black,
+                //                   fontWeight: FontWeight.w700,
+                //                   fontSize: 14),
+                //             )
+                //           ],
+                //         ),
+                //       ),
+                //     ),
+                //     Container(
+                //       height: 70,
+                //       width: 70,
+                //       decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.circular(15),
+                //           color: Colors.white,
+                //           boxShadow: const [
+                //             BoxShadow(
+                //                 color: Color(0xff00b2e7),
+                //                 blurRadius: 1.0,
+                //                 spreadRadius: 1.0,
+                //                 offset: Offset(1, 1))
+                //           ]),
+                //       child: Column(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
+                //           SvgPicture.asset("assets/link_icon.svg"),
+                //           const SizedBox(height: 5),
+                //           const Text(
+                //             "Link",
+                //             style: TextStyle(
+                //                 color: Colors.black,
+                //                 fontWeight: FontWeight.w700,
+                //                 fontSize: 14),
+                //           )
+                //         ],
+                //       ),
+                //     ),
+                //
+                //     // Image.asset("icons/post_icons/1.png"),
+                //   ],
+                // ),
+
+            Spacer(),
+
+                   Container(
+                     width: double.infinity,
+
+                    child: ActionSlider.standard(
+
+                      rolling: false,
+                      // reverseSlideAnimationDuration: Duration(seconds: 0),
+                      backgroundColor: Colors.blue,
+                      toggleColor: Colors.white,
+                      sliderBehavior: SliderBehavior.stretch,
+                      child: const Text(
+                        'Post to InZone',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 23),
+                      ),
+                      action: (controller)  async {
+                        controller.loading(); //starts loading animation
+                        await Future.delayed(const Duration(seconds: 2));
+
+                        controller.success();
+                        Navigator.pop(context);
+
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              _timer = Timer(const Duration(seconds: 1), () {
+                                Navigator.of(_).pop();
+                              });
+                              return Dialog(
+                                backgroundColor: Colors.transparent,
+                                child:  Stack(
+                                  children: [
+                                    RotatedBox(quarterTurns: 2, child: SizedBox(height:MediaQuery.of(context).size.height, width:MediaQuery.of(context).size.width, child: Lottie.asset(CustomIcons.confettiAnimation)),),
+                                    const Align(
+                                        alignment: Alignment.center,
+                                        child: Text("Post Sucessful", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w400),))
+                                  ],
+                                ),
+                              );
+                            }
+                        ).then((value) {
+                          if (_timer.isActive) {
+                            _timer.cancel();
+                          }
+                        });
+
+                        //starts success animation
+
+                      },
+                    ),
+                  ),
+SizedBox(height: 100,)
+              ],
             ),
           ),
         ));

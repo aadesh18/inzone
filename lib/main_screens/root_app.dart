@@ -206,12 +206,12 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
                             color: backgroundColor,
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          icon: SizedBox(),
+                          icon: const SizedBox(),
                         ),
-                        dropdownOptions: DropdownOptions(
+                        dropdownOptions: const DropdownOptions(
                           width: 140,
                         ),
-                        dropdownItemOptions: DropdownItemOptions(
+                        dropdownItemOptions: const DropdownItemOptions(
                           textStyle: TextStyle(
                               color: Colors.black, fontWeight: FontWeight.w300),
                           selectedTextStyle: TextStyle(

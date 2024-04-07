@@ -39,6 +39,7 @@ class AuthWork {
   // for getting all messages of a specific conversation from firestore database
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages(
       AcceptedDateData user) {
+    print(getConversationID(user.id!));
     return firestore
         .collection('chats/${getConversationID(user.id!)}/messages/')
         .orderBy('sent', descending: true)

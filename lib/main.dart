@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'InZone',
       theme: ThemeData(
-        textTheme: GoogleFonts.latoTextTheme(textTheme),
+        textTheme: GoogleFonts.figtreeTextTheme(textTheme),
         primarySwatch: Colors.blue,
       ),
       home: StreamBuilder<User?>(
