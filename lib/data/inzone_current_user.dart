@@ -8,6 +8,7 @@ class InZoneCurrentUser extends InZoneUser {
   String? _password;
   static List<InZoneCategory> subCategories = [];
 
+
   InZoneCurrentUser(
       {String? firstName,
       String? lastName,

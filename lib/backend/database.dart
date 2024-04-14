@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:inzone/backend/collection_names.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_category.dart';
@@ -170,7 +173,6 @@ class InZoneDatabase {
   }
 
   static Future<List<InZonePost>> getExploreFeed(collectionName) async {
-
     List<InZonePost> posts = [];
     InZoneCurrentUser.subCategories = [];
     final collectionRef = FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
@@ -248,7 +250,123 @@ class InZoneDatabase {
     return added;
   }
 
-  // final Stream currentUserDocStream = FirebaseFirestore.instance
+
+  static Future<int> postContent({
+    required String postMessage,
+    required List<String> imageRef,
+    required List<String> videoRef,
+  }) async {
+    bool added = false;
+    String category = "Unknown"; // Default category
+    int sentiment = -10;
+
+    try {
+      var value = await InZoneDatabase.sendSentimentRequest(postMessage);
+      if (value != null && value["sentiment"] != -1) {
+        sentiment = int.parse(value["sentiment"]);
+        try {
+          category = value["categories"][0];
+          if (category.contains("-")){
+            List<String> parts = category.split('-');
+            parts.map((part) => part[0].toUpperCase() + part.substring(1));
+            parts.join(" ");
+          }
+
+
+          await FirebaseFirestore.instance
+              .collection(CollectionNames.postsCollection)
+              .doc().set({
+            "category": "",
+            "comments": [],
+            "date_posted": DateTime.now(),
+            "likes": 0,
+            "main_category": category,
+            "post": {
+              "image_content": imageRef,
+              "video_content": videoRef,
+              "text_content": postMessage
+            },
+            "sub_category": "",
+            "user_name": currentUser.getUserName(),
+            "user_references": currentUser.getEmail(),
+          });
+          added = true;
+        } catch (e) {
+          category = "Entertainment"; // Default to entertainment on error
+          print(e);
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return sentiment;
+  }
+
+
+
+  static Future<Map<String, dynamic>?> sendSentimentRequest(String body) async {
+    const String url = 'https://us-central1-inzonebackend.cloudfunctions.net/api/sentiment-analysis';
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'text/plain; charset=UTF-8',
+        },
+        body: body, // Send raw text directly as the body
+      );
+
+      if (response.statusCode == 200) {
+        // Assuming the response is JSON, decode it
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        print("This is where the response begins:\n\n\n");
+        print(responseData);
+        print("This is where the response ends:\n\n\n");
+        return responseData;
+      } else {
+        print('Server error: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      // Handle any errors that occur during the request
+      print('Error sending request: $e');
+      return null;
+    }}
+
+  Future<Map<String, dynamic>?> sendPostRequest() async {
+    const String url = 'https://us-central1-inzonebackend.cloudfunctions.net/api/get_posts';
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+
+        }), // Send raw text directly as the body
+      );
+
+      if (response.statusCode == 200) {
+        // Assuming the response is JSON, decode it
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        print(responseData);
+        return responseData;
+      } else {
+        print('Server error: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      // Handle any errors that occur during the request
+      print('Error sending request: $e');
+      return null;
+    }}
+
+
+
+
+
+
+
+// final Stream currentUserDocStream = FirebaseFirestore.instance
   //     .collection('users')
   //     .doc(currentUser.getUID())
   //     .snapshots();

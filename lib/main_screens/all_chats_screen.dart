@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_chat.dart';
 import 'package:inzone/main_screens/components/chat_card.dart';
@@ -33,26 +34,26 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
   List<AcceptedDateData> userData = [];
   late StreamSubscription subscription;
 
-  getData() async {
-    // if (user != null) {
-    QuerySnapshot res =
-    await FirebaseFirestore.instance.collection('newUser').get();
-    if (res.docs.isNotEmpty)
-      setState(() {
-        {
-          userData = res.docs
-              .map((e) =>
-              AcceptedDateData.fromMap(e.data() as Map<String, dynamic>))
-              .toList();
-        }
-      });
-  }
+  // getData() async {
+  //   // if (user != null) {
+  //   QuerySnapshot res =
+  //   await FirebaseFirestore.instance.collection('newUser').get();
+  //   if (res.docs.isNotEmpty)
+  //     setState(() {
+  //       {
+  //         userData = res.docs
+  //             .map((e) =>
+  //             AcceptedDateData.fromMap(e.data() as Map<String, dynamic>))
+  //             .toList();
+  //       }
+  //     });
+  // }
 
   @override
   void initState() {
     super.initState();
     auth = AuthWork();
-    getData();
+   // getData();
   }
 
   @override
@@ -81,7 +82,7 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                 Navigator.pop(context);
               },
             ),
-            title:      Text("Chats",
+            title: Text("Chats",
                 style: const TextStyle(
                     fontSize: 26, fontWeight: FontWeight.w700)),
 
@@ -103,9 +104,8 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                         isSearching = val.isNotEmpty;
                         _searchList = list.where((user) {
                           final name = user.name!.toLowerCase();
-                          final age = user.age!.toLowerCase();
                           final searchLower = val.toLowerCase();
-                          return name.contains(searchLower) || age.contains(searchLower);
+                          return name.contains(searchLower);
                         }).toList();
                       });
                     },
@@ -155,11 +155,10 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                   ),
                   child: StreamBuilder(
                       stream: FirebaseFirestore.instance
-                          .collection('newUser')
-                          .where('email',
-                          isNotEqualTo: FirebaseAuth.instance.currentUser!.email)
-                          .snapshots(), // Update with your stream
+                          .collection('users')
+                          .doc( FirebaseAuth.instance.currentUser!.email).snapshots(), // Update with your stream
                       builder: (context, snapshot) {
+
                         switch (snapshot.connectionState) {
                           case ConnectionState.waiting:
                           case ConnectionState.none:
@@ -172,14 +171,29 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
 
                           case ConnectionState.active:
                           case ConnectionState.done:
-                            final data = snapshot.data?.docs;
 
-                            list = data?.map((e) {
-                              final userData = AcceptedDateData.fromMap(e.data());
-                              return userData;
-                            }).toList() ??
-                                [];
+if ( snapshot.data!=null){
 
+  try {
+
+List temp = snapshot.data!['chats'];
+temp.forEach((element) {
+  list.add(AcceptedDateData.fromMap(element));
+});
+  } catch (e){
+    print(e);
+    // FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc( FirebaseAuth.instance.currentUser!.email).set({
+    //   "email": FirebaseAuth.instance.currentUser!.email,
+    //   "id": FirebaseAuth.instance.currentUser!.uid,
+    //   "chats":[]
+    //
+    // });
+  }
+
+
+}
                             if (list.isNotEmpty || isSearching) {
                               // list.sort((a, b) {
                               //   final aTimestamp = a.timestamp ;
@@ -247,3 +261,32 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
     );
   }
 }
+
+Stream<DocumentSnapshot<Map<String, dynamic>>> getAllChatStream()  {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> snapshots;
+  dynamic temp;
+
+  temp = FirebaseFirestore.instance
+        .collection('users')
+        .doc( FirebaseAuth.instance.currentUser!.email).get().onError((error, stackTrace) {
+     FirebaseFirestore.instance
+        .collection('users')
+        .doc( FirebaseAuth.instance.currentUser!.email).update({
+      "email": FirebaseAuth.instance.currentUser!.email,
+      "id": FirebaseAuth.instance.currentUser!.uid,
+      "chats":[]
+
+    });
+     return  FirebaseFirestore.instance
+         .collection('users')
+         .doc( FirebaseAuth.instance.currentUser!.email).get();
+  });
+
+
+
+  return  FirebaseFirestore.instance
+      .collection('users')
+      .doc( FirebaseAuth.instance.currentUser!.email).snapshots();
+}
+
+

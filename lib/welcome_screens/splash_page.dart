@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inzone/constants.dart';
+import 'package:inzone/data/inzone_current_user.dart';
 import 'package:inzone/main_screens/root_app.dart';
 import 'package:inzone/welcome_screens/introduction_page.dart';
 
@@ -15,6 +16,7 @@ class SplashPage extends StatelessWidget {
     // Setting the constants present in the constants file for the screen size
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
+
     return AnimatedSplashScreen(
       duration: 2000,
       splash: Column(

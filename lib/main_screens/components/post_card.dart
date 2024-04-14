@@ -8,6 +8,9 @@ import 'package:inzone/main_screens/comment_screen/comment_screen.dart';
 import 'package:inzone/main_screens/comment_screen/reply_class.dart';
 import 'package:inzone/main_screens/comments_screen.dart';
 import 'package:inzone/custom_icons.dart';
+import 'package:inzone/models/auth_work.dart';
+import 'package:inzone/models/chat_user_data.dart';
+import 'package:inzone/models/inbox/chat_screen_complete.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_sheet2/sliding_sheet2.dart';
@@ -141,15 +144,15 @@ class _PostCardState extends State<PostCard> {
                   },
                   itemBuilder: (BuildContext bc) {
                     return [
-                      menuOption(CustomIcons.save, "Save", "save"),
+                      menuOption(CustomIcons.save, "Start a chat", "chat", context, widget.post.userName, widget.post.userReference),
                       menuOption(CustomIcons.notInterested, "Flag this post",
-                          "not_interested"),
+                          "not_interested", context,widget.post.userName, widget.post.userReference),
                       menuOption(
                           CustomIcons.dontShow,
-                          "Block this user ${widget.post.userName}",
-                          "dont_show"),
+                          "Block ${widget.post.userName}",
+                          "dont_show",context,widget.post.userName, widget.post.userReference),
                       menuOption(
-                          CustomIcons.manage, "Report this post", "manage")
+                          CustomIcons.manage, "Report this post", "manage", context,widget.post.userName, widget.post.userReference)
                     ];
                   },
                 ),
@@ -625,7 +628,7 @@ class _PostCardState extends State<PostCard> {
     showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      context: context,
+ context: context,
       builder: (context) => StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           var width = MediaQuery.of(context).size.width;
@@ -869,9 +872,27 @@ class _PostCardState extends State<PostCard> {
 
 }
 
-PopupMenuItem menuOption(String iconPath, String title, String value) {
+PopupMenuItem menuOption(String iconPath, String title, String value, BuildContext context, String userEmail, String userName) {
   return PopupMenuItem(
     value: value,
+    onTap: ()async {
+      if (value == "chat"){
+        
+ String? id = await AuthWork.getConversationID(userEmail, userName
+ );
+ print("THE ID RECEIVED IS $id");
+ Navigator.push(
+   context,
+   MaterialPageRoute(
+     builder: (context) => ChatScreenNew(
+       acceptUser: AcceptedDateData(email: userEmail, id: id!, name: userName),
+     ),
+   ),
+ );
+
+      }
+
+    },
     child: Row(children: [
       SvgPicture.asset(iconPath),
       const SizedBox(

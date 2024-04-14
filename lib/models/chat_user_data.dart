@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 class AcceptedDateData {
-  String? age;
-  String? gender;
+
+
   String? name;
   String? email;
   String? id;
@@ -9,8 +11,7 @@ class AcceptedDateData {
 
 
   AcceptedDateData({
-  this.age,
-  this.gender,
+
   this.name,
   this.email,
   this.id,
@@ -20,11 +21,19 @@ class AcceptedDateData {
   });
 
   AcceptedDateData.fromMap(Map<String, dynamic> map) {
-    age = map['age'] ?? '';
-    email = map['email'] ?? '';
-    name = map['name'] ?? '';
-    gender = map['gender'] ?? '';
-    id = map['id'] ?? '';
+    try {
+      email = map['email'] ?? '';
+      name = map['name'] ?? '';
+
+      id = map['id'] ?? '';
+    } catch (e){
+      print("The error is here");
+      email = map['email'] ?? FirebaseAuth.instance.currentUser!.email;
+      name = map['name'] ?? FirebaseAuth.instance.currentUser!.displayName;
+
+      id = map['id'] ?? FirebaseAuth.instance.currentUser!.uid;
+    }
+
 
   }
 

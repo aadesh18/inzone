@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
               Expanded(
                 child: StreamBuilder(
                     stream: AuthWork.getAllMessages(widget.acceptUser!),
-                    builder: (context, snapshot) {
+                    builder: (context, snapshot)  {
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
                         case ConnectionState.none:
@@ -67,12 +68,28 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
                         case ConnectionState.active:
                         case ConnectionState.done:
-                          final data = snapshot.data?.docs;
-                          //
-                          _list = data
-                                  ?.map((e) => Messges.fromJson(e.data()))
-                                  .toList() ??
-                              [];
+                          final data = snapshot.data;
+                          try {
+                            _list.clear();
+
+                            List temp =  data!["chatMessages"];
+
+                            temp.forEach((element) {
+                              _list.add(Messges.fromJson(element));
+                            });
+
+                            temp.clear();
+                            print("SADASDASDSA");
+                            print(_list);
+
+                          } catch (e){
+                            // print(widget.acceptUser!.id);
+                            // FirebaseFirestore.instance.collection("messages").doc(widget.acceptUser!.id).update({
+                            //   "chatMessages" : []
+                            // });
+                            // _list = [];
+                          }
+
 
                           if (_list.isNotEmpty) {
                             return ListView.builder(
@@ -83,14 +100,15 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                 itemCount: _list.length,
                                 physics: BouncingScrollPhysics(),
                                 itemBuilder: (context, index) {
+                                  int length = _list.length;
                                   return MessgeCard(
-                                    messegs: _list[index],
+                                    messegs: _list[length-index-1],
                                   );
                                 });
                           } else {
                             return Center(
                               child: Text(
-                                'Say Hii.. 👋',
+                                'Say Hi.. 👋',
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500,
@@ -129,64 +147,55 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
   }
 
   Widget _appBar() {
-    return StreamBuilder(
-      stream: AuthWork.getUserInfo(widget.acceptUser!),
-      builder: (context, snapshot) {
-        final data = snapshot.data?.docs;
-        final list =
-            data?.map((e) => AcceptedDateData.fromMap(e.data())).toList() ?? [];
-
-        return Row(
+    return Row(
+      children: [
+        SizedBox(
+          width: 20,
+        ),
+        InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.black,
+            )),
+        SizedBox(
+          width: 10,
+        ),
+        Container(
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: Color(0xffFFE2A9),
+                width: 1.5,
+              ),
+              shape: BoxShape.circle),
+          child: RandomAvatar(widget.acceptUser!.name.toString(),
+              height: 30, width: 30),
+        ),
+        SizedBox(
+          width: 7,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: 20,
-            ),
-          InkWell(
-                onTap: (){
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back_ios_new,
+            Text(
+              '${widget.acceptUser!.name}',
+              style: TextStyle(
                   color: Colors.black,
-                )),
-            SizedBox(
-              width: 10,
-            ),
-            Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Color(0xffFFE2A9),
-                    width: 1.5,
-                  ),
-                  shape: BoxShape.circle),
-              child: RandomAvatar(widget.acceptUser!.name.toString(),
-                  height: 30, width: 30),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600),
             ),
             SizedBox(
-              width: 7,
+              height: 4,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-               '${widget.acceptUser!.name}',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600),
-                ),
-                SizedBox(
-                  height: 4,
-                ),
 
-              ],
-            )
           ],
-        );
-      },
+        )
+      ],
     );
   }
 
@@ -328,7 +337,8 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
               if (msg.text.trim().isNotEmpty) {
                 if (_list.isEmpty) {
-                  AuthWork.sendFirstMessage(widget.acceptUser!, msg.text, Typee.text);
+                  //AuthWork.sendFirstMessage(widget.acceptUser!, msg.text, Typee.text);
+                  AuthWork.sendMessage(widget.acceptUser!, msg.text, Typee.text);
                 } else {
                   AuthWork.sendMessage(widget.acceptUser!, msg.text, Typee.text);
                 }

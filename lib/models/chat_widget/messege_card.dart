@@ -33,9 +33,9 @@ class _MessgeCardState extends State<MessgeCard> {
 
   Widget _blackMessege() {
     //update read status yani blue tick ta ky pta lagy msg seen ho gya ky nai
-    if (widget.messegs.read!.isEmpty) {
-      AuthWork.updateMessageReadStatus(widget.messegs);
-    }
+    // if (widget.messegs.read!.isEmpty) {
+    //   AuthWork.updateMessageReadStatus(widget.messegs);
+    // }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:inzone/data/inzone_enums.dart';
 
 class InZoneUser {
@@ -13,7 +14,7 @@ class InZoneUser {
   List<Map<InZoneEnums, List<String>>>? _focusTopics;
   List<Map<InZoneEnums, List<String>>>? _fallbackTopics;
   List<Map<InZoneEnums, List<String>>>? _customTopics;
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   InZoneUser(
       {String? firstName,
       String? lastName,
@@ -77,6 +78,12 @@ class InZoneUser {
   }
 
   String? getEmail() {
+    try {
+      _email = _auth.currentUser!.email;
+    } catch (e){
+      _email = null;
+    }
+
     return _email;
   }
 

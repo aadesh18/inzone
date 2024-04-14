@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:inzone/backend/database.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/welcome_screens/introduction_page.dart';
 import 'package:lottie/lottie.dart';
@@ -37,11 +38,18 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreenState extends State<PostScreen> {
   bool isImageSelected = false;
+  bool doesNotWork = false;
   File? imageFile;
   bool submitted = false;
   bool isTyping = false;
   bool isEditingComplete = false;
   bool isPlaying = false;
+  String postContent = "";
+double moveValue = 0.928;
+
+double high = 0.928;
+double medium = 0.8;
+double low = 0.4;
   late Timer _timer;
 
 
@@ -94,10 +102,12 @@ class _PostScreenState extends State<PostScreen> {
     }
   }
 
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
 
   }
   @override
@@ -136,14 +146,15 @@ class _PostScreenState extends State<PostScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               mainAxisSize: MainAxisSize.max,
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 6.0,),
                   child: Center(
                     child: Text(
-                      "Your post works well with InZone guidelines",
+
+                      doesNotWork ? "Please rephrase. Your message violates our guideline.":"Your post works well with InZone guidelines",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.blue,
+                          color: doesNotWork ? Colors.red : Colors.blue,
                           fontSize: 12,
                           fontWeight: FontWeight.w500),
                     ),
@@ -182,7 +193,7 @@ class _PostScreenState extends State<PostScreen> {
                         height: 14,
                         width: 16,
                         margin: EdgeInsets.only(
-                            left: maxWidth * maxMovable * 0.9),
+                            left: maxWidth * maxMovable * moveValue),
                         decoration: BoxDecoration(
                             border: Border.all(
                                 color: backgroundColor),
@@ -235,6 +246,9 @@ class _PostScreenState extends State<PostScreen> {
                     contentPadding: const EdgeInsets.only(
                         bottom: 8.0), // Adjust padding as needed
                   ),
+                  onChanged: (value){
+                    postContent = value;
+                  },
                   onEditingComplete: () {
                     setState(() {
                       isTyping = false;
@@ -496,37 +510,62 @@ class _PostScreenState extends State<PostScreen> {
                             fontSize: 23),
                       ),
                       action: (controller)  async {
+
                         controller.loading(); //starts loading animation
-                        await Future.delayed(const Duration(seconds: 2));
+                   //     await Future.delayed(const Duration(seconds: 2));
+                        await InZoneDatabase.postContent(postMessage: postContent, imageRef: [], videoRef: []).then((value) {
+                          setState(() {
+                            print(value);
+                            if (value == -1){
+                              moveValue = low;
+                              doesNotWork = true;
+                              controller.reset();
+                            } else if (value == 0){
+                              moveValue = medium;
+                              doesNotWork = false;
+                            } else if (value == 1){
+                              moveValue = high;
+                              doesNotWork = false;
 
-                        controller.success();
-                        Navigator.pop(context);
-
-                        showDialog(
-                            context: context,
-                            builder: (_) {
-                              _timer = Timer(const Duration(seconds: 1), () {
-                                Navigator.of(_).pop();
-                              });
-                              return Dialog(
-                                backgroundColor: Colors.transparent,
-                                child:  Stack(
-                                  children: [
-                                    RotatedBox(quarterTurns: 2, child: SizedBox(height:MediaQuery.of(context).size.height, width:MediaQuery.of(context).size.width, child: Lottie.asset(CustomIcons.confettiAnimation)),),
-                                    const Align(
-                                        alignment: Alignment.center,
-                                        child: Text("Post Sucessful", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w400),))
-                                  ],
-                                ),
-                              );
+                            } else {
+                              moveValue = low;
+                              doesNotWork = true;
                             }
-                        ).then((value) {
-                          if (_timer.isActive) {
-                            _timer.cancel();
-                          }
+                          });
                         });
 
-                        //starts success animation
+                        if (doesNotWork == false){
+                          controller.success();
+                          Navigator.pop(context);
+
+                          showDialog(
+                              context: context,
+                              builder: (_) {
+                                _timer = Timer(const Duration(seconds: 1), () {
+                                  Navigator.of(_).pop();
+                                });
+                                return Dialog(
+                                  backgroundColor: Colors.transparent,
+                                  child:  Stack(
+                                    children: [
+                                      RotatedBox(quarterTurns: 2, child: SizedBox(height:MediaQuery.of(context).size.height, width:MediaQuery.of(context).size.width, child: Lottie.asset(CustomIcons.confettiAnimation)),),
+                                      const Align(
+                                          alignment: Alignment.center,
+                                          child: Text("Post Sucessful", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w400),))
+                                    ],
+                                  ),
+                                );
+                              }
+                          ).then((value) {
+                            if (_timer.isActive) {
+                              _timer.cancel();
+                            }
+                          });
+
+                          //starts success animation
+                        }
+
+
 
                       },
                     ),
