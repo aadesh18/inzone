@@ -39,9 +39,9 @@ class InZoneCurrentUser extends InZoneUser {
       String? parentEmail,
       String username,
       String password,
-      List<Map<InZoneEnums, List<String>>> focusTopics,
-      List<Map<InZoneEnums, List<String>>> fallbackTopics,
-      List<Map<InZoneEnums, List<String>>> customTopics) {
+      List<String> focusTopics,
+      List<String> fallbackTopics,
+      List<String> customTopics) {
     _followers = [];
     _following = [];
     setfirstName(name.split(' ').elementAt(0));

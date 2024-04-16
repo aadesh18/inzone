@@ -87,6 +87,11 @@ class AuthWork {
 
                 id = value.id;
                 print("THE IDdddd IS $id");
+                print("First");
+                print(FirebaseAuth.instance.currentUser!.email);
+                print(userEmail);
+                print(userName);
+
                 await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.email).update({
                   "chats": FieldValue.arrayUnion(
                   [{
@@ -105,6 +110,10 @@ class AuthWork {
                       }]
                   )
                 });
+                print("Second");
+                print(FirebaseAuth.instance.currentUser!.displayName);
+                print(userEmail);
+                print(userName);
                 return id;
               }
               );

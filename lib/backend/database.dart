@@ -15,27 +15,28 @@ import 'package:inzone/data/inzone_post.dart';
 import '../data/inzone_message.dart';
 
 class InZoneDatabase {
-  static Future<InZoneUser?> getUserData(String docID) async {
+  static Future<InZoneCurrentUser?> getUserData(String docID) async {
     final docRef = FirebaseFirestore.instance
         .collection(CollectionNames.usersCollection)
         .doc(docID);
-    InZoneUser? user;
+    InZoneCurrentUser? user;
     await docRef.get().then(
       (DocumentSnapshot doc) {
         final data = doc.data() as Map<String, dynamic>;
-        user = InZoneUser(
+        print(data['user_references']);
+        user = InZoneCurrentUser(
             firstName: data["firstName"],
             lastName: data["lastName"],
-            email: data["email"],
+            email: data["user_references"],
             adult: data["adult"],
-            family: data["family"],
-            userName: data["userName"]);
+            family:[ data["family"]],
+            userName: data["user_name"] ?? data["user_references"]);
       },
       onError: (e) => print("Error getting document: $e"),
     );
+
     return user;
   }
-
 
   static Future<List<InZonePost>> getFeed(collectionName) async {
     Random random = Random();
@@ -43,129 +44,160 @@ class InZoneDatabase {
     List<InZonePost> posts = [];
     int currentIndex = 0;
     InZoneCurrentUser.subCategories = [];
-    final collectionRef = FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
+    final collectionRef =
+        FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
     DateTime now = DateTime.now();
     int currentHour = now.hour;
 
     if (currentHour >= 9 && currentHour < 17) {
       // Focus
-      await collectionRef.where('main_category', isEqualTo: "focus")
-        .limit(30).get().then((value) {
+      await collectionRef
+          .where('main_category', isEqualTo: "focus").orderBy('date_posted',descending: true)
+          .limit(20)
+          .get()
+          .then((value) {
         for (var element in value.docs) {
           randomIndex = currentIndex;
           InZoneCurrentUser.subCategories.add(
-              element["category"] == null ?
-              InZoneCategory(categoryName: "animals", index: randomIndex) :
-              InZoneCategory(categoryName: element['category'], index: randomIndex), );
-          if (currentIndex == 6){
+            element["category"] == null
+                ? InZoneCategory(categoryName: "animals", index: randomIndex)
+                : InZoneCategory(
+                    categoryName: element['category'], index: randomIndex),
+          );
+          if (currentIndex == 6) {
             currentIndex = 0;
           } else {
-            currentIndex +=1 ;
+            currentIndex += 1;
           }
           posts.add(InZonePost(
-            category: element["category"] == null ? "animals" : element["category"]  ,
-            userName: element["user_name"],
+            category:
+                element["category"] == null ? "animals" : element["category"],
+            userName:
+                element["user_name"] == null ? "aadesh" : element["user_name"],
             comments: element["comments"],
             datePosted: element["date_posted"],
-            id: element.id,
             likes: element['likes'],
-            imageContent: element['post']['image_content'] ,
+            id: element.id,
+            imageContent: element['post']['image_content'],
             //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
-            videoContent: element['post']['video_content'] ,
-            textContent: element['post']['textContent'], userReference: element['user_references'], mainCategory: element['main_category'],
+            videoContent: element['post']['video_content'],
+            textContent: element['post']['textContent'],
+            userReference: element['user_references'] ?? "error",
+            mainCategory: element['main_category'],
           ));
           print('my doc id is ${element.id}');
-          print('my current user is ${FirebaseAuth.instance.currentUser!.email}');
-
+          print(
+              'my current user is ${FirebaseAuth.instance.currentUser!.email}');
         }
       });
     } else if (currentHour >= 17 && currentHour < 22) {
       // Focus
-      await collectionRef.where('main_category', isEqualTo: "fallback")
-          .limit(30).get().then((value) {
+      print("fallback");
+      await collectionRef
+          .where('main_category', isEqualTo: "fallback").orderBy('date_posted',descending: true)
+          .limit(20)
+          .get()
+          .then((value) {
+        print(value.docs.length);
         for (var element in value.docs) {
           randomIndex = currentIndex;
           InZoneCurrentUser.subCategories.add(
-            element["category"] == null ?
-            InZoneCategory(categoryName: "animals", index: randomIndex) :
-            InZoneCategory(categoryName: element['category'], index: randomIndex), );
-          if (currentIndex == 6){
+            element["category"] == null
+                ? InZoneCategory(categoryName: "animals", index: randomIndex)
+                : InZoneCategory(
+                    categoryName: element['category'], index: randomIndex),
+          );
+          if (currentIndex == 6) {
             currentIndex = 0;
           } else {
-            currentIndex +=1 ;
+            currentIndex += 1;
           }
           posts.add(InZonePost(
-            category: element["category"] == null ? "animals" : element["category"]  ,
-            userName: element["user_name"],
+            category:
+                element["category"] == null ? "animals" : element["category"],
+            userName:
+                element["user_name"] == null ? "aadesh" : element["user_name"],
             comments: element["comments"],
             datePosted: element["date_posted"],
             likes: element['likes'],
             id: element.id,
-            imageContent: element['post']['image_content'] ,
+            imageContent: element['post']['image_content'],
             //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
-            videoContent: element['post']['video_content'] ,
-            textContent: element['post']['textContent'], userReference: element['user_references'], mainCategory: element['main_category'],
+            videoContent: element['post']['video_content'],
+            textContent: element['post']['textContent'],
+            userReference: element['user_references'] ?? "error",
+            mainCategory: element['main_category'],
           ));
         }
       });
     } else {
       // Custom
-      await collectionRef.where('main_category', isEqualTo: "custom")
-          .limit(30).get().then((value) {
+
+      await collectionRef
+          .where('main_category', isEqualTo: "custom").orderBy('date_posted',descending: true)
+          .limit(20)
+          .get()
+          .then((value) {
         for (var element in value.docs) {
           randomIndex = currentIndex;
           InZoneCurrentUser.subCategories.add(
-            element["category"] == null ?
-            InZoneCategory(categoryName: "animals", index: randomIndex) :
-            InZoneCategory(categoryName: element['category'], index: randomIndex), );
-          if (currentIndex == 6){
+            element["category"] == null
+                ? InZoneCategory(categoryName: "animals", index: randomIndex)
+                : InZoneCategory(
+                    categoryName: element['category'], index: randomIndex),
+          );
+          if (currentIndex == 6) {
             currentIndex = 0;
           } else {
-            currentIndex +=1 ;
+            currentIndex += 1;
           }
           posts.add(InZonePost(
-            category: element["category"] == null ? "animals" : element["category"]  ,
-            userName: element["user_name"],
+            category:
+                element["category"] == null ? "animals" : element["category"],
+            userName:
+                element["user_name"] == null ? "aadesh" : element["user_name"],
             comments: element["comments"],
             datePosted: element["date_posted"],
             likes: element['likes'],
             id: element.id,
-
-            imageContent: element['post']['image_content'] ,
+            imageContent: element['post']['image_content'],
             //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
-            videoContent: element['post']['video_content'] ,
-            textContent: element['post']['textContent'], userReference: element['user_references'], mainCategory: element['main_category'],
+            videoContent: element['post']['video_content'],
+            textContent: element['post']['textContent'],
+            userReference: element['user_references'] ?? "error",
+            mainCategory: element['main_category'],
           ));
         }
       });
     }
-    if (posts.length < 5){
+    if (posts.length < 5) {
       // Focus
-      await collectionRef
-          .limit(30).get().then((value) {
+      await collectionRef.limit(30).orderBy('date_posted',descending: true).get().then((value) {
         for (var element in value.docs) {
           randomIndex = currentIndex;
           InZoneCurrentUser.subCategories.add(
-            element["category"] == null ?
-            InZoneCategory(categoryName: "animals", index: randomIndex) :
-            InZoneCategory(categoryName: element['category'], index: randomIndex), );
-          if (currentIndex == 6){
+            element["category"] == null
+                ? InZoneCategory(categoryName: "animals", index: randomIndex)
+                : InZoneCategory(
+                    categoryName: element['category'], index: randomIndex),
+          );
+          if (currentIndex == 6) {
             currentIndex = 0;
           } else {
-            currentIndex +=1 ;
+            currentIndex += 1;
           }
-          posts.add(InZonePost(
-            category: element["category"] == null ? "animals" : element["category"]  ,
-            userName: element["user_name"],
-            comments: element["comments"],
-            datePosted: element["date_posted"],
-            likes: element['likes'],
-            id: element.id,
-            imageContent: element['post']['image_content'] ,
-            //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
-            videoContent: element['post']['video_content'] ,
-            textContent: element['post']['textContent'], userReference: element['user_references'], mainCategory: element['main_category'],
-          ));
+          // posts.add(InZonePost(
+          //   category: element["category"] == null ? "animals" : element["category"]  ,
+          //   userName: element["user_name"],
+          //   comments: element["comments"],
+          //   datePosted: element["date_posted"],
+          //   likes: element['likes'],
+          //   id: element.id,
+          //   imageContent: element['post']['image_content'] ,
+          //   //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+          //   videoContent: element['post']['video_content'] ,
+          //   textContent: element['post']['textContent'], userReference: element['user_references'], mainCategory: element['main_category'],
+          // ));
         }
       });
     }
@@ -175,29 +207,29 @@ class InZoneDatabase {
   static Future<List<InZonePost>> getExploreFeed(collectionName) async {
     List<InZonePost> posts = [];
     InZoneCurrentUser.subCategories = [];
-    final collectionRef = FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
+    final collectionRef =
+        FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
     DateTime now = DateTime.now();
     int currentHour = now.hour;
-      // Focus
-      await collectionRef
-          .limit(20).get().then((value) {
-        for (var element in value.docs) {
-
-          posts.add(InZonePost(
-            category: element["category"] == null ? "Sports" : element["category"]  ,
-            userName: element["user_name"],
-            comments: element["comments"],
-            datePosted: element["date_posted"],
-            likes: element['likes'],
-            id: element.id,
-
-            imageContent: element['post']['image_content'] ,
-            videoContent: element['post']['video_content'] ,
-            textContent: element['post']['textContent'], userReference: element['user_references'], mainCategory: element['main_category'],
-          ));
-        }
-      });
-
+    // Focus
+    await collectionRef.limit(20).get().then((value) {
+      for (var element in value.docs) {
+        posts.add(InZonePost(
+          category:
+              element["category"] == null ? "Sports" : element["category"],
+          userName: element["user_name"] ?? "Aadesh",
+          comments: element["comments"],
+          datePosted: element["date_posted"],
+          likes: element['likes'],
+          id: element.id,
+          imageContent: element['post']['image_content'],
+          videoContent: element['post']['video_content'],
+          textContent: element['post']['textContent'],
+          userReference: element['user_references'],
+          mainCategory: element['main_category'],
+        ));
+      }
+    });
 
     print("Explore Functin");
     print(posts);
@@ -250,7 +282,6 @@ class InZoneDatabase {
     return added;
   }
 
-
   static Future<int> postContent({
     required String postMessage,
     required List<String> imageRef,
@@ -265,47 +296,57 @@ class InZoneDatabase {
       if (value != null && value["sentiment"] != -1) {
         sentiment = int.parse(value["sentiment"]);
         try {
-          category = value["categories"][0];
-          if (category.contains("-")){
+          category = value["category"];
+          if (category.contains("-")) {
             List<String> parts = category.split('-');
             parts.map((part) => part[0].toUpperCase() + part.substring(1));
             parts.join(" ");
           }
-
-
+          DateTime now = DateTime.now();
+          int currentHour = now.hour;
+          String mainCategory = "";
+          if (currentHour >= 9 && currentHour < 17) {
+            mainCategory = "focus";
+          } else if (currentHour >= 17 && currentHour < 22) {
+            mainCategory = "fallback";
+          } else {
+            mainCategory = "custom";
+          }
+          if (category.length < 1) {
+            category = "Entertainment";
+          }
           await FirebaseFirestore.instance
               .collection(CollectionNames.postsCollection)
-              .doc().set({
-            "category": "",
+              .add({
+            "category": category,
             "comments": [],
             "date_posted": DateTime.now(),
             "likes": 0,
-            "main_category": category,
+            "main_category": mainCategory,
             "post": {
               "image_content": imageRef,
               "video_content": videoRef,
-              "text_content": postMessage
+              "textContent": postMessage
             },
-            "sub_category": "",
-            "user_name": currentUser.getUserName(),
-            "user_references": currentUser.getEmail(),
+            "sub_category": category,
+            "user_name": FirebaseAuth.instance.currentUser!.displayName,
+            "user_references": FirebaseAuth.instance.currentUser!.email,
           });
           added = true;
         } catch (e) {
           category = "Entertainment"; // Default to entertainment on error
-          print(e);
         }
       }
     } catch (e) {
       print(e);
     }
+
     return sentiment;
   }
 
-
-
   static Future<Map<String, dynamic>?> sendSentimentRequest(String body) async {
-    const String url = 'https://us-central1-inzonebackend.cloudfunctions.net/api/sentiment-analysis';
+    const String url =
+        'https://us-central1-inzonebackend.cloudfunctions.net/api/sentiment-analysis';
     try {
       final http.Response response = await http.post(
         Uri.parse(url),
@@ -330,19 +371,20 @@ class InZoneDatabase {
       // Handle any errors that occur during the request
       print('Error sending request: $e');
       return null;
-    }}
+    }
+  }
 
   Future<Map<String, dynamic>?> sendPostRequest() async {
-    const String url = 'https://us-central1-inzonebackend.cloudfunctions.net/api/get_posts';
+    const String url =
+        'https://us-central1-inzonebackend.cloudfunctions.net/api/get_posts';
     try {
       final http.Response response = await http.post(
         Uri.parse(url),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, dynamic>{
-
-        }), // Send raw text directly as the body
+        body: jsonEncode(
+            <String, dynamic>{}), // Send raw text directly as the body
       );
 
       if (response.statusCode == 200) {
@@ -358,13 +400,8 @@ class InZoneDatabase {
       // Handle any errors that occur during the request
       print('Error sending request: $e');
       return null;
-    }}
-
-
-
-
-
-
+    }
+  }
 
 // final Stream currentUserDocStream = FirebaseFirestore.instance
   //     .collection('users')

@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:inzone/backend/database.dart';
 import 'package:inzone/constants.dart';
+import 'package:inzone/data/inzone_current_user.dart';
 import 'package:inzone/main_screens/root_app.dart';
 import 'package:sign_button/sign_button.dart';
 
@@ -129,7 +131,9 @@ class _EmailLogInPageState extends State<EmailLogInPage> {
                             final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
                               email: email!,
                               password: password!,
-                            ).then((value) {
+                            ).then((value) async {
+                              InZoneCurrentUser? curr = await InZoneDatabase.getUserData(email!);
+                              currentUser = curr!;
                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RootApp()));
                             });
                           } on FirebaseAuthException catch (e) {

@@ -23,41 +23,41 @@ class _FallBackPageState extends State<FallBackPage> {
 
   List<String> highList = [];
 
-  onStart(int index) {
-    lowList.add(fallbackContentList.elementAt(index).tittle);
-    print(lowList);
-    currentUser.setFallbackTopics([
-      {InZoneEnums.lowVisibility: lowList.toSet().toList()},
-      {InZoneEnums.highVisibility: highList.toSet().toList()}
-    ]);
-    return ActionPane(
-      // A motion is a widget used to control how the pane animates.
-      extentRatio: 0.2,
-      motion: const ScrollMotion(),
+  // onStart(int index) {
+  //   lowList.add(fallbackContentList.elementAt(index).tittle);
+  //   print(lowList);
+  //   currentUser.setFallbackTopics([
+  //     {InZoneEnums.lowVisibility: lowList.toSet().toList()},
+  //     {InZoneEnums.highVisibility: highList.toSet().toList()}
+  //   ]);
+  //   return ActionPane(
+  //     // A motion is a widget used to control how the pane animates.
+  //     extentRatio: 0.2,
+  //     motion: const ScrollMotion(),
+  //
+  //     children: [
+  //       // A SlidableAction can have an icon and/or a label.
+  //
+  //       Image.asset("icons/content_icons/low.png"),
+  //     ],
+  //   );
+  // }
 
-      children: [
-        // A SlidableAction can have an icon and/or a label.
-
-        Image.asset("icons/content_icons/low.png"),
-      ],
-    );
-  }
-
-  onEnd(int index) {
-    highList.add(fallbackContentList.elementAt(index).tittle);
-    print(highList);
-    currentUser.setFallbackTopics([
-      {InZoneEnums.lowVisibility: lowList.toSet().toList()},
-      {InZoneEnums.highVisibility: highList.toSet().toList()}
-    ]);
-    return ActionPane(
-      extentRatio: 0.2,
-      motion: const ScrollMotion(),
-      children: [
-        Image.asset("icons/content_icons/high.png"),
-      ],
-    );
-  }
+  // onEnd(int index) {
+  //   highList.add(fallbackContentList.elementAt(index).tittle);
+  //   print(highList);
+  //   currentUser.setFallbackTopics([
+  //     {InZoneEnums.lowVisibility: lowList.toSet().toList()},
+  //     {InZoneEnums.highVisibility: highList.toSet().toList()}
+  //   ]);
+  //   return ActionPane(
+  //     extentRatio: 0.2,
+  //     motion: const ScrollMotion(),
+  //     children: [
+  //       Image.asset("icons/content_icons/high.png"),
+  //     ],
+  //   );
+  // }
 
   String replaceAndCapitalize(String text) {
     // Split the text into words based on underscores.
@@ -113,12 +113,13 @@ class _FallBackPageState extends State<FallBackPage> {
                     });
 
                                     lowList.add(fallbackContentList.elementAt(index).tittle);
-                        highList.add(fallbackContentList.elementAt(index).tittle);
-    print(lowList);
-    currentUser.setFallbackTopics([
-      {InZoneEnums.lowVisibility: lowList.toSet().toList()},
-      {InZoneEnums.highVisibility: highList.toSet().toList()}
-    ]);
+    //                     highList.add(fallbackContentList.elementAt(index).tittle);
+    // print(lowList);
+                    currentUser.setFallbackTopics(lowList);
+    // currentUser.setFallbackTopics([
+    //   {InZoneEnums.lowVisibility: lowList.toSet().toList()},
+    //   {InZoneEnums.highVisibility: highList.toSet().toList()}
+    // ]);
                   },
                   child: SizedBox(
                     height: index != fallbackContentList.length - 1 ? 60 : 100,

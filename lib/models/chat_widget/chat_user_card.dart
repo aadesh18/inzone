@@ -71,7 +71,7 @@ class _ChatUserCardState extends State<ChatUserCard> {
           ),
         ),
         subtitle: Text(
-          '${messges != null ? messges!.type == Typee.image ? 'Image' :  messges!.type == Typee.video ? 'Video' : messges!.msg : widget.userData.email}',
+          '${messges != null ? messges!.type == Typee.image ? 'Image' :  messges!.type == Typee.video ? 'Video' : messges!.msg : widget.userData.email!.contains("aiUsers")?"":widget.userData.email}',
 
           maxLines: 1,
           style: GoogleFonts.openSans(

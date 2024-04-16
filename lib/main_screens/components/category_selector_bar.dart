@@ -6,15 +6,10 @@ import 'package:inzone/main_screens/components/category_selector.dart';
 import 'package:inzone/data/string_extension.dart';
 
 class CategorySelectorBar extends StatefulWidget {
-
-
-  List<String>  categories = [];
+  List<String> categories = [];
   Function(String) onTap;
-   CategorySelectorBar({
-    super.key,
-     required this.categories,
-     required this.onTap
-  });
+  CategorySelectorBar(
+      {super.key, required this.categories, required this.onTap});
 
   @override
   State<CategorySelectorBar> createState() => _CategorySelectorBarState();
@@ -39,8 +34,8 @@ class _CategorySelectorBarState extends State<CategorySelectorBar> {
   @override
   void initState() {
     // TODO: implement initState
-    Set<String> set = Set<String>.from(widget.categories);
-    widget.categories = set.toList();
+    // Set<String> set = Set<String>.from(widget.categories);
+    // widget.categories = set.toList();
     super.initState();
   }
 
@@ -53,7 +48,7 @@ class _CategorySelectorBarState extends State<CategorySelectorBar> {
 
   String replaceAndCapitalize(String text) {
     // Split the text into words based on underscores.
-    if (text.contains("_")){
+    if (text.contains("_")) {
       List<String> words = text.split('_');
 
       // Capitalize the first letter of each word.
@@ -65,22 +60,16 @@ class _CategorySelectorBarState extends State<CategorySelectorBar> {
       return words.join(' ');
     }
 
-
-
     return text.capitalize();
-
-
   }
 
   int selectedCategoryIndex = 0;
-  int colorIndex = -1;
+  int colorIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     // categories.clear();
     // temp();
-
-
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -90,23 +79,29 @@ class _CategorySelectorBarState extends State<CategorySelectorBar> {
           scrollDirection: Axis.horizontal,
           child: Row(
               children: List.generate(widget.categories.length, (index) {
-                String category = widget.categories[index];
-                bool isSelected = index == selectedCategoryIndex;
-                if (colorIndex == 6){
-                  colorIndex =0;
-    }else {colorIndex++;
-    }
+            String category = widget.categories[index];
+            bool isSelected = index == selectedCategoryIndex;
+            if (colorIndex == 5) {
+              colorIndex = 0;
+            } else {
+              colorIndex++;
+              print(colorIndex);
+            }
 
-                  return GestureDetector(
-                      onTap: ()
-                       {
-                    setState(() {
-                      selectedCategoryIndex = index;
-                    });
-                  },
-                  child: CategorySelector(category: InZoneCategory(categoryName: replaceAndCapitalize(category), index: colorIndex, categoryIconPath: "icons/category_icons/${category}.svg"), onTap: widget.onTap,)
-                );
-              })),
+            return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedCategoryIndex = index;
+                  });
+                },
+                child: CategorySelector(
+                  category: InZoneCategory(
+                      categoryName: replaceAndCapitalize(category),
+                      index: colorIndex,
+                      categoryIconPath: "icons/category_icons/${category}.svg"),
+                  onTap: widget.onTap,
+                ));
+          })),
         ),
       ),
     );

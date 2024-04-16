@@ -146,24 +146,41 @@ class _SignUpPagesState extends State<SignUpPages> {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
                                   } else {
-                                    print("ELSE");
+
                                     try {
+
                                       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
                                           email: currentUser.getEmail()!,
                                           password: currentUser.getPassword()!
                                       );
 
                                       // Assuming you have a Firestore instance initialized
-                                      final userCollection = FirebaseFirestore.instance.collection('newUser');
+                                      final userCollection = FirebaseFirestore.instance.collection('users');
 
                                       // Add user data to Firestore
-                                      await userCollection.doc(credential.user!.uid).set({
-                                        'name': currentUser.getName().toString(), // Assuming you have a method to get user's name
-                                        'email': currentUser.getEmail().toString(),
-                                        'age': currentUser.getAge().toString(),// Assuming you have a method to get user's age
-                                        'gender': currentUser.getGender().toString(),// Assuming you have a method to get user's age
-                                        'id': credential.user!.uid,// Assuming you have a method to get user's age
-                                        // Add other fields as needed
+                                      String? email = currentUser.getEmail();
+
+                                      FirebaseAuth.instance.currentUser!.updateDisplayName(currentUser.getUserName()) ;
+                                      await userCollection.doc(email!).set({
+                                        "age":currentUser.getAge(),
+                                        "bio":"",
+                                        "categories":{
+                                          "focus": currentUser.getFocusTopics(),
+                                          "fallback" : currentUser.getFallbackTopics(),
+                                          "custom":currentUser.getFallbackTopics()
+                                        },
+                                        "chats":[],
+                                        "email":currentUser.getEmail(),
+                                        "family":"",
+                                        "firstName": currentUser.getFirstName(),
+                                        "lastName": currentUser.getLastName(),
+                                        "followers":[],
+                                        "following": [],
+                                        "gender": currentUser.getGender(),
+                                        "parent": false,
+                                        "user_name": currentUser.getUserName(),
+                                        "ai":false,
+                                        "uid":FirebaseAuth.instance.currentUser!.uid.toString()
                                       });
 
                                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {

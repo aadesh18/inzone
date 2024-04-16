@@ -21,41 +21,41 @@ class _FocusPageState extends State<FocusPage> {
 
   List<String> highList = [];
 
-  onStart(int index) {
-    lowList.add(focusContentList.elementAt(index).tittle);
-    print(lowList);
-    currentUser.setFocusTopics([
-      {InZoneEnums.lowVisibility: lowList.toSet().toList()},
-      {InZoneEnums.highVisibility: highList.toSet().toList()}
-    ]);
-    return ActionPane(
-      // A motion is a widget used to control how the pane animates.
-      extentRatio: 0.2,
-      motion: const ScrollMotion(),
+  // onStart(int index) {
+  //   lowList.add(focusContentList.elementAt(index).tittle);
+  //   print(lowList);
+  //   currentUser.setFocusTopics([
+  //     {InZoneEnums.lowVisibility: lowList.toSet().toList()},
+  //     {InZoneEnums.highVisibility: highList.toSet().toList()}
+  //   ]);
+  //   return ActionPane(
+  //     // A motion is a widget used to control how the pane animates.
+  //     extentRatio: 0.2,
+  //     motion: const ScrollMotion(),
+  //
+  //     children: [
+  //       // A SlidableAction can have an icon and/or a label.
+  //
+  //       Image.asset("icons/content_icons/low.png"),
+  //     ],
+  //   );
+  // }
 
-      children: [
-        // A SlidableAction can have an icon and/or a label.
-
-        Image.asset("icons/content_icons/low.png"),
-      ],
-    );
-  }
-
-  onEnd(int index) {
-    highList.add(focusContentList.elementAt(index).tittle);
-    print(highList);
-    currentUser.setFocusTopics([
-      {InZoneEnums.lowVisibility: lowList.toSet().toList()},
-      {InZoneEnums.highVisibility: highList.toSet().toList()}
-    ]);
-    return ActionPane(
-      extentRatio: 0.2,
-      motion: const ScrollMotion(),
-      children: [
-        Image.asset("icons/content_icons/high.png"),
-      ],
-    );
-  }
+  // onEnd(int index) {
+  //   highList.add(focusContentList.elementAt(index).tittle);
+  //   print(highList);
+  //   currentUser.setFocusTopics([
+  //     {InZoneEnums.lowVisibility: lowList.toSet().toList()},
+  //     {InZoneEnums.highVisibility: highList.toSet().toList()}
+  //   ]);
+  //   return ActionPane(
+  //     extentRatio: 0.2,
+  //     motion: const ScrollMotion(),
+  //     children: [
+  //       Image.asset("icons/content_icons/high.png"),
+  //     ],
+  //   );
+  // }
 
   String replaceAndCapitalize(String text) {
     // Split the text into words based on underscores.
@@ -110,15 +110,15 @@ class _FocusPageState extends State<FocusPage> {
                       selectedFocus[index] = !selectedFocus[index];
                     });
                         lowList.add(focusContentList.elementAt(index).tittle);
-                        highList.add(focusContentList.elementAt(index).tittle);
-    print(lowList);
-    currentUser.setFocusTopics([
-      {InZoneEnums.lowVisibility: lowList.toSet().toList()},
-      {InZoneEnums.highVisibility: highList.toSet().toList()}
-    ]);
-
-       
-  
+                        currentUser.setFocusTopics(lowList);
+    // print(lowList);
+    // currentUser.setFocusTopics([
+    //   {InZoneEnums.lowVisibility: lowList.toSet().toList()},
+    //   {InZoneEnums.highVisibility: highList.toSet().toList()}
+    // ]);
+    //
+    //
+    //
  
                   },
                   child: SizedBox(

@@ -65,6 +65,7 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
 
   @override
   Widget build(BuildContext context) {
+ list.clear();
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PreferredSize(

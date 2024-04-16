@@ -11,9 +11,9 @@ class InZoneUser {
   String? _parentEmail;
   int? _age;
   InZoneEnums? _gender;
-  List<Map<InZoneEnums, List<String>>>? _focusTopics;
-  List<Map<InZoneEnums, List<String>>>? _fallbackTopics;
-  List<Map<InZoneEnums, List<String>>>? _customTopics;
+  List<String>? _focusTopics;
+  List<String>? _fallbackTopics;
+  List<String>? _customTopics;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   InZoneUser(
       {String? firstName,
@@ -25,9 +25,9 @@ class InZoneUser {
       List<dynamic>? family,
       int? age,
       String? userName,
-      List<Map<InZoneEnums, List<String>>>? focusTopics,
-      List<Map<InZoneEnums, List<String>>>? fallbackTopics,
-      List<Map<InZoneEnums, List<String>>>? customTopics})
+      List<String>? focusTopics,
+      List<String>? fallbackTopics,
+      List<String>? customTopics})
       : _userName = userName,
         _family = family,
         _email = email,
@@ -78,12 +78,6 @@ class InZoneUser {
   }
 
   String? getEmail() {
-    try {
-      _email = _auth.currentUser!.email;
-    } catch (e){
-      _email = null;
-    }
-
     return _email;
   }
 
@@ -99,23 +93,28 @@ class InZoneUser {
     return _age;
   }
 
-  InZoneEnums? getGender() {
-    return _gender;
+  String? getGender() {
+    if (_gender == InZoneEnums.male){
+      return "male";
+    } else if (_gender == InZoneEnums.female){
+      return "female";
+    }
+      return "other";
   }
 
   String? getParentEmail() {
     return _parentEmail;
   }
 
-  List<Map<InZoneEnums, List<String>>>? getFocusTopics() {
+  List<String>? getFocusTopics() {
     return _focusTopics;
   }
 
-  List<Map<InZoneEnums, List<String>>>? getFallbackTopics() {
+  List<String>? getFallbackTopics() {
     return _fallbackTopics;
   }
 
-  List<Map<InZoneEnums, List<String>>>? getCustomTopics() {
+  List<String>? getCustomTopics() {
     return _customTopics;
   }
 
@@ -164,15 +163,15 @@ class InZoneUser {
     _userName = userName;
   }
 
-  setCustomTopics(List<Map<InZoneEnums, List<String>>> topics) {
+  setCustomTopics(List<String> topics) {
     _customTopics = topics;
   }
 
-  setFallbackTopics(List<Map<InZoneEnums, List<String>>> topics) {
+  setFallbackTopics(List<String> topics) {
     _fallbackTopics = topics;
   }
 
-  setFocusTopics(List<Map<InZoneEnums, List<String>>> topics) {
+  setFocusTopics(List<String> topics) {
     _focusTopics = topics;
   }
 }

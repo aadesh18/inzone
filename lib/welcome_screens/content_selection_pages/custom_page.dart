@@ -21,41 +21,41 @@ class _CustomPageState extends State<CustomPage> {
 
   List<String> highList = [];
 
-  onStart(int index) {
-    lowList.add(customContentList.elementAt(index).tittle);
-    print(lowList);
-    currentUser.setCustomTopics([
-      {InZoneEnums.lowVisibility: lowList.toSet().toList()},
-      {InZoneEnums.highVisibility: highList.toSet().toList()}
-    ]);
-    return ActionPane(
-      // A motion is a widget used to control how the pane animates.
-      extentRatio: 0.2,
-      motion: const ScrollMotion(),
+  // onStart(int index) {
+  //   lowList.add(customContentList.elementAt(index).tittle);
+  //   print(lowList);
+  //   currentUser.setCustomTopics([
+  //     {InZoneEnums.lowVisibility: lowList.toSet().toList()},
+  //     {InZoneEnums.highVisibility: highList.toSet().toList()}
+  //   ]);
+  //   return ActionPane(
+  //     // A motion is a widget used to control how the pane animates.
+  //     extentRatio: 0.2,
+  //     motion: const ScrollMotion(),
+  //
+  //     children: [
+  //       // A SlidableAction can have an icon and/or a label.
+  //
+  //       Image.asset("icons/content_icons/low.png"),
+  //     ],
+  //   );
+  // }
 
-      children: [
-        // A SlidableAction can have an icon and/or a label.
-
-        Image.asset("icons/content_icons/low.png"),
-      ],
-    );
-  }
-
-  onEnd(int index) {
-    highList.add(customContentList.elementAt(index).tittle);
-    print(highList);
-    currentUser.setCustomTopics([
-      {InZoneEnums.lowVisibility: lowList.toSet().toList()},
-      {InZoneEnums.highVisibility: highList.toSet().toList()}
-    ]);
-    return ActionPane(
-      extentRatio: 0.2,
-      motion: const ScrollMotion(),
-      children: [
-        Image.asset("icons/content_icons/high.png"),
-      ],
-    );
-  }
+  // onEnd(int index) {
+  //   highList.add(customContentList.elementAt(index).tittle);
+  //   print(highList);
+  //   currentUser.setCustomTopics([
+  //     {InZoneEnums.lowVisibility: lowList.toSet().toList()},
+  //     {InZoneEnums.highVisibility: highList.toSet().toList()}
+  //   ]);
+  //   return ActionPane(
+  //     extentRatio: 0.2,
+  //     motion: const ScrollMotion(),
+  //     children: [
+  //       Image.asset("icons/content_icons/high.png"),
+  //     ],
+  //   );
+  // }
 
   String replaceAndCapitalize(String text) {
     // Split the text into words based on underscores.
@@ -111,12 +111,13 @@ class _CustomPageState extends State<CustomPage> {
                     });
 
                                     lowList.add(customContentList.elementAt(index).tittle);
-                        highList.add(customContentList.elementAt(index).tittle);
-    print(lowList);
-    currentUser.setCustomTopics([
-      {InZoneEnums.lowVisibility: lowList.toSet().toList()},
-      {InZoneEnums.highVisibility: highList.toSet().toList()}
-    ]);
+                                    currentUser.setCustomTopics(lowList);
+    //                     highList.add(customContentList.elementAt(index).tittle);
+    // print(lowList);
+    // currentUser.setCustomTopics([
+    //   {InZoneEnums.lowVisibility: lowList.toSet().toList()},
+    //   {InZoneEnums.highVisibility: highList.toSet().toList()}
+    // ]);
                   },
                   child: SizedBox(
                     height: index != customContentList.length - 1 ? 60 : 100,
@@ -162,7 +163,7 @@ class _CustomPageState extends State<CustomPage> {
               },
             ),
           ),
-          Lottie.asset("assets/animations/swipe_left.json")
+
         ],
       ),
     );

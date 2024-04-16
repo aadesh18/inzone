@@ -247,7 +247,10 @@ double low = 0.4;
                         bottom: 8.0), // Adjust padding as needed
                   ),
                   onChanged: (value){
-                    postContent = value;
+                    setState(() {
+                      postContent = value;
+                    });
+
                   },
                   onEditingComplete: () {
                     setState(() {
@@ -261,7 +264,6 @@ double low = 0.4;
                     });
                   },
                   onTapOutside: (t) {
-
                     setState(() {
                       isTyping = true;
                     });
@@ -530,6 +532,7 @@ double low = 0.4;
                             } else {
                               moveValue = low;
                               doesNotWork = true;
+                              controller.reset();
                             }
                           });
                         });
@@ -543,6 +546,7 @@ double low = 0.4;
                               builder: (_) {
                                 _timer = Timer(const Duration(seconds: 1), () {
                                   Navigator.of(_).pop();
+
                                 });
                                 return Dialog(
                                   backgroundColor: Colors.transparent,

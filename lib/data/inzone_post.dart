@@ -7,7 +7,7 @@ class InZonePost {
   String? textContent;
   String category;
   String mainCategory;
-  Map? comments;
+  dynamic? comments;
   Timestamp datePosted;
   List<dynamic>? imageContent;
   List<dynamic>? videoContent;

@@ -19,14 +19,14 @@ class CategorySelector extends StatefulWidget {
 
 class _CategorySelectorState extends State<CategorySelector> {
   TextEditingController controller = TextEditingController();
-  _getSvg(String? iconPath){
+ Widget _getSvg(String? iconPath){
     print(iconPath);
     if (iconPath == null){
       return SizedBox();
     } else {
       try {
         return SvgPicture.asset(
-          iconPath,
+          iconPath!,
           height: 25,
           width: 25,
         );
@@ -62,11 +62,7 @@ onTap: (){
               )),
           child: Row(
             children: [
-          SvgPicture.asset(
-            widget.category.categoryIconPath!,
-            height: 25,
-            width: 25,
-          ),
+         _getSvg( widget.category.categoryIconPath),
               const SizedBox(
                 width: 2,
               ),

@@ -163,10 +163,15 @@ class _PostCardState extends State<PostCard> {
             ),
             widget.post.textContent == null
                 ? SizedBox()
-                : Text(
-                    widget.post.textContent!,
-                    style: const TextStyle(height: 1.5),
-                  ),
+                : Align(
+              alignment: Alignment.centerLeft,
+                  child: Text(
+
+                      widget.post.textContent!,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(height: 1.5),
+                    ),
+                ),
             const SizedBox(
               height: 10,
             ),
@@ -878,7 +883,7 @@ PopupMenuItem menuOption(String iconPath, String title, String value, BuildConte
     onTap: ()async {
       if (value == "chat"){
         
- String? id = await AuthWork.getConversationID(userEmail, userName
+ String? id = await AuthWork.getConversationID(userName, userEmail
  );
  print("THE ID RECEIVED IS $id");
  Navigator.push(

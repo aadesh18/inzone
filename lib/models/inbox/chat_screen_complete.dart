@@ -183,7 +183,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${widget.acceptUser!.name}',
+              '${widget.acceptUser!.name!.contains("aiUsers")?widget.acceptUser!.email:widget.acceptUser!.name}',
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
