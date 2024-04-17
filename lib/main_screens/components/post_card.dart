@@ -148,7 +148,18 @@ class _PostCardState extends State<PostCard> {
                     // your logic
                   },
                   itemBuilder: (BuildContext bc) {
-                    return [
+                    return   widget.post.userReference.contains("aiUsers")? [
+
+                      menuOption(CustomIcons.notInterested, "Flag this post",
+                          "not_interested", context,widget.post.userName, widget.post.userReference),
+                      menuOption(
+                          CustomIcons.dontShow,
+                          "Block ${widget.post.userName}",
+                          "dont_show",context,widget.post.userName, widget.post.userReference),
+                      menuOption(
+                          CustomIcons.manage, "Report this post", "manage", context,widget.post.userName, widget.post.userReference)
+                    ] :[
+
                       menuOption(CustomIcons.save, "Start a chat", "chat", context, widget.post.userName, widget.post.userReference),
                       menuOption(CustomIcons.notInterested, "Flag this post",
                           "not_interested", context,widget.post.userName, widget.post.userReference),
@@ -158,7 +169,7 @@ class _PostCardState extends State<PostCard> {
                           "dont_show",context,widget.post.userName, widget.post.userReference),
                       menuOption(
                           CustomIcons.manage, "Report this post", "manage", context,widget.post.userName, widget.post.userReference)
-                    ];
+                    ]  ;
                   },
                 ),
               ],
