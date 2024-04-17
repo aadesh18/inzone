@@ -139,6 +139,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                   ),
                 ),
               chatInput(),
+              SizedBox(height: 20,)
             ],
           ),
         ),
