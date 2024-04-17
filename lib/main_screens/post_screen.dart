@@ -574,7 +574,7 @@ double low = 0.4;
                       },
                     ),
                   ),
-SizedBox(height: 100,)
+SizedBox(height: 20,)
               ],
             ),
           ),
