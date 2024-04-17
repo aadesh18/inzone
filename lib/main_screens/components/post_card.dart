@@ -61,21 +61,26 @@ class _PostCardState extends State<PostCard> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<String?> getUsername() async {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection('newUser')
-        .doc(_auth.currentUser!.uid)
-        .get();
+  String getUsername() {
+    // DocumentSnapshot snapshot = await FirebaseFirestore.instance
+    //     .collection('newUser')
+    //     .doc(_auth.currentUser)
+    //     .get();
+    //
+    // if (snapshot.exists) {
+    //   Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
+    //   setState(() {
+    //     username = userData['name'];
+    //   });
+    //   print("User name $username");
+    //   return username;
+    // }
+    if (_auth.currentUser!.displayName == null){
+      return "Error";
 
-    if (snapshot.exists) {
-      Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
-      setState(() {
-        username = userData['name'];
-      });
-      print("User name $username");
-      return username;
     }
-    return null;
+  return _auth.currentUser!.displayName!;
+
   }
 
   @override
@@ -262,10 +267,10 @@ class _PostCardState extends State<PostCard> {
                 ),
                 GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return CommentScreen();
-                      }));
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: (context) {
+                      //   return CommentScreen();
+                      // }));
                       // showSlidingBottomSheet(context,
                       //     builder: (context) => SlidingSheetDialog(
                       //       cornerRadius: 30,
@@ -312,7 +317,7 @@ class _PostCardState extends State<PostCard> {
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 14,
-                    fontFamily: 'Maneola',
+
                     fontWeight: FontWeight.w500,
                   ),
                   controller:
@@ -329,7 +334,7 @@ class _PostCardState extends State<PostCard> {
                     hintText: type == 'Reply' ? 'Add Reply' : 'Add Comment',
                     hintStyle: const TextStyle(
                       fontSize: 14,
-                      fontFamily: 'Maneola',
+
                       fontWeight: FontWeight.w400,
                       color: Colors.black26,
                     ),
@@ -393,7 +398,7 @@ class _PostCardState extends State<PostCard> {
       // Add comment to Firestore
       DocumentReference documentReference =
           await _firestore.collection('comments').add({
-        'author': username, // Replace with actual user name
+        'author': getUsername(), // Replace with actual user name
         'text': commentText,
         'userId': FirebaseAuth.instance.currentUser!.uid,
         'timestamp': DateTime.now().toString(),
@@ -699,8 +704,8 @@ class _PostCardState extends State<PostCard> {
                               bool isDisliked = dislikedComments.containsKey(comments[index].id)
                                   ? dislikedComments[comments[index].id]!
                                   : false;
-
-
+print("\n\n\n");
+                              print(comment!.author);
                               return Padding(
                                 padding: const EdgeInsets.only(
                                   right: 8.0,
@@ -719,7 +724,10 @@ class _PostCardState extends State<PostCard> {
                                       children: [
                                         Row(
                                           children: [
-                                            RandomAvatar(comment?.author ?? "", height: 40, width: 40),
+                                           Container(
+                                             height:40,
+                                               width: 40,
+                                               child: RandomAvatar(comment!.author == "" ? "Error": comment!.author, height: 40, width: 40)),
                                             SizedBox(
                                               width: 10,
                                             ),
