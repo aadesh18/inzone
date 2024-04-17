@@ -9,7 +9,8 @@ import 'package:inzone/data/string_extension.dart';
 import 'package:inzone/constants.dart';
 
 class FocusPage extends StatefulWidget {
-  FocusPage({super.key});
+  bool newUser = false;
+  FocusPage({super.key, required this.newUser});
 
   @override
   State<FocusPage> createState() => _FocusPageState();

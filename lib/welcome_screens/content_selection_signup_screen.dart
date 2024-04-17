@@ -6,7 +6,8 @@ import 'package:inzone/welcome_screens/content_selection_pages/fallback_page.dar
 import 'package:inzone/welcome_screens/content_selection_pages/focus_page.dart';
 
 class ContentSelectionSignupScreen extends StatefulWidget {
-  const ContentSelectionSignupScreen({super.key});
+  bool newUser = false;
+   ContentSelectionSignupScreen({super.key, required this.newUser});
 
   static const int numPages = 3;
 
@@ -65,7 +66,7 @@ class _ContentSelectionSignupScreenState
                           ((index + 1) / ContentSelectionSignupScreen.numPages);
                     });
                   },
-                  children:  [FocusPage(), FallBackPage(), CustomPage()],
+                  children:  [FocusPage(newUser: widget.newUser), FallBackPage(newUser: widget.newUser), CustomPage(newUser: widget.newUser)],
                 ),
               ),
             ],

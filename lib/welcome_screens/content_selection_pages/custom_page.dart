@@ -9,7 +9,8 @@ import 'package:inzone/data/string_extension.dart';
 import 'package:inzone/constants.dart';
 
 class CustomPage extends StatefulWidget {
-  CustomPage({super.key});
+  bool newUser = false;
+  CustomPage({super.key, required this.newUser});
 
   @override
   State<CustomPage> createState() => _CustomPageState();

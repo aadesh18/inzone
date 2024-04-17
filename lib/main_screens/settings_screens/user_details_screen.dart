@@ -32,7 +32,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("Name",
+              const Text("Change Name",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
               const SizedBox(
                 height: 10,
@@ -59,46 +59,8 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text("Gender",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            gender = 0;
-                          });
-                        },
-                        child: genderChoose(Icons.male, "Male", 0)),
-                    GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            gender = 1;
-                          });
-                        },
-                        child: genderChoose(Icons.male, "Female", 1)),
-                    GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            gender = 2;
-                          });
-                        },
-                        child: genderChoose(Icons.male, "Other", 2)),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text("Age",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+
+
               const SizedBox(
                 height: 10,
               ),
@@ -211,15 +173,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                     },
                     activeColor: Colors.blue,
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.37,
-                      child: const Text(
-                          "I have read the terms and condition and \nI accept the general conditions of use.",
-                          style: TextStyle(
-                              fontSize: 10, fontWeight: FontWeight.w500))),
+
                 ],
               ),
               GestureDetector(

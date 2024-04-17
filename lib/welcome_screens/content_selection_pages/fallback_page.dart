@@ -9,7 +9,8 @@ import 'package:inzone/data/string_extension.dart';
 import 'package:inzone/constants.dart';
 
 class FallBackPage extends StatefulWidget {
-  FallBackPage({super.key});
+  bool newUser =false;
+  FallBackPage({super.key, required this.newUser});
 
   @override
   State<FallBackPage> createState() => _FallBackPageState();

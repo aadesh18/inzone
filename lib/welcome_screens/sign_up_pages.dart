@@ -8,6 +8,7 @@ import 'package:inzone/welcome_screens/content_selection_signup_screen.dart';
 import 'package:inzone/welcome_screens/user_signup_screen.dart';
 
 class SignUpPages extends StatefulWidget {
+
   const SignUpPages({super.key});
 
   @override
@@ -58,7 +59,7 @@ class _SignUpPagesState extends State<SignUpPages> {
               UserSignUpScreen(name: currentUser.getUserName(),),
               ChooseAvatarScreen(),
               //AvatarCustomisePage(),
-              ContentSelectionSignupScreen(),
+              ContentSelectionSignupScreen(newUser: true),
             ],
           ),
           MediaQuery.of(context).viewInsets.bottom == 0

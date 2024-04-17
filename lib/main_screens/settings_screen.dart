@@ -8,6 +8,8 @@ import 'package:inzone/main_screens/settings_screens/inzone_blockout_screen.dart
 import 'package:inzone/main_screens/settings_screens/user_details_screen.dart';
 import 'package:inzone/welcome_screens/introduction_page.dart';
 
+import '../welcome_screens/content_selection_signup_screen.dart';
+
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
@@ -64,10 +66,10 @@ class SettingsScreen extends StatelessWidget {
                         title: "Content Selection",
                         imagePath: "assets/contentselection.png",
                         onPressed: () {
-                          // Navigator.of(context)
-                          //     .push(MaterialPageRoute(builder: (context) {
-                          //   return const ContentSelectionScreen();
-                          // }));
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return ContentSelectionSignupScreen(newUser: false);
+                          }));
                         }),
                     SettingsTile(
                         title: "Content BlockOut",
