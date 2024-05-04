@@ -2,11 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/main_screens/components/settings_tile.dart';
+import 'package:inzone/main_screens/post_screen.dart';
 import 'package:inzone/main_screens/settings_screens/inzone_schedule.dart';
 import 'package:inzone/main_screens/settings_screens/content_selection_screen.dart';
 import 'package:inzone/main_screens/settings_screens/inzone_blockout_screen.dart';
 import 'package:inzone/main_screens/settings_screens/user_details_screen.dart';
 import 'package:inzone/welcome_screens/introduction_page.dart';
+import 'package:sliding_sheet2/sliding_sheet2.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../welcome_screens/content_selection_signup_screen.dart';
@@ -46,6 +48,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
+
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
@@ -62,6 +65,25 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton:   FloatingActionButton(
+        backgroundColor: backgroundColor.withOpacity(0.5),
+    shape: const CircleBorder(),
+    foregroundColor: const Color(0xff16202a),
+    child: const Icon(Icons.qr_code_2_rounded),
+    onPressed: () {
+
+    showSlidingBottomSheet(context,
+    builder: (context) => SlidingSheetDialog(
+    cornerRadius: 30,
+    backdropColor: backgroundColor.withOpacity(0.6),
+    duration: const Duration(seconds: 1),
+    snapSpec: const SnapSpec(snappings: [ 0.9]),
+    builder: (context, state) {
+    return const PostScreen();
+    },
+    ));
+    },
+    ),
       body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(10.0),

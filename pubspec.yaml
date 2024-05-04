@@ -81,6 +81,7 @@ dependencies:
   cached_network_image:
   video_player:
   video_thumbnail:
+  mobile_scanner: ^5.1.0
 
 dev_dependencies:
   flutter_test:
