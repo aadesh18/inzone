@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getFeed() async {
     posts.clear();
-    await InZoneDatabase.getFeed("posts").then((value) {
+    await InZoneDatabase.getFeed().then((value) {
       categoriesList.clear();
       for (var element in value) {
         print(element.category);
@@ -74,9 +74,6 @@ posts.forEach((element) {print(element.post.id);});
     // TODO: implement initState
     getFeed();
     super.initState();
-
-
-
   }
 
   @override
