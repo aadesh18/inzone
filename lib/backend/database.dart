@@ -21,7 +21,7 @@ class InZoneDatabase {
         .doc(docID);
     InZoneCurrentUser? user;
     await docRef.get().then(
-      (DocumentSnapshot doc) {
+          (DocumentSnapshot doc) {
         final data = doc.data() as Map<String, dynamic>;
         print(data['user_references']);
         user = InZoneCurrentUser(
@@ -49,14 +49,14 @@ class InZoneDatabase {
     String? email = FirebaseAuth.instance.currentUser!.email;
     String url = "";
     DateTime time = DateTime.now();
-if (email!=null){
-  url = 'https://addmessage-r36l54qvra-uc.a.run.app/?email=$email&time=${time.hour.toString()}';
-} else {
-  url = 'https://addmessage-r36l54qvra-uc.a.run.app/?email=email_not_found&time=${time.hour.toString()}';
-}
+    if (email!=null){
+      url = 'https://get-feed-r36l54qvra-uc.a.run.app/?email=$email&time=${time.hour.toString()}';
+    } else {
+      url = 'https://get-feed-r36l54qvra-uc.a.run.app/?email=email_not_found&time=${time.hour.toString()}';
+    }
 
-      try {
-        final http.Response response = await http.get(Uri.parse(url));
+    try {
+      final http.Response response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         print("Response Received");
         final jsonMap = jsonDecode(response.body.toString());
@@ -82,11 +82,11 @@ if (email!=null){
       } else {
         print('Server error: ${response.statusCode}');
       }
-      } catch (e) {
-        // Handle any errors that occur during the request
-        print('Error sending request: $e');
+    } catch (e) {
+      // Handle any errors that occur during the request
+      print('Error sending request: $e');
 
-      }
+    }
 
     // final collectionRef =
     //     FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
@@ -252,7 +252,7 @@ if (email!=null){
     List<InZonePost> posts = [];
     InZoneCurrentUser.subCategories = [];
     final collectionRef =
-        FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
+    FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
     DateTime now = DateTime.now();
     int currentHour = now.hour;
     // Focus
@@ -260,7 +260,7 @@ if (email!=null){
       for (var element in value.docs) {
         posts.add(InZonePost(
           category:
-              element["category"] == null ? "Sports" : element["category"],
+          element["category"] == null ? "Sports" : element["category"],
           userName: element["user_name"] ?? "Aadesh",
           comments: element["comments"],
           datePosted: element["date_posted"],
@@ -306,8 +306,8 @@ if (email!=null){
 
   Future<bool> addNewMessage(
       {required var usersList,
-      required String chatReference,
-      required List<dynamic> messageList}) async {
+        required String chatReference,
+        required List<dynamic> messageList}) async {
     bool added = false;
     List<Map<String, dynamic>> tempList = [];
     for (var element in messageList) {
@@ -448,81 +448,81 @@ if (email!=null){
   }
 
 // final Stream currentUserDocStream = FirebaseFirestore.instance
-  //     .collection('users')
-  //     .doc(currentUser.getUID())
-  //     .snapshots();
+//     .collection('users')
+//     .doc(currentUser.getUID())
+//     .snapshots();
 
-  // parseUserData(
-  //     AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
-  //   if (snapshot.hasData) {
-  //     Map<String, dynamic>? data = snapshot.data!.data();
-  //     if (data != null) {
-  //       currentUser.setChatDetails(data['chat']);
-  //       currentUser.setPremium(data['premiumUser']);
-  //     }
-  //   }
-  // }
+// parseUserData(
+//     AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+//   if (snapshot.hasData) {
+//     Map<String, dynamic>? data = snapshot.data!.data();
+//     if (data != null) {
+//       currentUser.setChatDetails(data['chat']);
+//       currentUser.setPremium(data['premiumUser']);
+//     }
+//   }
+// }
 
-  // DocumentReference<Map<String, dynamic>> retreiveDocument(
-  //     String documentPath) {
-  //   return _firestore.doc(documentPath);
-  // }
+// DocumentReference<Map<String, dynamic>> retreiveDocument(
+//     String documentPath) {
+//   return _firestore.doc(documentPath);
+// }
 
-  // List<Message> getMessages(
-  //     AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
-  //   List<Message> messageList = [];
-  //   List tempList = [];
+// List<Message> getMessages(
+//     AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+//   List<Message> messageList = [];
+//   List tempList = [];
 
-  //   if (snapshot.hasData) {
-  //     tempList = snapshot.data!.data()!['chatMessages'];
+//   if (snapshot.hasData) {
+//     tempList = snapshot.data!.data()!['chatMessages'];
 
-  //     tempList.reversed.forEach((element) {
-  //       messageList.add(Message(
-  //           message: element['message'],
-  //           isMe: currentUser.getUID()! == element['sender'],
-  //           timeSent: element['timeSent'].toDate(),
-  //           senderID: element['sender']));
-  //     });
-  //   }
+//     tempList.reversed.forEach((element) {
+//       messageList.add(Message(
+//           message: element['message'],
+//           isMe: currentUser.getUID()! == element['sender'],
+//           timeSent: element['timeSent'].toDate(),
+//           senderID: element['sender']));
+//     });
+//   }
 
-  //   return messageList;
-  // }
+//   return messageList;
+// }
 
-  // Future<bool> addNewMessage(
-  //     {required var usersList,
-  //     required String chatReference,
-  //     required List<dynamic> messageList}) async {
-  //   bool added = false;
-  //   List<Map<String, dynamic>> tempList = [];
-  //   messageList.forEach((element) {
-  //     tempList.add({
-  //       "message": element.message,
-  //       "sender": element.senderID,
-  //       "timeSent": Timestamp.fromDate(element.timeSent)
-  //     });
-  //   });
-  //   await _messagesCollection.doc(chatReference).update(
-  //     {"users": usersList, "chatMessages": tempList},
-  //   );
-  //   // await _messagesCollection.doc(chatReference).add({
-  //   //   "message": message.message,
-  //   //   "sender": message.senderID,
-  //   //   "timeSent": ,
-  //   // }).then((value) {
-  //   //   added = true;
-  //   // });
-  //   return added;
-  // }
+// Future<bool> addNewMessage(
+//     {required var usersList,
+//     required String chatReference,
+//     required List<dynamic> messageList}) async {
+//   bool added = false;
+//   List<Map<String, dynamic>> tempList = [];
+//   messageList.forEach((element) {
+//     tempList.add({
+//       "message": element.message,
+//       "sender": element.senderID,
+//       "timeSent": Timestamp.fromDate(element.timeSent)
+//     });
+//   });
+//   await _messagesCollection.doc(chatReference).update(
+//     {"users": usersList, "chatMessages": tempList},
+//   );
+//   // await _messagesCollection.doc(chatReference).add({
+//   //   "message": message.message,
+//   //   "sender": message.senderID,
+//   //   "timeSent": ,
+//   // }).then((value) {
+//   //   added = true;
+//   // });
+//   return added;
+// }
 
-  // Future<String> addNewChat(
-  //     {required String chatName, required String chatMemberID}) async {
-  //   DocumentReference docRef = await _messagesCollection.add([
-  //     {
-  //       "chatMessages": [],
-  //       "users": [currentUser.getUID()!, chatMemberID]
-  //     }
-  //   ]);
+// Future<String> addNewChat(
+//     {required String chatName, required String chatMemberID}) async {
+//   DocumentReference docRef = await _messagesCollection.add([
+//     {
+//       "chatMessages": [],
+//       "users": [currentUser.getUID()!, chatMemberID]
+//     }
+//   ]);
 
-  //   return docRef.id;
-  // }
+//   return docRef.id;
+// }
 }

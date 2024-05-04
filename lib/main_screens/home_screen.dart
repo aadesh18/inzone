@@ -74,6 +74,9 @@ posts.forEach((element) {print(element.post.id);});
     // TODO: implement initState
     getFeed();
     super.initState();
+
+
+
   }
 
   @override

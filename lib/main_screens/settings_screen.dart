@@ -25,7 +25,23 @@ class SettingsScreen extends StatelessWidget {
       throw "Could not launch $url";
     }
   }
+  Future<void> _deleteAccount(BuildContext context) async {
+    try {
+      // Your logic to delete the account comes here
+      // Example: Firebase Auth to delete the current user
+      await FirebaseAuth.instance.currentUser?.delete();
 
+      // After deleting the account, navigate to the introduction screen
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => IntroductionPage()),
+      );
+    } on FirebaseAuthException catch (e) {
+      // If an error occurs, show the error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete the account: ${e.message}')),
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,7 +150,34 @@ class SettingsScreen extends StatelessWidget {
                     SettingsTile(
                         title: "Delete Account",
                         imagePath: "assets/deleteaccount.png",
-                        onPressed: () {}),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Delete Account'),
+                                content: const Text('Are you sure you want to delete your account? This cannot be undone.'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('Cancel'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: const Text('Delete'),
+                                    onPressed: () {
+                                      // Dismiss the dialog and then call the delete account method
+                                      Navigator.of(context).pop();
+                                      _deleteAccount(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                    ),
                     SettingsTile(
                         title: "Logout",
                         imagePath: "assets/logout.png",

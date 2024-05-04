@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
+<?xml version="1.2" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.2//EN" "http://www.apple.com/DTDs/PropertyList-1.2.dtd">
+<plist version="1.2">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
@@ -46,7 +46,11 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To post images on InZone, we need access to your photo library</string>
+	<string>We need access to your photo library to upload and share photos within the app.</string>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>We need microphone for video recording and sharing within the app.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>We need camera for photo and video recording and sharing within the app.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 </dict>

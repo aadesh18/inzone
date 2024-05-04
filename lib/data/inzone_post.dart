@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:inzone/main_screens/components/post_card.dart';
-
 class InZonePost {
   String userName;
   String? id;
@@ -14,7 +13,6 @@ class InZonePost {
   List<dynamic>? videoContent;
   String userReference;
   int likes;
-
   InZonePost({
     required this.userName,
     this.id,
@@ -28,24 +26,16 @@ class InZonePost {
     this.imageContent,
     this.comments,
   });
-
-
   toInZonePostCard(InZonePost inZonePost){
     return PostCard(post: inZonePost);
-
   }
-
-
-
-
-   static List<InZonePost> fromJson(List json) {
+  static List<InZonePost> fromJson(List json) {
     List<InZonePost> returnList = [];
     json.forEach((i){
       String dateString = i['date_posted'];
       DateFormat format = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
       DateTime dateTime = format.parse(dateString, true).toUtc();
       Timestamp timestamp = Timestamp.fromDate(dateTime);
-
       returnList.add(
           InZonePost(
             category: i["category"] == null ? "animals" : i["category"],
@@ -63,8 +53,6 @@ class InZonePost {
             mainCategory: i['main_category'],
           ));
     });
-
-
     return returnList ;
   }
 }

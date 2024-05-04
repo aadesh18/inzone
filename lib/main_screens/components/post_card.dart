@@ -271,25 +271,25 @@ class _PostCardState extends State<PostCard> {
                 const SizedBox(
                   width: 10,
                 ),
-                GestureDetector(
-                    onTap: () {
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (context) {
-                      //   return CommentScreen();
-                      // }));
-                      // showSlidingBottomSheet(context,
-                      //     builder: (context) => SlidingSheetDialog(
-                      //       cornerRadius: 30,
-                      //       snapSpec: const SnapSpec(snappings: [0.7, 0.9]),
-                      //       builder: (context, state) {
-                      //
-                      //         // return CommentPage(
-                      //         //   post: widget.post,
-                      //         // );
-                      //       },
-                      //     ));
-                    },
-                    child: SvgPicture.asset(CustomIcons.send)),
+                // GestureDetector(
+                //     onTap: () {
+                //       // Navigator.push(context,
+                //       //     MaterialPageRoute(builder: (context) {
+                //       //   return CommentScreen();
+                //       // }));
+                //       // showSlidingBottomSheet(context,
+                //       //     builder: (context) => SlidingSheetDialog(
+                //       //       cornerRadius: 30,
+                //       //       snapSpec: const SnapSpec(snappings: [0.7, 0.9]),
+                //       //       builder: (context, state) {
+                //       //
+                //       //         // return CommentPage(
+                //       //         //   post: widget.post,
+                //       //         // );
+                //       //       },
+                //       //     ));
+                //     },
+                //     child: SvgPicture.asset(CustomIcons.send)),
                 const Spacer(),
               ],
             )
