@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_post.dart';
+import 'package:inzone/inzone_youtube_player.dart';
 import 'package:inzone/main_screens/comment_screen/comment_screen.dart';
 import 'package:inzone/main_screens/comment_screen/reply_class.dart';
 import 'package:inzone/main_screens/comments_screen.dart';
@@ -192,24 +193,25 @@ class _PostCardState extends State<PostCard> {
               height: 10,
             ),
 
-            widget.post.imageContent == null
-                ? SizedBox()
-                : widget.post.imageContent!.length == 0
-                    ? SizedBox()
-                    : Container(
-                        width: screenWidth! - 30,
-                     //   height: 200,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(
-                            widget.post.imageContent!.elementAt(0),
-                            fit: BoxFit.fitWidth,
-                            errorBuilder: (context, object, st) {
-                              return const SizedBox();
-                            },
-                          ),
-                        ),
-                      ),
+            // widget.post.imageContent == null
+            //     ? SizedBox()
+            //     : widget.post.imageContent!.length == 0
+            //         ? SizedBox()
+            //         : Container(
+            //             width: screenWidth! - 30,
+            //          //   height: 200,
+            //             child: ClipRRect(
+            //               borderRadius: BorderRadius.circular(8.0),
+            //               child: Image.network(
+            //                 widget.post.imageContent!.elementAt(0),
+            //                 fit: BoxFit.fitWidth,
+            //                 errorBuilder: (context, object, st) {
+            //                   return const SizedBox();
+            //                 },
+            //               ),
+            //             ),
+            //           ),
+InZoneYoutubePlayer(youtubeUrl: "https://www.youtube.com/watch?v=oi6zk7cVHUw"),
 //       widget.post.imageContent == null ?  SizedBox()  :
 //
 //               imageSuccess ? Container(

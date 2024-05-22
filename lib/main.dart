@@ -45,29 +45,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-//
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({super.key, required this.title});
-//   final String title;
-//
-//   @override
-//   State<MyHomePage> createState() => _MyHomePageState();
-// }
-//
-// class _MyHomePageState extends State<MyHomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     final textTheme = Theme.of(context).textTheme;
-//     return MaterialApp(
-//       // To-do - Add Permitted orientations
-//       debugShowCheckedModeBanner: false,
-//       theme: ThemeData(
-//           scaffoldBackgroundColor: backgroundColor,
-//           visualDensity: VisualDensity.adaptivePlatformDensity,
-//           textTheme: GoogleFonts.latoTextTheme(textTheme).copyWith(
-//               bodyMedium: GoogleFonts.lato(
-//                   textStyle: const TextStyle(color: Colors.black)))),
-//       home: SplashPage(),
-//     );
-//   }
-// }

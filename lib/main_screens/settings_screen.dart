@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
+import 'package:inzone/inzone_code.dart';
 import 'package:inzone/main_screens/components/settings_tile.dart';
 import 'package:inzone/main_screens/post_screen.dart';
 import 'package:inzone/main_screens/settings_screens/inzone_schedule.dart';
@@ -79,7 +80,7 @@ class SettingsScreen extends StatelessWidget {
     duration: const Duration(seconds: 1),
     snapSpec: const SnapSpec(snappings: [ 0.9]),
     builder: (context, state) {
-    return const PostScreen();
+    return const InZoneCode();
     },
     ));
     },

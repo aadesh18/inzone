@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
