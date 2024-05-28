@@ -23,16 +23,21 @@ YoutubePlayerController? _controller;
   }
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayerScaffold(
-      controller: _controller!,
-      aspectRatio: 16 / 9,
-      builder: (context, player) {
-        return Column(
-          children: [
-            player,
-          ],
-        );
-      },
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30)
+      ),
+      child: YoutubePlayerScaffold(
+        controller: _controller!,
+        aspectRatio: 16 / 9,
+        builder: (context, player) {
+          return Column(
+            children: [
+              player,
+            ],
+          );
+        },
+      ),
     );
   }
 }

@@ -166,7 +166,12 @@ class _FocusPageState extends State<FocusPage> {
               },
             ),
           ),
-          Lottie.asset("assets/animations/swipe_left.json")
+          Spacer(),
+          Lottie.asset("assets/animations/swipe_left.json"),
+
+          Text("Swipe Left",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+          Spacer()
         ],
       ),
     );

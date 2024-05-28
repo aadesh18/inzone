@@ -37,7 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
           PostCard(
             post: element,
             onTap: (postId) {
-              // Show the ID of the tapped post
             print('You tapped on post with ID: $postId');
             },
           ),

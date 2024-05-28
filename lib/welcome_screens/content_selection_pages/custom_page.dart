@@ -164,7 +164,12 @@ class _CustomPageState extends State<CustomPage> {
               },
             ),
           ),
+          Spacer(),
 
+
+          Text("Click done below !",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+          Spacer()
         ],
       ),
     );
