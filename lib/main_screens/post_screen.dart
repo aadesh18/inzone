@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:video_player/video_player.dart';
 import 'package:action_slider/action_slider.dart';
 import 'package:choice/choice.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -55,6 +55,7 @@ class _PostScreenState extends State<PostScreen> {
   double low = 0.4;
   late Timer _timer;
   String imageUrl = "";
+  String videoUrl = "";
 
   double maxWidth = 0.0;
   double maxMovable = 0.928;
@@ -312,6 +313,31 @@ class _PostScreenState extends State<PostScreen> {
                       ),
                     ),
 
+                    IconButton(
+                      onPressed: () async {
+                        final ImagePicker _picker = ImagePicker();
+                        // Pick a video
+                        final XFile? video = await _picker.pickVideo(
+                            source: ImageSource.gallery, maxDuration: Duration(minutes: 5));
+                        if (video != null) {
+                          setState(() {
+                            isUploading = true;
+                          });
+                          await AuthWork.sendPostVideo(FirebaseAuth.instance.currentUser!.uid , File(video.path)).then((value){
+                            videoUrl = value;
+                          });
+                          setState(() {
+                            isUploading = false;
+                          });
+                        }
+                      },
+                      icon: Icon(
+                        Icons.switch_video_outlined,
+                        color: Colors.blue,
+                        size: 28,
+                      ),
+                    ),
+
 
                     IconButton(
                       onPressed: () async {
@@ -364,6 +390,17 @@ class _PostScreenState extends State<PostScreen> {
                           fit: BoxFit.cover,
                           image: NetworkImage(imageUrl),
                         ),
+                      ),
+                    ),
+                    videoUrl == ""
+                        ? const SizedBox(
+                      height: 5,
+                    )
+                        : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: VideoWidget(videoUrl: videoUrl),
                       ),
                     ),
                   ],
@@ -584,7 +621,7 @@ class _PostScreenState extends State<PostScreen> {
 
                       controller.loading(); //starts loading animation
                       //     await Future.delayed(const Duration(seconds: 2));
-                      await InZoneDatabase.postContent(postMessage: postContent, imageRef: [imageUrl], videoRef: []).then((value) {
+                      await InZoneDatabase.postContent(postMessage: postContent, imageRef: [imageUrl], videoRef: [videoUrl]).then((value) {
                         setState(() {
                           print(value);
                           if (value == -1){
@@ -1263,3 +1300,81 @@ class _PostScreenState extends State<PostScreen> {
 //   }
 //
 // }
+
+
+
+
+
+class VideoWidget extends StatefulWidget {
+  final String videoUrl;
+
+  const VideoWidget({Key? key, required this.videoUrl}) : super(key: key);
+
+  @override
+  _VideoWidgetState createState() => _VideoWidgetState();
+}
+
+class _VideoWidgetState extends State<VideoWidget> {
+  late VideoPlayerController _controller;
+  bool _isPlaying = false;
+  bool _isBuffering = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.videoUrl)
+      ..addListener(() {
+        final bool isBuffering = _controller.value.isBuffering;
+        if (_isBuffering != isBuffering) {
+          setState(() {
+            _isBuffering = isBuffering;
+          });
+        }
+      })
+      ..initialize().then((_) {
+        setState(() {
+          _isBuffering = false;
+        });
+        _controller.play(); // Optionally play the video automatically
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _controller.value.isInitialized
+        ? Stack(
+      alignment: Alignment.center,
+      children: [
+        AspectRatio(
+          aspectRatio: _controller.value.aspectRatio,
+          child: VideoPlayer(_controller),
+        ),
+        if (_isBuffering)
+          const CircularProgressIndicator(),
+        IconButton(
+          icon: Icon(
+            _isPlaying ? Icons.pause : Icons.play_arrow,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            setState(() {
+              _isPlaying
+                  ? _controller.pause()
+                  : _controller.play();
+              _isPlaying = !_isPlaying;
+            });
+          },
+        ),
+      ],
+    )
+        : const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+}

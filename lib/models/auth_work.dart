@@ -241,6 +241,31 @@ class AuthWork {
       throw Exception('Error uploading video');
     }
   }
+  static Future<String> sendPostVideo(String chatUserID, File videoFile) async {
+    try {
+      // Getting video file extension
+      final ext = videoFile.path.split('.').last;
+
+      // Storage file ref with path for video
+      final ref = storage.ref().child(
+          'videos/${chatUserID}/${DateTime.now().millisecondsSinceEpoch}.$ext');
+
+      // Uploading video
+      await ref
+          .putFile(videoFile, SettableMetadata(contentType: 'video/$ext'))
+          .then((p0) {
+        log('Data Transferred: ${p0.bytesTransferred / 1000} kb');
+      });
+
+      // Getting video URL
+      final videoUrl = await ref.getDownloadURL();
+
+      return videoUrl;
+    } catch (e) {
+      log('Error uploading video: $e');
+      throw Exception('Error uploading video');
+    }
+  }
 
 
 

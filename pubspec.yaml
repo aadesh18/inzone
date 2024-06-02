@@ -79,7 +79,7 @@ dependencies:
   shared_preferences: ^2.2.2
   images_picker:
   cached_network_image:
-  video_player:
+  video_player: ^2.8.6
   video_thumbnail:
   mobile_scanner: ^5.1.1
   youtube_player_iframe: ^5.1.2

@@ -211,30 +211,30 @@ class _PostCardState extends State<PostCard> {
             //               ),
             //             ),
             //           ),
-InZoneYoutubePlayer(youtubeUrl: "https://www.youtube.com/watch?v=oi6zk7cVHUw"),
-//       widget.post.imageContent == null ?  SizedBox()  :
-//
-//               imageSuccess ? Container(
-// height:  100,
-//                  width:  200,
-//
-//                  child: ListView.builder(
-//                   scrollDirection: Axis.horizontal, itemCount: widget.post.imageContent == null ?  0 : widget.post.imageContent!.length , itemBuilder: (context, index) {
-//
-//                   return
-//                   ClipRRect(
-//                     borderRadius: BorderRadius.circular(8.0),
-//                     child: Image.network(widget.post.imageContent!.elementAt(index),errorBuilder: (context, object, st){
-//                       setState(() {
-//                         imageSuccess = false;
-//                       });
-//
-//                       return const SizedBox();
-//                     }),
-//                   );
-//                                },),
-//                ) : SizedBox(),
-//
+
+      widget.post.imageContent == null ?  SizedBox()  :
+
+              imageSuccess ? Container(
+height:  100,
+                 width:  200,
+
+                 child: ListView.builder(
+                  scrollDirection: Axis.horizontal, itemCount: widget.post.imageContent == null ?  0 : widget.post.imageContent!.length , itemBuilder: (context, index) {
+
+                  return
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.network(widget.post.imageContent!.elementAt(index),errorBuilder: (context, object, st){
+                      setState(() {
+                        imageSuccess = false;
+                      });
+
+                      return const SizedBox();
+                    }),
+                  );
+                               },),
+               ) : SizedBox(),
+
 
             const SizedBox(
               height: 10,
