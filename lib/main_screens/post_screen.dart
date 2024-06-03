@@ -1335,7 +1335,7 @@ class _VideoWidgetState extends State<VideoWidget> {
         setState(() {
           _isBuffering = false;
         });
-        _controller.play(); // Optionally play the video automatically
+        // Optionally play the video automatically
       });
   }
 

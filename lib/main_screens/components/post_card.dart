@@ -24,7 +24,7 @@ import '../comment_screen/comment_class.dart';
 import '../post_screen.dart';
 
 class PostCard extends StatefulWidget {
-  InZonePost post;
+  InZonePost post;vi
   final Function(String)? onTap;
 
   PostCard({super.key, required this.post, this.onTap});
