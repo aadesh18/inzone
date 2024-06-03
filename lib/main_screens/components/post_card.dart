@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_post.dart';
-import 'package:inzone/inzone_youtube_player.dart';
 import 'package:inzone/main_screens/comment_screen/comment_screen.dart';
 import 'package:inzone/main_screens/comment_screen/reply_class.dart';
 import 'package:inzone/main_screens/comments_screen.dart';
@@ -22,6 +21,7 @@ import '../../backend/database.dart';
 import '../../data/inzone_current_user.dart';
 import '../../data/inzone_user.dart';
 import '../comment_screen/comment_class.dart';
+import '../post_screen.dart';
 
 class PostCard extends StatefulWidget {
   InZonePost post;
@@ -80,7 +80,7 @@ class _PostCardState extends State<PostCard> {
       return "Error";
 
     }
-  return _auth.currentUser!.displayName!;
+    return _auth.currentUser!.displayName!;
 
   }
 
@@ -182,61 +182,77 @@ class _PostCardState extends State<PostCard> {
                 ? SizedBox()
                 : Align(
               alignment: Alignment.centerLeft,
-                  child: Text(
+              child: Text(
 
-                      widget.post.textContent!,
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(height: 1.5),
-                    ),
-                ),
+                widget.post.textContent!,
+                textAlign: TextAlign.start,
+                style: const TextStyle(height: 1.5),
+              ),
+            ),
             const SizedBox(
               height: 10,
             ),
+            Container(
+              width: screenWidth! - 30,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal, // Allow horizontal scrolling
+                child: Row(
+                  children: [
+                    if (widget.post.imageContent != null && widget.post.imageContent!.isNotEmpty)
+                      Container(
+                        width: screenWidth! - 20,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.network(
+                            widget.post.imageContent!.first,
+                            fit: BoxFit.fitWidth,
+                            errorBuilder: (context, object, st) {
+                              return const SizedBox();
+                            },
+                          ),
+                        ),
+                      ),
+                    SizedBox(width: 5,),
 
-            // widget.post.imageContent == null
-            //     ? SizedBox()
-            //     : widget.post.imageContent!.length == 0
-            //         ? SizedBox()
-            //         : Container(
-            //             width: screenWidth! - 30,
-            //          //   height: 200,
-            //             child: ClipRRect(
-            //               borderRadius: BorderRadius.circular(8.0),
-            //               child: Image.network(
-            //                 widget.post.imageContent!.elementAt(0),
-            //                 fit: BoxFit.fitWidth,
-            //                 errorBuilder: (context, object, st) {
-            //                   return const SizedBox();
-            //                 },
-            //               ),
-            //             ),
-            //           ),
-
-      widget.post.imageContent == null ?  SizedBox()  :
-
-              imageSuccess ? Container(
-height:  100,
-                 width:  200,
-
-                 child: ListView.builder(
-                  scrollDirection: Axis.horizontal, itemCount: widget.post.imageContent == null ?  0 : widget.post.imageContent!.length , itemBuilder: (context, index) {
-
-                  return
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.network(widget.post.imageContent!.elementAt(index),errorBuilder: (context, object, st){
-                      setState(() {
-                        imageSuccess = false;
-                      });
-
-                      return const SizedBox();
-                    }),
-                  );
-                               },),
-               ) : SizedBox(),
+                    widget.post.videoContent!.isEmpty ? SizedBox() : Container(
+                      width: screenWidth! - 20,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child:VideoWidget(videoUrl: widget.post.videoContent!.first)
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
 
 
-            const SizedBox(
+//       widget.post.imageContent == null ?  SizedBox()  :
+//
+//               imageSuccess ? Container(
+// height:  100,
+//                  width:  200,
+//
+//                  child: ListView.builder(
+//                   scrollDirection: Axis.horizontal, itemCount: widget.post.imageContent == null ?  0 : widget.post.imageContent!.length , itemBuilder: (context, index) {
+//
+//                   return
+//                   ClipRRect(
+//                     borderRadius: BorderRadius.circular(8.0),
+//                     child: Image.network(widget.post.imageContent!.elementAt(index),errorBuilder: (context, object, st){
+//                       setState(() {
+//                         imageSuccess = false;
+//                       });
+//
+//                       return const SizedBox();
+//                     }),
+//                   );
+//                                },),
+//                ) : SizedBox(),
+//
+
+             ,
+            SizedBox(
               height: 10,
             ),
             Row(
@@ -244,20 +260,20 @@ height:  100,
               children: [
                 isLiked
                     ? GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isLiked = false;
-                          });
-                        },
-                        child: SvgPicture.asset(CustomIcons.like))
+                    onTap: () {
+                      setState(() {
+                        isLiked = false;
+                      });
+                    },
+                    child: SvgPicture.asset(CustomIcons.like))
                     : GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isLiked = true;
-                          });
-                        },
-                        child: SvgPicture.asset(CustomIcons.notlike),
-                      ),
+                  onTap: () {
+                    setState(() {
+                      isLiked = true;
+                    });
+                  },
+                  child: SvgPicture.asset(CustomIcons.notlike),
+                ),
                 const SizedBox(
                   width: 10,
                 ),
@@ -329,7 +345,7 @@ height:  100,
                     fontWeight: FontWeight.w500,
                   ),
                   controller:
-                      type == 'Reply' ? _replyController : mySearchController,
+                  type == 'Reply' ? _replyController : mySearchController,
                   onTap: () {},
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
@@ -337,7 +353,7 @@ height:  100,
                   decoration: InputDecoration(
                     suffixIconColor: Colors.grey.withOpacity(0.4),
                     contentPadding:
-                        const EdgeInsets.only(top: 10, left: 16, right: 16),
+                    const EdgeInsets.only(top: 10, left: 16, right: 16),
                     border: InputBorder.none,
                     hintText: type == 'Reply' ? 'Add Reply' : 'Add Comment',
                     hintStyle: const TextStyle(
@@ -380,7 +396,7 @@ height:  100,
                   setState(() {
                     type = '';
                     selectedCommentId =
-                        null; // Clear selected comment ID after replying
+                    null; // Clear selected comment ID after replying
                   });
                 }
               } else {
@@ -405,7 +421,7 @@ height:  100,
     if (commentText.isNotEmpty) {
       // Add comment to Firestore
       DocumentReference documentReference =
-          await _firestore.collection('comments').add({
+      await _firestore.collection('comments').add({
         'author': getUsername(), // Replace with actual user name
         'text': commentText,
         'userId': FirebaseAuth.instance.currentUser!.uid,
@@ -442,40 +458,40 @@ height:  100,
           return Column(
             children: replies
                 .map((reply) => ListTile(
-                      leading: RandomAvatar(widget.post.userName,
-                          height: 30, width: 30),
+              leading: RandomAvatar(widget.post.userName,
+                  height: 30, width: 30),
 
-                      // leading: CircleAvatar(
-                      //           backgroundImage:
-                      //               AssetImage('images/sample_avatar_2.png'),
-                      //         ),
-                      title: Text(
-                        reply.author,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey,
-                            fontSize: 12),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            reply.text,
-                            style: TextStyle(fontSize: 12),
-                          ),
-                          SizedBox(
-                            height: 7,
-                          ),
-                          Text(
-                            comment!.timestamp.substring(0, 11),
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 9,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ))
+              // leading: CircleAvatar(
+              //           backgroundImage:
+              //               AssetImage('images/sample_avatar_2.png'),
+              //         ),
+              title: Text(
+                reply.author,
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey,
+                    fontSize: 12),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    reply.text,
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  Text(
+                    comment!.timestamp.substring(0, 11),
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 9,
+                    ),
+                  ),
+                ],
+              ),
+            ))
                 .toList(),
           );
         } else if (snapshot.hasError) {
@@ -628,7 +644,7 @@ height:  100,
 
   Future<Comment> getComment(String commentId) async {
     DocumentSnapshot snapshot =
-        await _firestore.collection('comments').doc(commentId).get();
+    await _firestore.collection('comments').doc(commentId).get();
     return Comment.fromJson(snapshot.data() as Map<String, dynamic>);
   }
 
@@ -646,7 +662,7 @@ height:  100,
     showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
- context: context,
+      context: context,
       builder: (context) => StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           var width = MediaQuery.of(context).size.width;
@@ -712,7 +728,7 @@ height:  100,
                               bool isDisliked = dislikedComments.containsKey(comments[index].id)
                                   ? dislikedComments[comments[index].id]!
                                   : false;
-print("\n\n\n");
+                              print("\n\n\n");
                               print(comment!.author);
                               return Padding(
                                 padding: const EdgeInsets.only(
@@ -732,10 +748,10 @@ print("\n\n\n");
                                       children: [
                                         Row(
                                           children: [
-                                           Container(
-                                             height:40,
-                                               width: 40,
-                                               child: RandomAvatar(comment!.author == "" ? "Error": comment!.author, height: 40, width: 40)),
+                                            Container(
+                                                height:40,
+                                                width: 40,
+                                                child: RandomAvatar(comment!.author == "" ? "Error": comment!.author, height: 40, width: 40)),
                                             SizedBox(
                                               width: 10,
                                             ),
@@ -898,18 +914,18 @@ PopupMenuItem menuOption(String iconPath, String title, String value, BuildConte
     value: value,
     onTap: ()async {
       if (value == "chat"){
-        
- String? id = await AuthWork.getConversationID(userName, userEmail
- );
- print("THE ID RECEIVED IS $id");
- Navigator.push(
-   context,
-   MaterialPageRoute(
-     builder: (context) => ChatScreenNew(
-       acceptUser: AcceptedDateData(email: userEmail, id: id!, name: userName),
-     ),
-   ),
- );
+
+        String? id = await AuthWork.getConversationID(userName, userEmail
+        );
+        print("THE ID RECEIVED IS $id");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatScreenNew(
+              acceptUser: AcceptedDateData(email: userEmail, id: id!, name: userName),
+            ),
+          ),
+        );
 
       }
 
