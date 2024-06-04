@@ -241,7 +241,7 @@ class AuthWork {
       throw Exception('Error uploading video');
     }
   }
-  static Future<String> sendPostVideo(String chatUserID, File videoFile) async {
+  static Future<Map<String, String>> sendPostVideo(String chatUserID, File videoFile) async {
     try {
       // Getting video file extension
       final ext = videoFile.path.split('.').last;
@@ -260,7 +260,19 @@ class AuthWork {
       // Getting video URL
       final videoUrl = await ref.getDownloadURL();
 
-      return videoUrl;
+      // Generate thumbnail
+      final thumbnail = await generateThumbnail(videoFile);
+
+      // Storage file ref with path for thumbnail
+      final thumbnailRef = storage.ref().child(
+          'thumbnails/${chatUserID}/${DateTime.now().millisecondsSinceEpoch}_thumbnail.jpg');
+
+      // Uploading thumbnail
+      final thumbnailTask = thumbnailRef.putFile(thumbnail);
+      final thumbnailSnapshot = await thumbnailTask.whenComplete(() {});
+      final thumbnailUrl = await thumbnailSnapshot.ref.getDownloadURL();
+
+      return {"videoUrl": videoUrl, "thumbnailUrl":thumbnailUrl};
     } catch (e) {
       log('Error uploading video: $e');
       throw Exception('Error uploading video');

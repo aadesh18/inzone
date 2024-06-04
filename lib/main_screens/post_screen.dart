@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:video_player/video_player.dart';
 import 'package:action_slider/action_slider.dart';
 import 'package:choice/choice.dart';
@@ -30,6 +31,7 @@ import 'package:inzone/constants.dart';
 import 'package:lottie/lottie.dart';
 
 import '../custom_icons.dart';
+import '../models/chat_widget/messege_card.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({super.key});
@@ -56,6 +58,7 @@ class _PostScreenState extends State<PostScreen> {
   late Timer _timer;
   String imageUrl = "";
   String videoUrl = "";
+  String thumbnailUrl = "";
 
   double maxWidth = 0.0;
   double maxMovable = 0.928;
@@ -324,7 +327,8 @@ class _PostScreenState extends State<PostScreen> {
                             isUploading = true;
                           });
                           await AuthWork.sendPostVideo(FirebaseAuth.instance.currentUser!.uid , File(video.path)).then((value){
-                            videoUrl = value;
+                            videoUrl = value["videoUrl"]!;
+                            thumbnailUrl = value["thumbnailUrl"]!;
                           });
                           setState(() {
                             isUploading = false;
@@ -400,7 +404,38 @@ class _PostScreenState extends State<PostScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
-                        child: VideoWidget(videoUrl: videoUrl),
+                        child: InkWell(
+                          onTap: () {
+                            // Play video
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => VideoPlayerWidget(
+                                    videoUrl),
+                              ),
+                            );
+                          },
+                          child: Stack(
+                            children: [
+                              CachedNetworkImage(
+                                height: 250,
+                                width: 150,
+                                fit: BoxFit.fill,
+                                imageUrl: "${thumbnailUrl}",
+                                placeholder: (context, url) => Center(
+                                    child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) => SizedBox()
+
+                              ),
+                              Positioned.fill(
+                                child: Center(
+                                  child: Icon(Icons.play_arrow,
+                                      size: 50, color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ),
                     ),
                   ],

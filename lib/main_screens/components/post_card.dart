@@ -24,7 +24,7 @@ import '../comment_screen/comment_class.dart';
 import '../post_screen.dart';
 
 class PostCard extends StatefulWidget {
-  InZonePost post;vi
+  InZonePost post;
   final Function(String)? onTap;
 
   PostCard({super.key, required this.post, this.onTap});
@@ -200,7 +200,7 @@ class _PostCardState extends State<PostCard> {
                   children: [
                     if (widget.post.imageContent != null && widget.post.imageContent!.isNotEmpty)
                       Container(
-                        width: screenWidth! - 20,
+                        width: screenWidth! - 60,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
