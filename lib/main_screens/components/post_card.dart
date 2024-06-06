@@ -192,15 +192,15 @@ class _PostCardState extends State<PostCard> {
             const SizedBox(
               height: 10,
             ),
-            Container(
+            ( (widget.post.imageContent != null && widget.post.imageContent!.isNotEmpty) ||  widget.post.videoContent!.isNotEmpty) ? Container(
               width: screenWidth! - 30,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal, // Allow horizontal scrolling
                 child: Row(
                   children: [
-                    if (widget.post.imageContent != null && widget.post.imageContent!.isNotEmpty)
-                      Container(
-                        width: screenWidth! - 60,
+                    widget.post.imageContent != null && widget.post.imageContent!.isNotEmpty?
+                      widget.post.imageContent!.length == 0 ? SizedBox(width: 1,) : Container(
+                        width:widget.post.imageContent!.length == 0 ? 0 : screenWidth! - 60,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
@@ -211,11 +211,11 @@ class _PostCardState extends State<PostCard> {
                             },
                           ),
                         ),
-                      ),
+                      ) : SizedBox(width: 1,),
                     SizedBox(width: 5,),
 
                     widget.post.videoContent!.isEmpty ? SizedBox() : Container(
-                      width: screenWidth! - 20,
+                      width: screenWidth! - 60,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child:VideoWidget(videoUrl: widget.post.videoContent!.first)
@@ -224,9 +224,7 @@ class _PostCardState extends State<PostCard> {
                   ],
                 ),
               ),
-            )
-
-
+            ) : SizedBox(),
 //       widget.post.imageContent == null ?  SizedBox()  :
 //
 //               imageSuccess ? Container(
@@ -251,7 +249,7 @@ class _PostCardState extends State<PostCard> {
 //                ) : SizedBox(),
 //
 
-             ,
+
             SizedBox(
               height: 10,
             ),

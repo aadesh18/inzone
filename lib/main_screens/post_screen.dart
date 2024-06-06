@@ -16,12 +16,8 @@ import 'package:inzone/models/auth_work.dart';
 import 'package:inzone/models/chat_user_data.dart';
 import 'package:inzone/welcome_screens/introduction_page.dart';
 import 'package:lottie/lottie.dart';
-
-
-
 import 'dart:async';
 import 'dart:io';
-
 import 'package:action_slider/action_slider.dart';
 import 'package:choice/choice.dart';
 import 'package:flutter/material.dart';
@@ -239,7 +235,7 @@ class _PostScreenState extends State<PostScreen> {
                 //  const Divider(),
                 SizedBox(height: 10,),
                 TextField(
-                  maxLines: null, // Set maxLines to null for multiline
+                  maxLines: 3, // Set maxLines to null for multiline
                   textInputAction: TextInputAction.send,
                   decoration: InputDecoration(
                     // labelText: 'What do you want you talk about?',
@@ -282,7 +278,7 @@ class _PostScreenState extends State<PostScreen> {
                     });
                   },
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(height: 2,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -375,7 +371,7 @@ class _PostScreenState extends State<PostScreen> {
                   ],
                 ),
 
-                SizedBox(height: 10,),
+                SizedBox(height: 2,),
                 // Images
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -389,8 +385,8 @@ class _PostScreenState extends State<PostScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: Image(
-                          height: 150,
-                          width: 150,
+                          height: 140,
+                          width: 140,
                           fit: BoxFit.cover,
                           image: NetworkImage(imageUrl),
                         ),
@@ -418,8 +414,8 @@ class _PostScreenState extends State<PostScreen> {
                           child: Stack(
                             children: [
                               CachedNetworkImage(
-                                height: 250,
-                                width: 150,
+                                height: 140,
+                                width: 140,
                                 fit: BoxFit.fill,
                                 imageUrl: "${thumbnailUrl}",
                                 placeholder: (context, url) => Center(
