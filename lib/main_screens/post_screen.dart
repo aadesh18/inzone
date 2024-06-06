@@ -630,11 +630,11 @@ class _PostScreenState extends State<PostScreen> {
                 //   ],
                 // ),
 
-                Spacer(),
-                SizedBox(height:20),
+                Spacer(flex: 3,),
+
                 Container(
                   width: double.infinity,
-                  margin: EdgeInsets.only(bottom: (screenHeight! * 0.1) + 10),
+
 
                   child: ActionSlider.standard(
                     rolling: false,
@@ -711,7 +711,7 @@ class _PostScreenState extends State<PostScreen> {
                     },
                   ),
                 ),
-
+Spacer(flex: 1,),
               ],
             ),
           ),

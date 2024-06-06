@@ -48,8 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
       }
 
       setState(() {
-        posts.shuffle();
-        posts.reversed;
+        // posts.shuffle();
+        // posts.reversed;
         categoriesList.reversed;
       });
     });

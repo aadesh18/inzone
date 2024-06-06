@@ -197,11 +197,12 @@ class _PostCardState extends State<PostCard> {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal, // Allow horizontal scrolling
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     widget.post.imageContent != null && widget.post.imageContent!.isNotEmpty?
-                      widget.post.imageContent!.length == 0 ? SizedBox(width: 1,) : Container(
-                        width:widget.post.imageContent!.length == 0 ? 0 : screenWidth! - 60,
-                        child: ClipRRect(
+                      widget.post.imageContent!.first == "" ? SizedBox(width: 1,) : Container(
+                        width:widget.post.imageContent!.length != 1 ? 0 : screenWidth! - 60,
+                        child: widget.post.imageContent!.length != 1  ? SizedBox(width: 1,) : ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
                             widget.post.imageContent!.first,
