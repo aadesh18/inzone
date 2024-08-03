@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:comment_tree/widgets/comment_tree_widget.dart';
+import 'package:comment_tree/widgets/tree_theme_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -76,12 +78,10 @@ class _PostCardState extends State<PostCard> {
     //   print("User name $username");
     //   return username;
     // }
-    if (_auth.currentUser!.displayName == null){
+    if (_auth.currentUser!.displayName == null) {
       return "Error";
-
     }
     return _auth.currentUser!.displayName!;
-
   }
 
   @override
@@ -149,28 +149,60 @@ class _PostCardState extends State<PostCard> {
                     // your logic
                   },
                   itemBuilder: (BuildContext bc) {
-                    return   widget.post.userReference.contains("aiUsers")? [
-
-                      menuOption(CustomIcons.notInterested, "Flag this post",
-                          "not_interested", context,widget.post.userName, widget.post.userReference),
-                      menuOption(
-                          CustomIcons.dontShow,
-                          "Block ${widget.post.userName}",
-                          "dont_show",context,widget.post.userName, widget.post.userReference),
-                      menuOption(
-                          CustomIcons.manage, "Report this post", "manage", context,widget.post.userName, widget.post.userReference)
-                    ] :[
-
-                      menuOption(CustomIcons.save, "Start a chat", "chat", context, widget.post.userName, widget.post.userReference),
-                      menuOption(CustomIcons.notInterested, "Flag this post",
-                          "not_interested", context,widget.post.userName, widget.post.userReference),
-                      menuOption(
-                          CustomIcons.dontShow,
-                          "Block ${widget.post.userName}",
-                          "dont_show",context,widget.post.userName, widget.post.userReference),
-                      menuOption(
-                          CustomIcons.manage, "Report this post", "manage", context,widget.post.userName, widget.post.userReference)
-                    ]  ;
+                    return widget.post.userReference.contains("aiUsers")
+                        ? [
+                            menuOption(
+                                CustomIcons.notInterested,
+                                "Flag this post",
+                                "not_interested",
+                                context,
+                                widget.post.userName,
+                                widget.post.userReference),
+                            menuOption(
+                                CustomIcons.dontShow,
+                                "Block ${widget.post.userName}",
+                                "dont_show",
+                                context,
+                                widget.post.userName,
+                                widget.post.userReference),
+                            menuOption(
+                                CustomIcons.manage,
+                                "Report this post",
+                                "manage",
+                                context,
+                                widget.post.userName,
+                                widget.post.userReference)
+                          ]
+                        : [
+                            menuOption(
+                                CustomIcons.save,
+                                "Start a chat",
+                                "chat",
+                                context,
+                                widget.post.userName,
+                                widget.post.userReference),
+                            menuOption(
+                                CustomIcons.notInterested,
+                                "Flag this post",
+                                "not_interested",
+                                context,
+                                widget.post.userName,
+                                widget.post.userReference),
+                            menuOption(
+                                CustomIcons.dontShow,
+                                "Block ${widget.post.userName}",
+                                "dont_show",
+                                context,
+                                widget.post.userName,
+                                widget.post.userReference),
+                            menuOption(
+                                CustomIcons.manage,
+                                "Report this post",
+                                "manage",
+                                context,
+                                widget.post.userName,
+                                widget.post.userReference)
+                          ];
                   },
                 ),
               ],
@@ -181,51 +213,81 @@ class _PostCardState extends State<PostCard> {
             widget.post.textContent == null
                 ? SizedBox()
                 : Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-
-                widget.post.textContent!,
-                textAlign: TextAlign.start,
-                style: const TextStyle(height: 1.5),
-              ),
-            ),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      widget.post.textContent!,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(height: 1.5),
+                    ),
+                  ),
             const SizedBox(
               height: 10,
             ),
-            ( (widget.post.imageContent != null && widget.post.imageContent!.isNotEmpty) ||  widget.post.videoContent!.isNotEmpty) ? Container(
-              width: screenWidth! - 30,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal, // Allow horizontal scrolling
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    widget.post.imageContent != null && widget.post.imageContent!.isNotEmpty?
-                      widget.post.imageContent!.first == "" ? SizedBox(width: 1,) : Container(
-                        width:widget.post.imageContent!.length != 1 ? 0 : screenWidth! - 60,
-                        child: widget.post.imageContent!.length != 1  ? SizedBox(width: 1,) : ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(
-                            widget.post.imageContent!.first,
-                            fit: BoxFit.fitWidth,
-                            errorBuilder: (context, object, st) {
-                              return const SizedBox();
-                            },
+            ((widget.post.imageContent != null &&
+                        widget.post.imageContent!.isNotEmpty) ||
+                    widget.post.videoContent!.isNotEmpty)
+                ? Container(
+                    width: screenWidth! - 30,
+                    child: SingleChildScrollView(
+                      scrollDirection:
+                          Axis.horizontal, // Allow horizontal scrolling
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          widget.post.imageContent != null &&
+                                  widget.post.imageContent!.isNotEmpty
+                              ? widget.post.imageContent!.first == ""
+                                  ? SizedBox(
+                                      width: 1,
+                                    )
+                                  : Container(
+                                      width:
+                                          widget.post.imageContent!.length != 1
+                                              ? 0
+                                              : screenWidth! - 60,
+                                      child: widget.post.imageContent!.length !=
+                                              1
+                                          ? SizedBox(
+                                              width: 1,
+                                            )
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.network(
+                                                widget.post.imageContent!.first,
+                                                fit: BoxFit.fitWidth,
+                                                errorBuilder:
+                                                    (context, object, st) {
+                                                  return const SizedBox();
+                                                },
+                                              ),
+                                            ),
+                                    )
+                              : SizedBox(
+                                  width: 1,
+                                ),
+                          SizedBox(
+                            width: 5,
                           ),
-                        ),
-                      ) : SizedBox(width: 1,),
-                    SizedBox(width: 5,),
-
-                    widget.post.videoContent!.isEmpty ? SizedBox() : Container(
-                      width: screenWidth! - 60,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child:VideoWidget(videoUrl: widget.post.videoContent!.first)
+                          widget.post.videoContent!.isEmpty
+                              ? SizedBox()
+                              : Container(
+                                  width: screenWidth! - 60,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    // child: VideoWidget(
+                                    //     videoUrl:
+                                    //         widget.post.videoContent!.first)
+                                    child: const SizedBox(
+                                      height: 1,
+                                    ),
+                                  ),
+                                ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ) : SizedBox(),
+                  )
+                : SizedBox(),
 //       widget.post.imageContent == null ?  SizedBox()  :
 //
 //               imageSuccess ? Container(
@@ -250,7 +312,6 @@ class _PostCardState extends State<PostCard> {
 //                ) : SizedBox(),
 //
 
-
             SizedBox(
               height: 10,
             ),
@@ -259,20 +320,20 @@ class _PostCardState extends State<PostCard> {
               children: [
                 isLiked
                     ? GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isLiked = false;
-                      });
-                    },
-                    child: SvgPicture.asset(CustomIcons.like))
+                        onTap: () {
+                          setState(() {
+                            isLiked = false;
+                          });
+                        },
+                        child: SvgPicture.asset(CustomIcons.like))
                     : GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isLiked = true;
-                    });
-                  },
-                  child: SvgPicture.asset(CustomIcons.notlike),
-                ),
+                        onTap: () {
+                          setState(() {
+                            isLiked = true;
+                          });
+                        },
+                        child: SvgPicture.asset(CustomIcons.notlike),
+                      ),
                 const SizedBox(
                   width: 10,
                 ),
@@ -340,11 +401,10 @@ class _PostCardState extends State<PostCard> {
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 14,
-
                     fontWeight: FontWeight.w500,
                   ),
                   controller:
-                  type == 'Reply' ? _replyController : mySearchController,
+                      type == 'Reply' ? _replyController : mySearchController,
                   onTap: () {},
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
@@ -352,12 +412,11 @@ class _PostCardState extends State<PostCard> {
                   decoration: InputDecoration(
                     suffixIconColor: Colors.grey.withOpacity(0.4),
                     contentPadding:
-                    const EdgeInsets.only(top: 10, left: 16, right: 16),
+                        const EdgeInsets.only(top: 10, left: 16, right: 16),
                     border: InputBorder.none,
                     hintText: type == 'Reply' ? 'Add Reply' : 'Add Comment',
                     hintStyle: const TextStyle(
                       fontSize: 14,
-
                       fontWeight: FontWeight.w400,
                       color: Colors.black26,
                     ),
@@ -395,7 +454,7 @@ class _PostCardState extends State<PostCard> {
                   setState(() {
                     type = '';
                     selectedCommentId =
-                    null; // Clear selected comment ID after replying
+                        null; // Clear selected comment ID after replying
                   });
                 }
               } else {
@@ -420,7 +479,7 @@ class _PostCardState extends State<PostCard> {
     if (commentText.isNotEmpty) {
       // Add comment to Firestore
       DocumentReference documentReference =
-      await _firestore.collection('comments').add({
+          await _firestore.collection('comments').add({
         'author': getUsername(), // Replace with actual user name
         'text': commentText,
         'userId': FirebaseAuth.instance.currentUser!.uid,
@@ -457,40 +516,40 @@ class _PostCardState extends State<PostCard> {
           return Column(
             children: replies
                 .map((reply) => ListTile(
-              leading: RandomAvatar(widget.post.userName,
-                  height: 30, width: 30),
+                      leading: RandomAvatar(widget.post.userName,
+                          height: 30, width: 30),
 
-              // leading: CircleAvatar(
-              //           backgroundImage:
-              //               AssetImage('images/sample_avatar_2.png'),
-              //         ),
-              title: Text(
-                reply.author,
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey,
-                    fontSize: 12),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    reply.text,
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  Text(
-                    comment!.timestamp.substring(0, 11),
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 9,
-                    ),
-                  ),
-                ],
-              ),
-            ))
+                      // leading: CircleAvatar(
+                      //           backgroundImage:
+                      //               AssetImage('images/sample_avatar_2.png'),
+                      //         ),
+                      title: Text(
+                        reply.author,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey,
+                            fontSize: 12),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            reply.text,
+                            style: TextStyle(fontSize: 12),
+                          ),
+                          SizedBox(
+                            height: 7,
+                          ),
+                          Text(
+                            comment!.timestamp.substring(0, 11),
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 9,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ))
                 .toList(),
           );
         } else if (snapshot.hasError) {
@@ -520,10 +579,10 @@ class _PostCardState extends State<PostCard> {
     }
   }
 
-  Comment? comment;
+  CommentClass? comment;
 // Function to toggle like status and store it in SharedPreferences
   toggleLikeComment(String commentId) async {
-    Comment comment = await getComment(commentId);
+    CommentClass comment = await getComment(commentId);
     String currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
     // Check if the current user has already liked or disliked the comment
@@ -570,7 +629,7 @@ class _PostCardState extends State<PostCard> {
 
 // Function to toggle dislike status and store it in SharedPreferences
   toggleUnLikeComment(String commentId) async {
-    Comment comment = await getComment(commentId);
+    CommentClass comment = await getComment(commentId);
     String currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
     // Check if the current user has already liked or disliked the comment
@@ -626,8 +685,6 @@ class _PostCardState extends State<PostCard> {
     }
   }
 
-
-
 // Inside the retrieveUnLikedComments method
   Future<void> retrieveUnLikedComments() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -639,12 +696,10 @@ class _PostCardState extends State<PostCard> {
     }
   }
 
-
-
-  Future<Comment> getComment(String commentId) async {
+  Future<CommentClass> getComment(String commentId) async {
     DocumentSnapshot snapshot =
-    await _firestore.collection('comments').doc(commentId).get();
-    return Comment.fromJson(snapshot.data() as Map<String, dynamic>);
+        await _firestore.collection('comments').doc(commentId).get();
+    return CommentClass.fromJson(snapshot.data() as Map<String, dynamic>);
   }
 
   Map<String, bool> likedComments = {};
@@ -666,7 +721,8 @@ class _PostCardState extends State<PostCard> {
         builder: (BuildContext context, StateSetter setState) {
           var width = MediaQuery.of(context).size.width;
           return Padding(
-            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
               height: MediaQuery.of(context).size.height * 0.8,
               decoration: BoxDecoration(
@@ -699,9 +755,10 @@ class _PostCardState extends State<PostCard> {
                         if (snapshot.hasData) {
                           final comments = snapshot.data!.docs.map((doc) {
                             final data = doc.data() as Map<String, dynamic>;
-                            return Comment(
+                            return CommentClass(
                               author: data['author'],
                               text: data['text'],
+                              replies: [],
                               timestamp: data['timestamp'],
                               id: doc.id,
                               postId: widget.post.id.toString(),
@@ -712,7 +769,8 @@ class _PostCardState extends State<PostCard> {
                             return Center(
                               child: Text(
                                 'No Comments Available',
-                                style: TextStyle(color: Colors.black, fontSize: 20),
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 20),
                               ),
                             );
                           }
@@ -721,160 +779,404 @@ class _PostCardState extends State<PostCard> {
                             itemCount: comments.length,
                             itemBuilder: (BuildContext context, int index) {
                               comment = comments[index];
-                              bool isLiked = likedComments.containsKey(comments[index].id)
-                                  ? likedComments[comments[index].id]!
-                                  : false;
-                              bool isDisliked = dislikedComments.containsKey(comments[index].id)
+                              bool isLiked =
+                                  likedComments.containsKey(comments[index].id)
+                                      ? likedComments[comments[index].id]!
+                                      : false;
+                              bool isDisliked = dislikedComments
+                                      .containsKey(comments[index].id)
                                   ? dislikedComments[comments[index].id]!
                                   : false;
-                              print("\n\n\n");
-                              print(comment!.author);
-                              return Padding(
-                                padding: const EdgeInsets.only(
-                                  right: 8.0,
-                                  top: 10,
-                                  bottom: 5,
-                                ),
-                                child: Container(
-                                  constraints: BoxConstraints(minWidth: 100),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                                height:40,
-                                                width: 40,
-                                                child: RandomAvatar(comment!.author == "" ? "Error": comment!.author, height: 40, width: 40)),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              comment?.author ?? "",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            Spacer(),
-                                            Text(
-                                              comment?.timestamp.substring(0, 11) ?? "",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 10,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 8.0, left: 10),
-                                          child: Text(
-                                            comment?.text ?? "",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  type = 'Reply';
-                                                  _replyController.clear();
-                                                  selectedCommentId = comments[index].id;
-                                                });
-                                                print('Selected comment id is $selectedCommentId');
-                                              },
-                                              child: Text(
-                                                "Reply",
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
+                              return AnimatedContainer(
+                                duration: Duration(seconds: 1),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0, vertical: 10),
+                                  child: CommentTreeWidget<CommentClass,
+                                      CommentClass>(
+                                    CommentClass(
+                                        author: comment!.author,
+                                        text: comment!.author,
+                                        timestamp: comment!.timestamp,
+
+                                        replies: [], id: comment!.id,
+                                        postId: comment!.postId,
+                                        userId: comment!.userId),
+                                    [
+
+                                      // CommentClass(
+                                      //     avatar: 'null',
+                                      //     userName: 'null',
+                                      //     content: 'This is comment 2'),
+                                      // CommentClass(
+                                      //     avatar: 'null',
+                                      //     userName: 'null',
+                                      //     content: 'This is comment 3'),
+                                      // CommentClass(
+                                      //     avatar: 'null',
+                                      //     userName: 'null',
+                                      //     content: 'This is comment 4'),
+                                      // CommentClass(
+                                      //     avatar: 'null',
+                                      //     userName: 'null',
+                                      //     content: 'This is comment 5'),
+                                      CommentClass(
+                                          author: 'author',
+                                          text: 'text',
+                                          timestamp: 'timestamp',
+                                          replies: [],
+                                          id: 'id',
+                                          postId: 'postID',
+                                          userId: 'userID'),
+
+                                      CommentClass(
+                                          author: 'author',
+                                          text: 'text',
+                                          timestamp: 'timestamp',
+                                          id: 'id',
+                                          replies: [],
+                                          postId: 'postID',
+                                          userId: 'userID'),
+                                      CommentClass(
+                                          author: 'author',
+                                          text: 'text',
+                                          timestamp: 'timestamp',
+                                          id: 'id',
+                                          replies: [],
+                                          postId: 'postID',
+                                          userId: 'userID'),
+                                      CommentClass(
+                                          author: 'author',
+                                          text: 'text',
+                                          replies: [],
+                                          timestamp: 'timestamp',
+                                          id: 'id',
+                                          postId: 'postID',
+                                          userId: 'userID'),
+                                      CommentClass(
+                                          author: 'author',
+                                          text: 'text',
+                                          timestamp: 'timestamp',
+                                          id: 'id',
+                                          replies: [],
+                                          postId: 'postID',
+                                          userId: 'userID'),
+                                    ],
+                                    treeThemeData: TreeThemeData(
+                                        lineColor: Colors.blue, lineWidth: 3),
+                                    avatarRoot: (context, data) =>
+                                        PreferredSize(
+                                      preferredSize: Size.fromRadius(12),
+                                      child: RandomAvatar(comment!.author,
+                                          height: 40, width: 40),
+                                    ),
+                                    avatarChild: (context, data) =>
+                                        PreferredSize(
+                                      preferredSize: Size.fromRadius(12),
+                                      child: RandomAvatar(
+                                          DateTime.now().toString(),
+                                          height: 40,
+                                          width: 40),
+                                    ),
+                                    contentChild: (context, data) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8, horizontal: 8),
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey[100],
+                                                borderRadius:
+                                                    BorderRadius.circular(12)),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                IconButton(
-                                                  icon: Icon(
-                                                    isLiked ? Icons.favorite : Icons.favorite_border,
-                                                    color: isLiked ? Colors.red : null,
-                                                    size: 20,
-
-                                                  ),
-                                                  onPressed: () async {
-                                                    bool updatedLikedStatus = await toggleLikeComment(comments[index].id);
-                                                    setState(() {
-                                                      likedComments[comments[index].id] = updatedLikedStatus;
-                                                    });
-                                                  },
+                                                Text(
+                                                  "aadesh18",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall
+                                                      ?.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.black),
                                                 ),
-
-                                                IconButton(
-                                                  icon: Icon(
-                                                    isDisliked ? Icons.thumb_down : Icons.thumb_down_alt_outlined,
-                                                    color: isDisliked ? Colors.black : null,
-                                                    size: 20,
-                                                  ),
-                                                  onPressed: () async {
-                                                    bool updatedUnLikedStatus = await toggleUnLikeComment(comments[index].id);
-                                                    setState(() {
-                                                      dislikedComments[comments[index].id] = updatedUnLikedStatus;
-                                                    });
-                                                  },
+                                                const SizedBox(
+                                                  height: 4,
+                                                ),
+                                                Text(
+                                                  comment!.text,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall
+                                                      ?.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          color: Colors.black),
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
-                                        showReplies == '' ?  Center(
-                                          child: Text(
-                                            'There is no Reply',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w600,
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                    contentRoot: (context, data) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8, horizontal: 8),
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey[100],
+                                                borderRadius:
+                                                    BorderRadius.circular(12)),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  comment!.author,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.black),
+                                                ),
+                                                const SizedBox(
+                                                  height: 4,
+                                                ),
+                                                Text(
+                                                  '${data.content}',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          color: Colors.black),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        )  :
-                                        InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              // Toggle the visibility of replies
-                                              showReplies = !showReplies;
-                                            });
-                                          },
-                                          child: Padding(
-                                            padding:  EdgeInsets.symmetric(vertical: 8.0),
-                                            child:
-                                            showReplies ?  _buildReplyList(comment!.id) :
-                                            Text(
-                                              'View all replies',
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w600,
+                                          DefaultTextStyle(
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                    color: Colors.grey[700],
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(0),
+                                              child: TextButton(
+                                                child: Text(
+                                                  'Reply',
+                                                  style: TextStyle(
+                                                    color: Colors.blue,
+                                                  ),
+                                                ),
+                                                onPressed: () {},
+                                                style: ButtonStyle(
+                                                  padding: MaterialStateProperty
+                                                      .all<EdgeInsets>(
+                                                          EdgeInsets.zero),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                          )
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ),
                               );
+                              // return Padding(
+                              //   padding: const EdgeInsets.only(
+                              //     right: 8.0,
+                              //     top: 10,
+                              //     bottom: 5,
+                              //   ),
+                              //   child: Container(
+                              //     constraints: const BoxConstraints(minWidth: 100),
+                              //     decoration: BoxDecoration(
+                              //       borderRadius: BorderRadius.circular(20),
+                              //     ),
+                              //     child: Padding(
+                              //       padding: const EdgeInsets.all(8.0),
+                              //       child: Column(
+                              //         crossAxisAlignment:
+                              //             CrossAxisAlignment.start,
+                              //         children: [
+                              //           Row(
+                              //             children: [
+                              //               Container(
+                              //                   height: 40,
+                              //                   width: 40,
+                              //                   child: RandomAvatar(
+                              //                       comment!.author == ""
+                              //                           ? "Error"
+                              //                           : comment!.author,
+                              //                       height: 40,
+                              //                       width: 40)),
+                              //               SizedBox(
+                              //                 width: 10,
+                              //               ),
+                              //               Text(
+                              //                 comment?.author ?? "",
+                              //                 style: TextStyle(
+                              //                   color: Colors.grey,
+                              //                   fontSize: 15,
+                              //                   fontWeight: FontWeight.w600,
+                              //                 ),
+                              //               ),
+                              //               Spacer(),
+                              //               Text(
+                              //                 comment?.timestamp
+                              //                         .substring(0, 11) ??
+                              //                     "",
+                              //                 style: TextStyle(
+                              //                   color: Colors.grey,
+                              //                   fontSize: 10,
+                              //                 ),
+                              //               ),
+                              //             ],
+                              //           ),
+                              //           Padding(
+                              //             padding: const EdgeInsets.only(
+                              //                 top: 8.0, left: 10),
+                              //             child: Text(
+                              //               comment?.text ?? "",
+                              //               style: TextStyle(
+                              //                 color: Colors.black,
+                              //                 fontSize: 15,
+                              //               ),
+                              //             ),
+                              //           ),
+                              //           SizedBox(height: 10),
+                              //           Row(
+                              //             mainAxisAlignment:
+                              //                 MainAxisAlignment.spaceBetween,
+                              //             children: [
+                              //               InkWell(
+                              //                 onTap: () {
+                              //                   setState(() {
+                              //                     type = 'Reply';
+                              //                     _replyController.clear();
+                              //                     selectedCommentId =
+                              //                         comments[index].id;
+                              //                   });
+                              //                   print(
+                              //                       'Selected comment id is $selectedCommentId');
+                              //                 },
+                              //                 child: Text(
+                              //                   "Reply",
+                              //                   style: TextStyle(
+                              //                     color: Colors.grey,
+                              //                     fontSize: 13,
+                              //                     fontWeight: FontWeight.w600,
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //               Row(
+                              //                 mainAxisAlignment:
+                              //                     MainAxisAlignment.start,
+                              //                 children: [
+                              //                   IconButton(
+                              //                     icon: Icon(
+                              //                       isLiked
+                              //                           ? Icons.favorite
+                              //                           : Icons.favorite_border,
+                              //                       color: isLiked
+                              //                           ? Colors.red
+                              //                           : null,
+                              //                       size: 20,
+                              //                     ),
+                              //                     onPressed: () async {
+                              //                       bool updatedLikedStatus =
+                              //                           await toggleLikeComment(
+                              //                               comments[index].id);
+                              //                       setState(() {
+                              //                         likedComments[
+                              //                                 comments[index]
+                              //                                     .id] =
+                              //                             updatedLikedStatus;
+                              //                       });
+                              //                     },
+                              //                   ),
+                              //                   IconButton(
+                              //                     icon: Icon(
+                              //                       isDisliked
+                              //                           ? Icons.thumb_down
+                              //                           : Icons
+                              //                               .thumb_down_alt_outlined,
+                              //                       color: isDisliked
+                              //                           ? Colors.black
+                              //                           : null,
+                              //                       size: 20,
+                              //                     ),
+                              //                     onPressed: () async {
+                              //                       bool updatedUnLikedStatus =
+                              //                           await toggleUnLikeComment(
+                              //                               comments[index].id);
+                              //                       setState(() {
+                              //                         dislikedComments[
+                              //                                 comments[index]
+                              //                                     .id] =
+                              //                             updatedUnLikedStatus;
+                              //                       });
+                              //                     },
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //             ],
+                              //           ),
+                              //           showReplies == ''
+                              //               ? Center(
+                              //                   child: Text(
+                              //                     'There is no Reply',
+                              //                     style: TextStyle(
+                              //                       color: Colors.black,
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w600,
+                              //                     ),
+                              //                   ),
+                              //                 )
+                              //               : InkWell(
+                              //                   onTap: () {
+                              //                     setState(() {
+                              //                       // Toggle the visibility of replies
+                              //                       showReplies = !showReplies;
+                              //                     });
+                              //                   },
+                              //                   child: Padding(
+                              //                     padding: EdgeInsets.symmetric(
+                              //                         vertical: 8.0),
+                              //                     child: showReplies
+                              //                         ? _buildReplyList(
+                              //                             comment!.id)
+                              //                         : Text(
+                              //                             'View all replies',
+                              //                             style: TextStyle(
+                              //                               color: Colors.grey,
+                              //                               fontSize: 13,
+                              //                               fontWeight:
+                              //                                   FontWeight.w600,
+                              //                             ),
+                              //                           ),
+                              //                   ),
+                              //                 ),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ),
+                              // );
                             },
                           );
                         } else if (snapshot.hasError) {
@@ -902,32 +1204,26 @@ class _PostCardState extends State<PostCard> {
       ),
     );
   }
-
-
-
-
 }
 
-PopupMenuItem menuOption(String iconPath, String title, String value, BuildContext context, String userEmail, String userName) {
+PopupMenuItem menuOption(String iconPath, String title, String value,
+    BuildContext context, String userEmail, String userName) {
   return PopupMenuItem(
     value: value,
-    onTap: ()async {
-      if (value == "chat"){
-
-        String? id = await AuthWork.getConversationID(userName, userEmail
-        );
+    onTap: () async {
+      if (value == "chat") {
+        String? id = await AuthWork.getConversationID(userName, userEmail);
         print("THE ID RECEIVED IS $id");
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ChatScreenNew(
-              acceptUser: AcceptedDateData(email: userEmail, id: id!, name: userName),
+              acceptUser:
+                  AcceptedDateData(email: userEmail, id: id!, name: userName),
             ),
           ),
         );
-
       }
-
     },
     child: Row(children: [
       SvgPicture.asset(iconPath),

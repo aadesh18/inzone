@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_enums.dart';
+import 'package:lottie/lottie.dart';
 
 class UserSignUpScreen extends StatefulWidget {
   String? name;
@@ -26,7 +27,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Name",
+            const Text("Name 🔤",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             const SizedBox(
               height: 10,
@@ -59,128 +60,128 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                 },
               ),
             ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // const Text("Gender (optional)",
+            //     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     crossAxisAlignment: CrossAxisAlignment.center,
+            //     children: [
+            //       GestureDetector(
+            //           onTap: () {
+            //             setState(() {
+            //               temp_gender = 0;
+            //               gender = 0;
+            //             });
+            //             currentUser.setGender(InZoneEnums.male);
+            //           },
+            //           child: genderChoose(Icons.male, "Male", 0)),
+            //       GestureDetector(
+            //           onTap: () {
+            //             setState(() {
+            //               temp_gender = 1;
+            //               gender = 1;
+            //             });
+            //             currentUser.setGender(InZoneEnums.female);
+            //           },
+            //           child: genderChoose(Icons.male, "Female", 1)),
+            //       GestureDetector(
+            //           onTap: () {
+            //             setState(() {
+            //               temp_gender = 2;
+            //               gender = 2;
+            //             });
+            //             currentUser.setGender(InZoneEnums.other);
+            //           },
+            //           child: genderChoose(Icons.male, "Other", 2)),
+            //     ],
+            //   ),
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // const Text("Age (optional)",
+            //     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             const SizedBox(
               height: 10,
             ),
-            const Text("Gender (optional)",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          temp_gender = 0;
-                          gender = 0;
-                        });
-                        currentUser.setGender(InZoneEnums.male);
-                      },
-                      child: genderChoose(Icons.male, "Male", 0)),
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          temp_gender = 1;
-                          gender = 1;
-                        });
-                        currentUser.setGender(InZoneEnums.female);
-                      },
-                      child: genderChoose(Icons.male, "Female", 1)),
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          temp_gender = 2;
-                          gender = 2;
-                        });
-                        currentUser.setGender(InZoneEnums.other);
-                      },
-                      child: genderChoose(Icons.male, "Other", 2)),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text("Age (optional)",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 48,
-              padding: const EdgeInsets.only(left: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 3,
-                    offset: const Offset(
-                        0, 0), // Changes the position of the shadow
-                  ),
-                ],
-              ),
-              child: ListView.builder(
-                itemCount: 200,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return Center(
-                      child: Row(
-                    children: [
-                      temp_age == index + 1
-                          ? Container(
-                              margin: const EdgeInsets.only(left: 5, right: 5),
-                              width: 30.0,
-                              height: 30.0,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors
-                                    .blue, // You can change the color as needed
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: Offset(0, 2),
-                                    blurRadius: 0,
-                                    spreadRadius: 0,
-                                    color: Color(0xFF1573BE),
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '${index + 1}', // Your content or icon goes here
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            )
-                          : GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  temp_age = index + 1;
-                                  age = index + 1;
-                                });
+            // Container(
+            //   width: MediaQuery.of(context).size.width,
+            //   height: 48,
+            //   padding: const EdgeInsets.only(left: 10),
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(12.0),
+            //     color: Colors.white,
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Colors.grey.withOpacity(0.5),
+            //         spreadRadius: 1,
+            //         blurRadius: 3,
+            //         offset: const Offset(
+            //             0, 0), // Changes the position of the shadow
+            //       ),
+            //     ],
+            //   ),
+            //   child: ListView.builder(
+            //     itemCount: 200,
+            //     scrollDirection: Axis.horizontal,
+            //     itemBuilder: (BuildContext context, int index) {
+            //       return Center(
+            //           child: Row(
+            //         children: [
+            //           temp_age == index + 1
+            //               ? Container(
+            //                   margin: const EdgeInsets.only(left: 5, right: 5),
+            //                   width: 30.0,
+            //                   height: 30.0,
+            //                   decoration: const BoxDecoration(
+            //                     shape: BoxShape.circle,
+            //                     color: Colors
+            //                         .blue, // You can change the color as needed
+            //                     boxShadow: [
+            //                       BoxShadow(
+            //                         offset: Offset(0, 2),
+            //                         blurRadius: 0,
+            //                         spreadRadius: 0,
+            //                         color: Color(0xFF1573BE),
+            //                       ),
+            //                     ],
+            //                   ),
+            //                   child: Center(
+            //                     child: Text(
+            //                       '${index + 1}', // Your content or icon goes here
+            //                       style: const TextStyle(
+            //                         color: Colors.white,
+            //                         fontSize: 14.0,
+            //                         fontWeight: FontWeight.bold,
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 )
+            //               : GestureDetector(
+            //                   onTap: () {
+            //                     setState(() {
+            //                       temp_age = index + 1;
+            //                       age = index + 1;
+            //                     });
+            //
+            //                     currentUser.setAge(age);
+            //                   },
+            //                   child: Text("   ${index + 1}   ")),
+            //         ],
+            //       ));
+            //     },
+            //   ),
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
 
-                                currentUser.setAge(age);
-                              },
-                              child: Text("   ${index + 1}   ")),
-                    ],
-                  ));
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-
-            const Text("E-mail",
+            const Text("E-mail📮",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             const SizedBox(
               height: 10,
@@ -213,53 +214,55 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                 },
               ),
             ),
-            temp_age < 13
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text("Parent's E-mail",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w700)),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 3,
-                              offset: const Offset(
-                                  0, 0), // Changes the position of the shadow
-                            ),
-                          ],
-                        ),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: currentUser.getParentEmail() ??
-                                'Enter Parent E-mail',
-                            border: InputBorder.none,
-                          ),
-                          onChanged: (value) {
-                            currentUser.setParentEmail(value);
-                          },
-                        ),
-                      ),
-                    ],
-                  )
-                : const SizedBox(),
+            // temp_age < 13
+            //     ? Column(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           const SizedBox(
+            //             height: 10,
+            //           ),
+            //           const Text("Parent's E-mail",
+            //               style: TextStyle(
+            //                   fontSize: 16, fontWeight: FontWeight.w700)),
+            //           const SizedBox(
+            //             height: 10,
+            //           ),
+            //           Container(
+            //             padding: const EdgeInsets.only(left: 10),
+            //             decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(10.0),
+            //               color: Colors.white,
+            //               boxShadow: [
+            //                 BoxShadow(
+            //                   color: Colors.grey.withOpacity(0.5),
+            //                   spreadRadius: 1,
+            //                   blurRadius: 3,
+            //                   offset: const Offset(
+            //                       0, 0), // Changes the position of the shadow
+            //                 ),
+            //               ],
+            //             ),
+            //             child: TextField(
+            //               decoration: InputDecoration(
+            //                 hintText: currentUser.getParentEmail() ??
+            //                     'Enter Parent E-mail',
+            //                 border: InputBorder.none,
+            //               ),
+            //               onChanged: (value) {
+            //                 currentUser.setParentEmail(value);
+            //               },
+            //             ),
+            //           ),
+            //         ],
+            //       )
+            //     : const SizedBox(),
+            // const SizedBox(
+            //   height: 10,
+            // ),
             const SizedBox(
               height: 10,
             ),
-
-            const Text("Password",
+            const Text("Password🔑",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             const SizedBox(
               height: 10,
@@ -344,8 +347,10 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                 ],
               ),
             ),
-            SizedBox(
-              height: screenHeight! / 2,
+            Container(
+              height: screenHeight! / 3,
+              margin: EdgeInsets.all(20.0),
+              child:         Center(child: Lottie.asset("assets/animations/inzone_loading.json")),
             )
             // Center(
             //   child: GestureDetector(

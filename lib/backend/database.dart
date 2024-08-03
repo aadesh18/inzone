@@ -13,6 +13,7 @@ import 'package:inzone/data/inzone_user.dart';
 import 'package:inzone/data/inzone_post.dart';
 
 import '../data/inzone_message.dart';
+import '../main_screens/root_app.dart';
 
 class InZoneDatabase {
   static Future<InZoneCurrentUser?> getUserData(String docID) async {
@@ -50,26 +51,36 @@ class InZoneDatabase {
     String url = "";
     DateTime time = DateTime.now();
     if (email!=null){
-      url = 'https://get-feed-r36l54qvra-uc.a.run.app/?email=$email&time=${time.hour.toString()}';
+      url = 'https://us-central1-inzonebackend.cloudfunctions.net/api/get_posts';
+      // url = 'https://get-feed-r36l54qvra-uc.a.run.app/?email=$email&time=${time.hour.toString()}';
     } else {
-      url = 'https://get-feed-r36l54qvra-uc.a.run.app/?email=email_not_found&time=${time.hour.toString()}';
+      url = 'https://us-central1-inzonebackend.cloudfunctions.net/api/get_posts';
+      // url = 'https://get-feed-r36l54qvra-uc.a.run.app/?email=email_not_found&time=${time.hour.toString()}';
     }
 
+
     try {
-      final http.Response response = await http.get(Uri.parse(url));
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+
       if (response.statusCode == 200) {
         print("Response Received");
         final jsonMap = jsonDecode(response.body.toString());
-        posts = InZonePost.fromJson(jsonMap);
+
+        List<InZonePost> posts = InZonePost.fromJson(jsonMap);
         print("This is where the response begins:\n\n\n");
-        posts.forEach((elem){
-          print(elem.textContent);
-          randomIndex = currentIndex;
+        posts.forEach((elem) {
+          print(elem.toString() );
+          int randomIndex = currentIndex;
           InZoneCurrentUser.subCategories.add(
             elem.category.trim() == ""
                 ? InZoneCategory(categoryName: "Animals", index: randomIndex)
-                : InZoneCategory(
-                categoryName: elem.category, index: randomIndex),
+                : InZoneCategory(categoryName: elem.category, index: randomIndex),
           );
           if (currentIndex == 6) {
             currentIndex = 0;
@@ -79,13 +90,13 @@ class InZoneDatabase {
         });
         randomIndex = currentIndex;
         print("This is where the response ends:\n\n\n");
+        print(posts.length);
+        return posts;
       } else {
         print('Server error: ${response.statusCode}');
       }
     } catch (e) {
-      // Handle any errors that occur during the request
       print('Error sending request: $e');
-
     }
 
     // final collectionRef =
@@ -444,6 +455,60 @@ class InZoneDatabase {
       // Handle any errors that occur during the request
       print('Error sending request: $e');
       return null;
+    }
+  }
+
+
+  static Future<void> signUpAnonymouslyAndCreateDocument(BuildContext context) async {
+    try {
+
+      UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+      User? user = userCredential.user;
+
+      if (user != null) {
+        // Create a Firestore document with sample values
+        final userCollection = FirebaseFirestore.instance.collection('users');
+        String uid = user.uid;
+
+        await userCollection.doc(uid).set({
+          "age": 0, // Sample age
+          "bio": "",
+          "categories": {
+            "focus": [],
+            "fallback": [],
+            "custom": []
+          },
+          "chats":[],
+          "email":"anonymous",
+          "family":"",
+          "firstName": "anonymous",
+          "lastName": "anonymous",
+          "followers":[],
+          "following": [],
+          "gender": "anonymous",
+          "parent": false,
+          "user_name": "anonymous",
+          "ai":false,
+          "uid": uid
+        });
+
+        // Navigate to the root app or home screen
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+          return RootApp();
+        }));
+      } else {
+        throw FirebaseAuthException(
+          code: 'ERROR_ANONYMOUS_SIGN_IN_FAILED',
+          message: 'Anonymous sign-in failed',
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      // Show error message
+      final snackBar = SnackBar(
+        content: Text("Error: ${e.message}"),
+        backgroundColor: Colors.red,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 

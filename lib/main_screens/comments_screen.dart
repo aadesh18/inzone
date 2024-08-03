@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_post.dart';
 import 'package:inzone/main_screens/comment_screen/comment_class.dart';
 import 'package:inzone/main_screens/components/post_card.dart';
@@ -49,26 +52,130 @@ class _CommentPageState extends State<CommentPage> {
       ),
       body: Column(
         children: [
+          // Expanded(
+          //   child: StreamBuilder<QuerySnapshot>(
+          //     stream: _firestore.collection('comments').snapshots(),
+          //     builder: (context, snapshot) {
+          //       if (snapshot.hasData) {
+          //         final comments = snapshot.data!.docs.map((doc) {
+          //           final data = doc.data() as Map<String, dynamic>;
+          //           return CommentClass(
+          //             author: data['author'],
+          //             text: data['text'],
+          //             timestamp: data['timestamp'],
+          //             id: doc.id,
+          //             postId: widget.post.id.toString(),
+          //             userId: '',
+          //           );
+          //         }).toList();
+          //
+          //         return ListView.builder(
+          //           padding: const EdgeInsets.fromLTRB(20, 5, 20, 100),
+          //           itemCount: comments.length,
+          //           itemBuilder: (BuildContext context, int index) {
+          //             final comment = comments[index];
+          //             return Padding(
+          //               padding: const EdgeInsets.only(
+          //                 right: 8.0,
+          //                 top: 10,
+          //                 bottom: 5,
+          //               ),
+          //               child: Container(
+          //                 constraints: BoxConstraints(minWidth: 100),
+          //                 decoration: BoxDecoration(
+          //                   borderRadius: BorderRadius.circular(20),
+          //                   border: Border.all(
+          //                     color: Colors.black26,
+          //                     width: 1,
+          //                   ),
+          //                 ),
+          //                 child: Padding(
+          //                   padding: const EdgeInsets.all(8.0),
+          //                   child: Column(
+          //                     crossAxisAlignment: CrossAxisAlignment.start,
+          //                     children: [
+          //                       Row(
+          //                         children: [
+          //                           Container(
+          //                             height: 50,
+          //                             width: 50,
+          //                             decoration: BoxDecoration(
+          //                               shape: BoxShape.circle,
+          //                               image: DecorationImage(
+          //                                 image: AssetImage(
+          //                                   'images/sample_avatar_2.png',
+          //                                 ),
+          //                               ),
+          //                             ),
+          //                           ),
+          //                           Text(
+          //                             comment.author,
+          //                             style: TextStyle(
+          //                               color: Colors.black,
+          //                               fontSize: 17,
+          //                               fontWeight: FontWeight.w600,
+          //                             ),
+          //                           ),
+          //                         ],
+          //                       ),
+          //                       Text(
+          //                         comment.text,
+          //                         style: TextStyle(
+          //                           color: Colors.black,
+          //                           fontSize: 15,
+          //                         ),
+          //                       ),
+          //                       SizedBox(height: 10),
+          //                       Row(
+          //                         mainAxisAlignment:
+          //                             MainAxisAlignment.spaceBetween,
+          //                         children: [
+          //                           InkWell(
+          //                             onTap: () {
+          //                               _toggleReplyField(comment.id!);
+          //                             },
+          //                             child: Text(
+          //                               "Reply",
+          //                               style: TextStyle(
+          //                                 color: Colors.black,
+          //                                 fontSize: 15,
+          //                                 fontWeight: FontWeight.w600,
+          //                               ),
+          //                             ),
+          //                           ),
+          //                           Text(
+          //                             comment.timestamp.substring(0, 11),
+          //                             style: TextStyle(
+          //                               color: Colors.black,
+          //                               fontSize: 11,
+          //                             ),
+          //                           ),
+          //                         ],
+          //                       ),
+          //                       if (_showReplyFields[comment.id] ?? false)
+          //                         _buildReplyField(comment.id),
+          //                       _buildReplyList(comment.id),
+          //                     ],
+          //                   ),
+          //                 ),
+          //               ),
+          //             );
+          //           },
+          //         );
+          //       } else if (snapshot.hasError) {
+          //         return Text('Error: ${snapshot.error}');
+          //       }
+          //
+          //       return CircularProgressIndicator();
+          //     },
+          //   ),
+          // ),
           Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: _firestore.collection('comments').snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final comments = snapshot.data!.docs.map((doc) {
-                    final data = doc.data() as Map<String, dynamic>;
-                    return Comment(
-                      author: data['author'],
-                      text: data['text'],
-                      timestamp: data['timestamp'],
-                      id: doc.id, postId: widget.post.id.toString(), userId: '',
-                    );
-                  }).toList();
-
-                  return ListView.builder(
+            child: ListView.builder(
                     padding: const EdgeInsets.fromLTRB(20, 5, 20, 100),
-                    itemCount: comments.length,
+                    itemCount: widget.post.comments.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final comment = comments[index];
+                      final comment =  widget.post.comments[index];
                       return Padding(
                         padding: const EdgeInsets.only(
                           right: 8.0,
@@ -156,20 +263,16 @@ class _CommentPageState extends State<CommentPage> {
                         ),
                       );
                     },
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
+                  ))
 
-                return CircularProgressIndicator();
-              },
-            ),
-          ),
+
+          ,
           chatInput()
         ],
       ),
     );
   }
+
   Widget chatInput() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
@@ -189,7 +292,6 @@ class _CommentPageState extends State<CommentPage> {
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 14,
-                          fontFamily: 'Maneola',
                           fontWeight: FontWeight.w500,
                         ),
                         controller: mySearchController,
@@ -250,17 +352,43 @@ class _CommentPageState extends State<CommentPage> {
     );
   }
 
+  // void _addComment() async {
+  //   String commentText = mySearchController.text.trim();
+  //   if (commentText.isNotEmpty) {
+  //     // Add comment to Firestore
+  //     await _firestore.collection('comments').add({
+  //       'author': 'User', // Replace with actual user name
+  //       'text': commentText,
+  //       'timestamp': DateTime.now().toString(),
+  //     });
+  //     setState(() {
+  //       mySearchController.clear();
+  //     });
+  //   }
+  // }
   void _addComment() async {
     String commentText = mySearchController.text.trim();
     if (commentText.isNotEmpty) {
-      // Add comment to Firestore
-      await _firestore.collection('comments').add({
-        'author': 'User', // Replace with actual user name
+      // Create the new comment
+      String authorName = currentUser.getUserName() != null ? currentUser.getUserName()! : "anonymous";
+
+      Map<String, dynamic> newComment = {
+        'name': authorName,
+        'uid' : FirebaseAuth.instance.currentUser!.uid,
         'text': commentText,
-        'timestamp': DateTime.now().toString(),
+        'timestamp': FieldValue.serverTimestamp(),
+        'replies': [],
+      };
+
+
+      // Add the new comment to the existing comments array in Firestore
+      await _firestore.collection('posts').doc(widget.post.id).update({
+        'comments': FieldValue.arrayUnion([newComment]),
       });
+
       setState(() {
         mySearchController.clear();
+            widget.post.comments.add(CommentClass(author: authorName, text: commentText, timestamp: "now", id: FirebaseAuth.instance.currentUser!.uid, postId: widget.post.id!, userId: FirebaseAuth.instance.currentUser!.uid, replies: []));
       });
     }
   }
@@ -288,9 +416,9 @@ class _CommentPageState extends State<CommentPage> {
               _addReply(commentId);
               setState(() {
                 _showReplyFields[commentId] =
-                !(_showReplyFields[commentId] ?? false);
+                    !(_showReplyFields[commentId] ?? false);
               });
-              },
+            },
             child: const Center(
               child: Icon(
                 Icons.send,
@@ -299,7 +427,6 @@ class _CommentPageState extends State<CommentPage> {
               ),
             ),
           ),
-
         ],
       ),
     );
@@ -326,14 +453,14 @@ class _CommentPageState extends State<CommentPage> {
           return Column(
             children: replies
                 .map((reply) => ListTile(
-              leading: CircleAvatar(
-                backgroundImage:
-                AssetImage('images/sample_avatar_2.png'),
-              ),
-              title: Text(reply.author),
-              subtitle: Text(reply.text),
-              trailing: Text(reply.timestamp.substring(0, 11)),
-            ))
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            AssetImage('images/sample_avatar_2.png'),
+                      ),
+                      title: Text(reply.author),
+                      subtitle: Text(reply.text),
+                      trailing: Text(reply.timestamp.substring(0, 11)),
+                    ))
                 .toList(),
           );
         } else if (snapshot.hasError) {
@@ -347,8 +474,7 @@ class _CommentPageState extends State<CommentPage> {
 
   void _toggleReplyField(String commentId) {
     setState(() {
-      _showReplyFields[commentId] =
-      !(_showReplyFields[commentId] ?? false);
+      _showReplyFields[commentId] = !(_showReplyFields[commentId] ?? false);
     });
   }
 

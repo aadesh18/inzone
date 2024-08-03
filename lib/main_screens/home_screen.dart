@@ -30,6 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
   getFeed() async {
     posts.clear();
     await InZoneDatabase.getFeed().then((value) {
+      print("GOT VALUE");
+      print(value);
       categoriesList.clear();
       for (var element in value) {
         print(element.category);
@@ -50,7 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         // posts.shuffle();
         // posts.reversed;
+        print(posts.length);
         categoriesList.reversed;
+
       });
     });
   }

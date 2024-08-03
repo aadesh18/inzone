@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:inzone/backend/database.dart';
 import 'package:inzone/backend/phone_auth_backend.dart';
 import 'package:inzone/constants.dart';
+import 'package:inzone/welcome_screens/idea_explanation_page.dart';
 import 'package:inzone/welcome_screens/phone_number_page.dart';
 import 'package:inzone/welcome_screens/sign_up_pages.dart';
+import 'package:lottie/lottie.dart';
 
 import '../data/user_model.dart';
 
@@ -19,9 +22,229 @@ class IntroductionPage extends StatelessWidget {
           child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+        Container(
+        padding: const EdgeInsets.all(20),
+            height: 400,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+
+              gradient: RadialGradient(
+                colors: [
+                  Colors.white.withOpacity(0.5),
+                  backgroundColor
+                ],
+                radius: 0.5,
+                center: Alignment(0.0, 0.0),
+                stops: [0.0, 1.0],
+              ),
+            ),
+            child: Lottie.asset('animations/animation_intro.json', height: 250, width: 250),
+          ),
+           const SizedBox(height: 20,),
+           // const  Text(
+           //    "The Social Media of Tomorrow",
+           //    textAlign: TextAlign.center,
+           //
+           //    style: TextStyle(
+           //    fontSize: 25,
+           //    fontWeight: FontWeight.bold
+           //  ),),
+           const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              child: Text("Integrate AI avatars. Customize content. Schedule your social media.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 19,
+                    color: Colors.black.withOpacity(0.7),
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 80,),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30,
+              ),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.07,
+                width:  MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: backgroundColor.withOpacity(0.9),
+                  border: Border.all(
+                    color: Colors.white,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12.withOpacity(0.05),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: const Offset(0, -1),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) =>  IdeaExplanationPage())));
+                        },
+                        child: Container(
+                          height:  MediaQuery.of(context).size.height * 0.08,
+                          width:  MediaQuery.of(context).size.width / 2.2,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              "Register",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const SignIn(),
+                          //   ),
+                          // );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PhoneAuthBackEnd()));
+                        },
+                        child: Text(
+                          "Sign In",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                            color: Colors.black.withOpacity(0.8),
+                          ),
+                        ),
+                      ),
+
+
+                      const Spacer(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20,),
+            TextButton(
+              onPressed: () async {
+                await InZoneDatabase.signUpAnonymouslyAndCreateDocument(context);
+              },
+              child: Text("Skip for now",
+              style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline)),
+            ),
+          ]
+        ),
+      )),
+    );
+  }
+}
+
+class MessageWithTitleSubtitleImage extends StatelessWidget {
+  final String title;
+  final String subTitleFirstLine;
+  final String subTitleSecondLine;
+  final String imagePath;
+  const MessageWithTitleSubtitleImage({
+    super.key,
+    required this.title,
+    required this.subTitleFirstLine,
+    required this.subTitleSecondLine,
+    required this.imagePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 500,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          imagePath.isNotEmpty
+              ? ScreenshotPlaceHolder(
+                  half: false,
+                  path: imagePath,
+                )
+              : const SizedBox(height: 0),
+          title.isNotEmpty
+              ? Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 23, fontWeight: FontWeight.bold),
+                )
+              : const SizedBox(height: 0),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            subTitleFirstLine,
+            style: const TextStyle(fontSize: 16),
+          ),
+          Text(
+            subTitleSecondLine,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ScreenshotPlaceHolder extends StatelessWidget {
+  final String path;
+  final bool half;
+  const ScreenshotPlaceHolder(
+      {super.key, required this.half, required this.path});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 400,
+      width: MediaQuery.sizeOf(context).width ,
+      child: Image.asset(
+        path,
+        fit: BoxFit.fitHeight,
+      ),
+    );
+    // return Container(
+    //   //  height: half ? 300 : 500,
+    //   decoration: BoxDecoration(
+    //       borderRadius: BorderRadius.circular(20), color: Colors.white),
+    //   //padding: const EdgeInsets.all(10),
+    //   child: Image.asset(path),
+    // );
+  }
+}
+
+
+
+/*
+ [
             const Text(
               "Social Media made",
               style: TextStyle(
@@ -196,82 +419,9 @@ class IntroductionPage extends StatelessWidget {
             //   ],
             // )
           ],
-        ),
-      )),
-    );
-  }
-}
+ */
 
-class MessageWithTitleSubtitleImage extends StatelessWidget {
-  final String title;
-  final String subTitleFirstLine;
-  final String subTitleSecondLine;
-  final String imagePath;
-  const MessageWithTitleSubtitleImage({
-    super.key,
-    required this.title,
-    required this.subTitleFirstLine,
-    required this.subTitleSecondLine,
-    required this.imagePath,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        children: [
-          imagePath.isNotEmpty
-              ? ScreenshotPlaceHolder(
-                  half: false,
-                  path: imagePath,
-                )
-              : const SizedBox(height: 0),
-          title.isNotEmpty
-              ? Text(
-                  title,
-                  style: const TextStyle(
-                      fontSize: 23, fontWeight: FontWeight.bold),
-                )
-              : const SizedBox(height: 0),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            subTitleFirstLine,
-            style: const TextStyle(fontSize: 16),
-          ),
-          Text(
-            subTitleSecondLine,
-            style: const TextStyle(fontSize: 16),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
-class ScreenshotPlaceHolder extends StatelessWidget {
-  final String path;
-  final bool half;
-  const ScreenshotPlaceHolder(
-      {super.key, required this.half, required this.path});
 
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Image.asset(
-        path,
-        fit: BoxFit.fitHeight,
-      ),
-    );
-    // return Container(
-    //   //  height: half ? 300 : 500,
 
-    //   decoration: BoxDecoration(
-    //       borderRadius: BorderRadius.circular(20), color: Colors.white),
-    //   //padding: const EdgeInsets.all(10),
-    //   child: Image.asset(path),
-    // );
-  }
-}

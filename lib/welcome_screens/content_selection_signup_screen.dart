@@ -42,35 +42,29 @@ class _ContentSelectionSignupScreenState
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            height: screenHeight! / 1.4,
+            margin: const EdgeInsets.only(bottom: 30),
+            height: screenHeight! * 0.75,
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+
               children: [
-                const Text(
-                    "Select the content for each mood.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: PageView(
-                    controller: _controller,
-                    onPageChanged: (index) {
-                      setState(() {
-                        currentPage = index + 1;
-                        onLastPage = (currentPage ==
-                            ContentSelectionSignupScreen.numPages);
-                        _value =
-                            ((index + 1) / ContentSelectionSignupScreen.numPages);
-                      });
-                    },
-                    children:  [FocusPage(newUser: widget.newUser), FallBackPage(newUser: widget.newUser), CustomPage(newUser: widget.newUser)],
-                  ),
-                ),
+                Expanded(child: FocusPage(newUser: widget.newUser))
+                // Expanded(
+                //   child: PageView(
+                //     controller: _controller,
+                //     onPageChanged: (index) {
+                //       setState(() {
+                //         currentPage = index + 1;
+                //         onLastPage = (currentPage ==
+                //             ContentSelectionSignupScreen.numPages);
+                //         _value =
+                //             ((index + 1) / ContentSelectionSignupScreen.numPages);
+                //       });
+                //     },
+                //     children:  [FocusPage(newUser: widget.newUser), FallBackPage(newUser: widget.newUser), CustomPage(newUser: widget.newUser)],
+                //   ),
+                // ),
               ],
             ),
           ),

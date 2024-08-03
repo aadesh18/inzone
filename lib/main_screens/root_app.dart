@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:floating_draggable_widget/floating_draggable_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inzone/constants.dart';
@@ -14,6 +15,7 @@ import 'package:inzone/main_screens/explore_screen.dart';
 import 'package:inzone/main_screens/home_screen.dart';
 import 'package:inzone/main_screens/post_screen.dart';
 import 'package:inzone/main_screens/settings_screen.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sliding_sheet2/sliding_sheet2.dart';
 
 import '../models/inbox/inbox.dart';
@@ -129,42 +131,11 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
   void dispose() {
     super.dispose();
   }
-
+  final _key = GlobalKey<ExpandableFabState>();
   @override
   Widget build(BuildContext context) {
-    return FloatingDraggableWidget(
-      floatingWidgetHeight: 60,
-      floatingWidgetWidth: 60,
-      dy: screenHeight! * 0.80,
-      dx: screenWidth! * 0.80,
-      widgetWhenDragging: FloatingActionButton(
-        backgroundColor: backgroundColor.withOpacity(1),
-        shape: const CircleBorder(),
-        foregroundColor: const Color(0xff16202a),
-        child: const Icon(Icons.add),
-        onPressed: () {},
-      ),
-      autoAlign: true,
-      
-      floatingWidget: FloatingActionButton(
-        backgroundColor: backgroundColor.withOpacity(0.5),
-        shape: const CircleBorder(),
-        foregroundColor: const Color(0xff16202a),
-        child: const Icon(Icons.add),
-        onPressed: () {
-          showSlidingBottomSheet(context,
-              builder: (context) => SlidingSheetDialog(
-                    cornerRadius: 30,
-                    backdropColor: backgroundColor.withOpacity(0.6),
-                    duration: const Duration(seconds: 1),
-                    snapSpec: const SnapSpec(snappings: [ 0.9]),
-                    builder: (context, state) {
-                      return const PostScreen();
-                    },
-                  ));
-        },
-      ),
-      mainScreenWidget: Scaffold(
+    return Scaffold(
+      key: _key,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
             child: AppBar(
@@ -305,8 +276,254 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
                   ],
                 )),
           ),
+          floatingActionButtonLocation: ExpandableFab.location,
+          floatingActionButton: ExpandableFab(
+            openButtonBuilder: RotateFloatingActionButtonBuilder(
+              child: const Icon(Icons.view_headline_sharp),
+              fabSize: ExpandableFabSize.regular,
+              foregroundColor: Colors.black,
+              backgroundColor: backgroundColor,
+
+            ),
+
+
+            overlayStyle: ExpandableFabOverlayStyle(
+              color: Colors.black.withOpacity(0.5),
+              blur: 5,
+            ),
+
+            onOpen: () {
+              debugPrint('onOpen');
+            },
+            afterOpen: () {
+              debugPrint('afterOpen');
+              final state = _key.currentState;
+              if (state != null) {
+                debugPrint('isOpen:${state.isOpen}');
+                state.toggle();
+              }
+            },
+            onClose: () {
+              debugPrint('onClose');
+            },
+            afterClose: () {
+              debugPrint('afterClose');
+            },
+            children: [
+              FloatingActionButton.small(
+                // shape: const CircleBorder(),
+                heroTag: null,
+                child: const Icon(Icons.add),
+                foregroundColor: Colors.black,
+                backgroundColor: backgroundColor,
+                onPressed: () {
+                  // const SnackBar snackBar = SnackBar(
+                  //   content: Text("SnackBar"),
+                  // );
+                  showSlidingBottomSheet(context,
+                      builder: (context) => SlidingSheetDialog(
+                        cornerRadius: 30,
+                        backdropColor: backgroundColor.withOpacity(0.6),
+                        duration: const Duration(seconds: 1),
+                        snapSpec: const SnapSpec(snappings: [ 0.9]),
+                        builder: (context, state) {
+                          return const PostScreen();
+                        },
+                      ));
+
+                },
+              ),
+              FloatingActionButton.small(
+                // shape: const CircleBorder(),
+                heroTag: null,
+                child: const Icon(Icons.person_add),
+                foregroundColor: Colors.black,
+                backgroundColor: backgroundColor,
+                onPressed: () {
+                  showSlidingBottomSheet(context,
+                      builder: (context) => SlidingSheetDialog(
+                        cornerRadius: 30,
+                        backdropColor: backgroundColor.withOpacity(0.6),
+                        duration: const Duration(seconds: 1),
+                        snapSpec: const SnapSpec(snappings: [ 0.9]),
+                        builder: (context, state) {
+                          return const CharacterCreationPage();
+                        },
+                      ));
+                },
+              ),
+              FloatingActionButton.small(
+                // shape: const CircleBorder(),
+                heroTag: null,
+                child: const Icon(Icons.person),
+                foregroundColor: Colors.black,
+                backgroundColor: backgroundColor,
+                onPressed: () {
+
+                },
+              ),
+            ],
+          ),
           backgroundColor: backgroundColor,
-          body: HomeScreen()),
-    );
+          body: HomeScreen());
+
   }
 }
+
+class CharacterCreationPage extends StatefulWidget {
+  const CharacterCreationPage({super.key});
+
+  @override
+  State<CharacterCreationPage> createState() => _CharacterCreationPageState();
+}
+
+class _CharacterCreationPageState extends State<CharacterCreationPage> {
+bool  nameSubmitted = false;
+bool success = false;
+
+bool onLastPage = false;
+
+  @override
+  Widget build(BuildContext context) {
+
+    return AnimatedContainer(
+        duration: const Duration(seconds: 1),
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        child: Scaffold(
+          backgroundColor: backgroundColor,
+
+          body: Padding(
+            padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 6.0,),
+                  child: Center(
+                    child: Text(
+
+                     nameSubmitted ? "Designing a brand new character for you..." : " Create a character!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color:Colors.blue,
+                          fontSize: 28,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+// SizedBox(height: 10,),
+                Spacer(),
+                nameSubmitted ?        Container(
+                  padding: const EdgeInsets.all(20),
+                  height: 200,
+                  width: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+
+                    gradient: RadialGradient(
+                      colors: [
+                        Colors.white.withOpacity(0.5),
+                        backgroundColor
+                      ],
+                      radius: 0.5,
+                      center: Alignment(0.0, 0.0),
+                      stops: [0.0, 1.0],
+                    ),
+                  ),
+                  child: Lottie.asset('animations/animation_intro.json', height: 200, width: 200),
+                ) : Container(
+                  width: screenWidth,
+                  height: 80,
+                  child:   TextField(
+                    maxLines: 1, // Set maxLines to null for multiline
+                    textInputAction: TextInputAction.send,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration
+                      (
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        borderSide: BorderSide(color: Colors.grey.shade900),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 8.0,
+                      ),
+                      // labelText: 'What do you want you talk about?',
+                      //
+                      // labelStyle: TextStyle(color: Colors.grey.shade900),
+                      hintText: 'Enter character name',
+
+                      hintStyle: TextStyle(color: Colors.grey.shade900, ),
+
+                    ),
+                    onChanged: (value){
+
+
+                    },
+                    onEditingComplete: () {
+
+                    },
+                    onSubmitted: (t) {
+setState(() {
+  nameSubmitted = true;
+});
+                    },
+                    onTapOutside: (t) {
+
+                    },
+                    onTap: () {
+
+                    },
+                  ),
+                          ),
+                Spacer(),
+                nameSubmitted ? SizedBox() : ElevatedButton(
+                    onPressed: () {
+// Navigator.push(
+//     context,
+//     MaterialPageRoute(
+//         builder: (context) => const InformationPages()));
+setState(() {
+nameSubmitted = true;
+});
+                    },
+                    style: ElevatedButton.styleFrom(
+                        elevation: 10,
+                        backgroundColor: Colors.blue,
+//elevation of button
+                        shape: RoundedRectangleBorder(
+//to set border radius to button
+                            borderRadius: BorderRadius.circular(60)),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 60,
+                            vertical: 20)
+                    ),
+                    child: const Text(
+                      "Create my character",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    )),
+
+SizedBox(height: 100,)
+              ]
+        ) )));
+  }
+}
+

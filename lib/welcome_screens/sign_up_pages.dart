@@ -39,9 +39,11 @@ class _SignUpPagesState extends State<SignUpPages> {
           elevation: 0,
           automaticallyImplyLeading: false,
           backgroundColor: backgroundColor,
-          title: Text(appBarNames[currentPage - 1],
-              style:
-                  const TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
+          title: Center(
+            child: Text(appBarNames[currentPage - 1],
+                style:
+                    const TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
+          ),
         ),
       ),
       body: Stack(
@@ -137,8 +139,8 @@ class _SignUpPagesState extends State<SignUpPages> {
                                   if (currentUser.getFirstName() == null ||
                                       currentUser.getUserName() == null ||
                                       currentUser.getPassword() == null ||
-                                      currentUser.getFocusTopics() == null ||
-                                      currentUser.getFallbackTopics() == null) {
+                                      currentUser.getUserName() == null
+                                     ) {
                                     final snackBar = SnackBar(
                                       content: Text(
                                           "Error: Please fill all fields !"),

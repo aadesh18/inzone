@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inzone/constants.dart';
+import 'package:lottie/lottie.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 class ChooseAvatarScreen extends StatefulWidget {
@@ -67,6 +68,10 @@ class _ChooseAvatarScreenState extends State<ChooseAvatarScreen> {
                   },
                 ),
               ),
+              Container(
+                height: screenHeight! / 4,
+                child:         Center(child: Lottie.asset("assets/animations/avatar.json")),
+              )
             ],
           ),
         ),
