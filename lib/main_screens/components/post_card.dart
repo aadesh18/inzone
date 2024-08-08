@@ -171,7 +171,7 @@ class _PostCardState extends State<PostCard> {
                                 "manage",
                                 context,
                                 widget.post.userName,
-                                widget.post.userReference)
+                                widget.post.userReference),
                           ]
                         : [
                             menuOption(
@@ -474,42 +474,97 @@ class _PostCardState extends State<PostCard> {
     );
   }
 
+  // void _addComment() async {
+  //   String commentText = mySearchController.text.trim();
+  //   if (commentText.isNotEmpty) {
+  //     // Reference to the document where comments are stored
+  //     DocumentReference postDocumentReference = _firestore.collection('postComments').doc(widget.post.id.toString());
+  //
+  //     // Get the current comments list
+  //     DocumentSnapshot postSnapshot = await postDocumentReference.get();
+  //     List<dynamic> currentComments = postSnapshot['comments'] ?? [];
+  //
+  //     // New comment to add
+  //     Map<String, dynamic> newComment = {
+  //       'author': getUsername(), // Replace with actual user name
+  //       'text': commentText,
+  //       'userId': FirebaseAuth.instance.currentUser!.uid,
+  //       'timestamp': DateTime.now().toString(),
+  //       'likedBy': [], // Initialize likedBy as an empty list
+  //     };
+  //
+  //     // Add the new comment to the existing comments list
+  //     currentComments.add(newComment);
+  //
+  //     // Update the document with the new comments list
+  //     await postDocumentReference.update({'comments': currentComments});
+  //
+  //     setState(() {
+  //       mySearchController.clear();
+  //     });
+  //   }
+  // }
+
+  // Add comment to Firestore
   void _addComment() async {
     String commentText = mySearchController.text.trim();
-    if (commentText.isNotEmpty) {
-      // Add comment to Firestore
-      DocumentReference documentReference =
-          await _firestore.collection('comments').add({
-        'author': getUsername(), // Replace with actual user name
-        'text': commentText,
-        'userId': FirebaseAuth.instance.currentUser!.uid,
-        'timestamp': DateTime.now().toString(),
-        'postId': widget.post.id.toString(),
-        'likedBy': [], // Initialize likedBy as an empty list
-      });
-      String commentId =
-          documentReference.id; // Get the ID of the newly added comment
-      setState(() {
-        mySearchController.clear();
-      });
+    // Reference to the document where comments are stored
+    DocumentReference postDocumentReference = _firestore.collection('postComments').doc(widget.post.id.toString());
+
+    // Get the document snapshot
+    DocumentSnapshot postSnapshot = await postDocumentReference.get();
+
+    // Initialize currentComments
+    List<dynamic> currentComments = [];
+
+    if (postSnapshot.exists) {
+      // If the document exists, retrieve the current comments list
+      currentComments = postSnapshot['comments'] ?? [];
+    } else {
+      // If the document does not exist, create it with an empty comments list
+      await postDocumentReference.set({'comments': currentComments});
     }
+
+    // New comment to add
+    Map<String, dynamic> newComment = {
+      'author': getUsername(), // Replace with actual user name
+      'text': commentText,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+      'timestamp': DateTime.now().toString(),
+      'likedBy': [], // Initialize likedBy as an empty list
+    };
+
+    // Add the new comment to the existing comments list
+    currentComments.add(newComment);
+
+    // Update the document with the new comments list
+    await postDocumentReference.update({'comments': currentComments});
+
+    setState(() {
+      mySearchController.clear();
+    });
   }
 
   Widget _buildReplyList(String commentId) {
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder(
       stream: _firestore
-          .collection('comments')
-          .doc(commentId)
-          .collection('replies')
+          .collection('postComments')
+          .doc(widget.post.id.toString())
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final replies = snapshot.data!.docs.map((doc) {
-            final data = doc.data() as Map<String, dynamic>;
+          // Ensure the snapshot has data and the document exists
+          final docData = snapshot.data!.data() as Map<String, dynamic>;
+
+          // Extract comments from the document
+          final List<dynamic> commentsList = docData['comments'] ?? [];
+
+          // Map the comments list to Reply objects
+          final replies = commentsList.map((comment) {
             return Reply(
-              author: data['author'],
-              text: data['text'],
-              timestamp: data['timestamp'],
+              author: comment['author'],
+              text: comment['text'],
+              timestamp: comment['timestamp'],
             );
           }).toList();
 
@@ -518,11 +573,6 @@ class _PostCardState extends State<PostCard> {
                 .map((reply) => ListTile(
                       leading: RandomAvatar(widget.post.userName,
                           height: 30, width: 30),
-
-                      // leading: CircleAvatar(
-                      //           backgroundImage:
-                      //               AssetImage('images/sample_avatar_2.png'),
-                      //         ),
                       title: Text(
                         reply.author,
                         style: TextStyle(
@@ -745,32 +795,43 @@ class _PostCardState extends State<PostCard> {
                     height: 15,
                   ),
                   Expanded(
-                    child: StreamBuilder<QuerySnapshot>(
+                    child:StreamBuilder<DocumentSnapshot>(
                       stream: _firestore
-                          .collection('comments')
-                          .where('postId', isEqualTo: widget.post.id)
-                          .orderBy('author', descending: true)
+                          .collection('postComments')
+                          .doc(widget.post.id)
                           .snapshots(),
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          final comments = snapshot.data!.docs.map((doc) {
-                            final data = doc.data() as Map<String, dynamic>;
+                        if (snapshot.hasData)  {
+                          if ( snapshot.data!.exists){
+                            print("Present");
+                          } else {
+                            print("Absent");
+                          }
+                          dynamic data = snapshot.data!.data() as Map<String, dynamic>?;
+                          print(data);
+                          print("COMEMEMEMEMEME");
+                          if (data==null){
+                            data = {};
+                          }
+                          final commentsList = data['comments'] ?? [];
+                          print("COMEMEMEMEMEME");
+                          final comments = commentsList.map<CommentClass>((comment) {
                             return CommentClass(
-                              author: data['author'],
-                              text: data['text'],
-                              replies: [],
-                              timestamp: data['timestamp'],
-                              id: doc.id,
+                              author: comment['author'],
+                              text: comment['text'],
+                              replies: [], // Assuming you will handle replies separately
+                              timestamp: "",
+                              id: '', // Make sure each comment has a unique ID
                               postId: widget.post.id.toString(),
-                              userId: FirebaseAuth.instance.currentUser!.uid,
+                              userId: comment['userId'],
                             );
                           }).toList();
+
                           if (comments.isEmpty) {
-                            return Center(
+                            return const Center(
                               child: Text(
                                 'No Comments Available',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 20),
+                                style: TextStyle(color: Colors.black, fontSize: 20),
                               ),
                             );
                           }
@@ -778,32 +839,24 @@ class _PostCardState extends State<PostCard> {
                             padding: const EdgeInsets.fromLTRB(20, 5, 20, 100),
                             itemCount: comments.length,
                             itemBuilder: (BuildContext context, int index) {
+                              print(comments.length);
                               comment = comments[index];
-                              bool isLiked =
-                                  likedComments.containsKey(comments[index].id)
-                                      ? likedComments[comments[index].id]!
-                                      : false;
-                              bool isDisliked = dislikedComments
-                                      .containsKey(comments[index].id)
-                                  ? dislikedComments[comments[index].id]!
-                                  : false;
+
                               return AnimatedContainer(
-                                duration: Duration(seconds: 1),
+                                duration: const Duration(seconds: 1),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10.0, vertical: 10),
                                   child: CommentTreeWidget<CommentClass,
                                       CommentClass>(
                                     CommentClass(
-                                        author: comment!.author,
-                                        text: comment!.author,
-                                        timestamp: comment!.timestamp,
-
-                                        replies: [], id: comment!.id,
-                                        postId: comment!.postId,
-                                        userId: comment!.userId),
+                                        author:  comment==null ? "john!" : comment!.author,
+                                        text:  comment==null ? "Great!" : comment!.text,
+                                        timestamp: "",
+                                        replies: [], id: "",
+                                        postId: "",
+                                        userId: ""),
                                     [
-
                                       // CommentClass(
                                       //     avatar: 'null',
                                       //     userName: 'null',
@@ -820,59 +873,59 @@ class _PostCardState extends State<PostCard> {
                                       //     avatar: 'null',
                                       //     userName: 'null',
                                       //     content: 'This is comment 5'),
-                                      CommentClass(
-                                          author: 'author',
-                                          text: 'text',
-                                          timestamp: 'timestamp',
-                                          replies: [],
-                                          id: 'id',
-                                          postId: 'postID',
-                                          userId: 'userID'),
-
-                                      CommentClass(
-                                          author: 'author',
-                                          text: 'text',
-                                          timestamp: 'timestamp',
-                                          id: 'id',
-                                          replies: [],
-                                          postId: 'postID',
-                                          userId: 'userID'),
-                                      CommentClass(
-                                          author: 'author',
-                                          text: 'text',
-                                          timestamp: 'timestamp',
-                                          id: 'id',
-                                          replies: [],
-                                          postId: 'postID',
-                                          userId: 'userID'),
-                                      CommentClass(
-                                          author: 'author',
-                                          text: 'text',
-                                          replies: [],
-                                          timestamp: 'timestamp',
-                                          id: 'id',
-                                          postId: 'postID',
-                                          userId: 'userID'),
-                                      CommentClass(
-                                          author: 'author',
-                                          text: 'text',
-                                          timestamp: 'timestamp',
-                                          id: 'id',
-                                          replies: [],
-                                          postId: 'postID',
-                                          userId: 'userID'),
+                                      // CommentClass(
+                                      //     author: 'author',
+                                      //     text: 'text',
+                                      //     timestamp: 'timestamp',
+                                      //     replies: [],
+                                      //     id: 'id',
+                                      //     postId: 'postID',
+                                      //     userId: 'userID'),
+                                      //
+                                      // CommentClass(
+                                      //     author: 'author',
+                                      //     text: 'text',
+                                      //     timestamp: 'timestamp',
+                                      //     id: 'id',
+                                      //     replies: [],
+                                      //     postId: 'postID',
+                                      //     userId: 'userID'),
+                                      // CommentClass(
+                                      //     author: 'author',
+                                      //     text: 'text',
+                                      //     timestamp: 'timestamp',
+                                      //     id: 'id',
+                                      //     replies: [],
+                                      //     postId: 'postID',
+                                      //     userId: 'userID'),
+                                      // CommentClass(
+                                      //     author: 'author',
+                                      //     text: 'text',
+                                      //     replies: [],
+                                      //     timestamp: 'timestamp',
+                                      //     id: 'id',
+                                      //     postId: 'postID',
+                                      //     userId: 'userID'),
+                                      // CommentClass(
+                                      //     author: 'author',
+                                      //     text: 'text',
+                                      //     timestamp: 'timestamp',
+                                      //     id: 'id',
+                                      //     replies: [],
+                                      //     postId: 'postID',
+                                      //     userId: 'userID'),
                                     ],
-                                    treeThemeData: TreeThemeData(
+                                    treeThemeData: const TreeThemeData(
                                         lineColor: Colors.blue, lineWidth: 3),
                                     avatarRoot: (context, data) =>
                                         PreferredSize(
                                       preferredSize: Size.fromRadius(12),
-                                      child: RandomAvatar(comment!.author,
+                                      child: RandomAvatar(DateTime.now().toString(),
                                           height: 40, width: 40),
                                     ),
                                     avatarChild: (context, data) =>
                                         PreferredSize(
-                                      preferredSize: Size.fromRadius(12),
+                                      preferredSize: const Size.fromRadius(12),
                                       child: RandomAvatar(
                                           DateTime.now().toString(),
                                           height: 40,
@@ -908,7 +961,7 @@ class _PostCardState extends State<PostCard> {
                                                   height: 4,
                                                 ),
                                                 Text(
-                                                  comment!.text,
+                                                  "",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodySmall
@@ -939,40 +992,40 @@ class _PostCardState extends State<PostCard> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  comment!.author,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: Colors.black),
-                                                ),
-                                                const SizedBox(
-                                                  height: 4,
-                                                ),
+                                                // Text(
+                                                //
+                                                //   comment!.author == "" ? "John" :  comment!.author  ,
+                                                //   //style: TextStyle(color: Colors.black),
+                                                //   style: Theme.of(context)
+                                                //       .textTheme
+                                                //       .bodySmall
+                                                //
+                                                // ),
+                                                // const SizedBox(
+                                                //   height: 4,
+                                                // ),
                                                 Text(
                                                   '${data.content}',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          color: Colors.black),
+                                                  // style: Theme.of(context)
+                                                  //     .textTheme
+                                                  //     .bodySmall!
+                                                  //     .copyWith(
+                                                  //         fontWeight:
+                                                  //             FontWeight.w300,
+                                                  //         color: Colors.black),
                                                 ),
                                               ],
                                             ),
                                           ),
                                           DefaultTextStyle(
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall!
-                                                .copyWith(
-                                                    color: Colors.grey[700],
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                          style: TextStyle(),
+                                            // style: Theme.of(context)
+                                            //     .textTheme
+                                            //     .bodySmall!
+                                            //     .copyWith(
+                                            //         color: Colors.grey[700],
+                                            //         fontWeight:
+                                            //             FontWeight.bold),
                                             child: Padding(
                                               padding: const EdgeInsets.all(0),
                                               child: TextButton(

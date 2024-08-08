@@ -280,7 +280,7 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
         floatingActionButtonLocation: ExpandableFab.location,
         floatingActionButton: ExpandableFab(
           openButtonBuilder: RotateFloatingActionButtonBuilder(
-            child: const Icon(Icons.view_headline_sharp),
+            child: const Icon(Icons.add),
             fabSize: ExpandableFabSize.regular,
             foregroundColor: Colors.black,
             backgroundColor: backgroundColor,
@@ -529,31 +529,68 @@ class _CharacterCreationPageState extends State<CharacterCreationPage> {
                             ],
                           ),
                       Spacer(),
-                      timerOver ? ElevatedButton(
+                      timerOver ? Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                            
+                                onPressed:  () {
+                                  setState(() {
+                            
+                                  });
+                            
+                                } ,
+                                style: ElevatedButton.styleFrom(
+                                    elevation: 10,
+                                    backgroundColor: Colors.blue,
+                                    disabledBackgroundColor: Colors.blue,
+                            //elevation of button
+                                    shape: RoundedRectangleBorder(
+                            //to set border radius to button
+                                        borderRadius: BorderRadius.circular(60)),
+                                    padding: const EdgeInsets.symmetric(
+                                    vertical: 10)
+                                ),
+                                child:   const  Text(
+                                  "Regenerate",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                )),
+                          ),
+                          SizedBox(width: 5,),
+                          Expanded(
+                            child: ElevatedButton(
+                            
+                                onPressed:  () {
+                                  setState(() {
+                            Navigator.pop(context);
+                                  });
+                            
+                                } ,
+                                style: ElevatedButton.styleFrom(
+                                    elevation: 10,
+                                    backgroundColor: Colors.blue,
+                                    disabledBackgroundColor: Colors.blue,
+                                    //elevation of button
+                                    shape: RoundedRectangleBorder(
+                                      //to set border radius to button
+                                        borderRadius: BorderRadius.circular(60)),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10)
+                                ),
+                                child:   const  Text(
+                                  "Save",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                )),
+                          ),
 
-                          onPressed:  () {
-                            setState(() {
-
-                            });
-
-                          } ,
-                          style: ElevatedButton.styleFrom(
-                              elevation: 10,
-                              backgroundColor: Colors.blue,
-                              disabledBackgroundColor: Colors.blue,
-//elevation of button
-                              shape: RoundedRectangleBorder(
-//to set border radius to button
-                                  borderRadius: BorderRadius.circular(60)),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 60, vertical: 20)),
-                          child:   const  Text(
-                            "Regenerate",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          )): ElevatedButton(
+                        ],
+                      ): ElevatedButton(
 
                               onPressed: nameSubmitted ? null : () {
 // Navigator.push(
@@ -664,7 +701,7 @@ class _LottieWithTimerState extends State<LottieWithTimer> {
         borderRadius:
         BorderRadius.circular(8.0),
         child: Image.network(
-          'https://storage.googleapis.com/inzonebackend.appspot.com/f6697f3a-922a-4cfd-856c-d723ddafe4c1.jpg',
+          'https://plus.unsplash.com/premium_photo-1719986264183-d5efb55f4e01?q=80&w=1895&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
           fit: BoxFit.fitWidth,
           errorBuilder:
               (context, object, st) {

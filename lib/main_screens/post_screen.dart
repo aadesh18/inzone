@@ -37,6 +37,8 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
+  List<String> characters = ['Splash', 'Dora']; // List of characters, empty initially
+  String? selectedCharacter;
   bool isImageSelected = false;
   bool doesNotWork = false;
   File? imageFile;
@@ -279,6 +281,8 @@ class _PostScreenState extends State<PostScreen> {
                   },
                 ),
                 const SizedBox(height: 2,),
+
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -371,8 +375,68 @@ class _PostScreenState extends State<PostScreen> {
                   ],
                 ),
 
-                SizedBox(height: 2,),
+                SizedBox(height: 20,),
+                Text("Post as"),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: characters.isEmpty
+                      ? const Text('Create a character to post as one!')
+                      : Container(
+                    padding: const EdgeInsets.symmetric(horizontal:1.0),
+
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                        ),
+                        hint:const Text('Post as a character'),
+                        value: selectedCharacter,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedCharacter = newValue;
+                          });
+                        },
+                        items: characters
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              child: Text(value),
+                            ),
+                          );
+                        }).toList(),
+                        selectedItemBuilder: (BuildContext context) {
+                          return characters.map<Widget>((String value) {
+                            return Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              child: Text(value),
+                            );
+                          }).toList();
+                        },
+                      ),
+                    ),
+                  ),
+                ),
                 // Images
+
+                SizedBox(height: 5,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
