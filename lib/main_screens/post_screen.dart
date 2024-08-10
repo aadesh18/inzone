@@ -148,7 +148,7 @@ class _PostScreenState extends State<PostScreen> {
             padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
@@ -260,7 +260,6 @@ class _PostScreenState extends State<PostScreen> {
                   onEditingComplete: () {
                     setState(() {
                       isTyping = false;
-
                     });
                   },
                   onSubmitted: (t) {
@@ -281,8 +280,6 @@ class _PostScreenState extends State<PostScreen> {
                   },
                 ),
                 const SizedBox(height: 2,),
-
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -375,8 +372,72 @@ class _PostScreenState extends State<PostScreen> {
                   ],
                 ),
 
+                SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    imageUrl == ""
+                        ? const SizedBox(
+                      height: 5,
+                    )
+                        : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Image(
+                          height: 140,
+                          width: 140,
+                          fit: BoxFit.cover,
+                          image: NetworkImage(imageUrl),
+                        ),
+                      ),
+                    ),
+                    videoUrl == ""
+                        ? const SizedBox(
+                      height: 5,
+                    )
+                        : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: InkWell(
+                            onTap: () {
+                              // Play video
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => VideoPlayerWidget(
+                                      videoUrl),
+                                ),
+                              );
+                            },
+                            child: Stack(
+                              children: [
+                                CachedNetworkImage(
+                                    height: 140,
+                                    width: 140,
+                                    fit: BoxFit.fill,
+                                    imageUrl: "${thumbnailUrl}",
+                                    placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) => SizedBox()
+
+                                ),
+                                Positioned.fill(
+                                  child: Center(
+                                    child: Icon(Icons.play_arrow,
+                                        size: 50, color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 20,),
-                Text("Post as"),
+                Text("Post as", style:     TextStyle(color: Colors.grey.shade900, fontSize: 14, fontWeight: FontWeight.w600)),
                 Align(
                   alignment: Alignment.topRight,
                   child: characters.isEmpty
@@ -400,7 +461,8 @@ class _PostScreenState extends State<PostScreen> {
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
-                        hint:const Text('Post as a character'),
+                        hint: Text('Post as a character',),
+
                         value: selectedCharacter,
                         onChanged: (String? newValue) {
                           setState(() {
@@ -437,69 +499,8 @@ class _PostScreenState extends State<PostScreen> {
                 // Images
 
                 SizedBox(height: 5,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    imageUrl == ""
-                        ? const SizedBox(
-                      height: 5,
-                    )
-                        : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Image(
-                          height: 140,
-                          width: 140,
-                          fit: BoxFit.cover,
-                          image: NetworkImage(imageUrl),
-                        ),
-                      ),
-                    ),
-                    videoUrl == ""
-                        ? const SizedBox(
-                      height: 5,
-                    )
-                        : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: InkWell(
-                          onTap: () {
-                            // Play video
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => VideoPlayerWidget(
-                                    videoUrl),
-                              ),
-                            );
-                          },
-                          child: Stack(
-                            children: [
-                              CachedNetworkImage(
-                                height: 140,
-                                width: 140,
-                                fit: BoxFit.fill,
-                                imageUrl: "${thumbnailUrl}",
-                                placeholder: (context, url) => Center(
-                                    child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) => SizedBox()
+                Spacer(flex: 2,),
 
-                              ),
-                              Positioned.fill(
-                                child: Center(
-                                  child: Icon(Icons.play_arrow,
-                                      size: 50, color: Colors.white),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ),
-                    ),
-                  ],
-                ),
                 // isTyping
                 //     ? Container()
                 //     : SizedBox(
@@ -693,86 +694,85 @@ class _PostScreenState extends State<PostScreen> {
                 //     // Image.asset("icons/post_icons/1.png"),
                 //   ],
                 // ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: double.infinity,
 
-                Spacer(flex: 3,),
+                    child: ActionSlider.standard(
+                      rolling: false,
+                      backgroundColor: Colors.blue,
+                      toggleColor: Colors.white,
+                      sliderBehavior: SliderBehavior.stretch,
+                      child: const Text(
+                        'Post to InZone',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 23),
+                      ),
+                      action: (controller)  async {
 
-                Container(
-                  width: double.infinity,
+                        controller.loading(); //starts loading animation
+                        //     await Future.delayed(const Duration(seconds: 2));
+                        await InZoneDatabase.postContent(postMessage: postContent, imageRef: [imageUrl], videoRef: [videoUrl]).then((value) {
+                          setState(() {
+                            print(value);
+                            if (value == -1){
+                              moveValue = low;
+                              doesNotWork = true;
+                              controller.reset();
+                            } else if (value == 0){
+                              moveValue = medium;
+                              doesNotWork = false;
+                            } else if (value == 1){
+                              moveValue = high;
+                              doesNotWork = false;
 
-
-                  child: ActionSlider.standard(
-                    rolling: false,
-                    backgroundColor: Colors.blue,
-                    toggleColor: Colors.white,
-                    sliderBehavior: SliderBehavior.stretch,
-                    child: const Text(
-                      'Post to InZone',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 23),
-                    ),
-                    action: (controller)  async {
-
-                      controller.loading(); //starts loading animation
-                      //     await Future.delayed(const Duration(seconds: 2));
-                      await InZoneDatabase.postContent(postMessage: postContent, imageRef: [imageUrl], videoRef: [videoUrl]).then((value) {
-                        setState(() {
-                          print(value);
-                          if (value == -1){
-                            moveValue = low;
-                            doesNotWork = true;
-                            controller.reset();
-                          } else if (value == 0){
-                            moveValue = medium;
-                            doesNotWork = false;
-                          } else if (value == 1){
-                            moveValue = high;
-                            doesNotWork = false;
-
-                          } else {
-                            moveValue = low;
-                            doesNotWork = true;
-                            controller.reset();
-                          }
-                        });
-                      });
-
-                      if (doesNotWork == false){
-                        controller.success();
-                        Navigator.pop(context);
-
-                        showDialog(
-                            context: context,
-                            builder: (_) {
-                              _timer = Timer(const Duration(seconds: 1), () {
-                                Navigator.of(_).pop();
-
-                              });
-                              return Dialog(
-                                backgroundColor: Colors.transparent,
-                                child:  Stack(
-                                  children: [
-                                    RotatedBox(quarterTurns: 2, child: SizedBox(height:MediaQuery.of(context).size.height, width:MediaQuery.of(context).size.width, child: Lottie.asset(CustomIcons.confettiAnimation)),),
-                                    const Align(
-                                        alignment: Alignment.center,
-                                        child: Text("Post Sucessful", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w400),))
-                                  ],
-                                ),
-                              );
+                            } else {
+                              moveValue = low;
+                              doesNotWork = true;
+                              controller.reset();
                             }
-                        ).then((value) {
-                          if (_timer.isActive) {
-                            _timer.cancel();
-                          }
+                          });
                         });
 
-                        //starts success animation
-                      }
+                        if (doesNotWork == false){
+                          controller.success();
+                          Navigator.pop(context);
+
+                          showDialog(
+                              context: context,
+                              builder: (_) {
+                                _timer = Timer(const Duration(seconds: 1), () {
+                                  Navigator.of(_).pop();
+
+                                });
+                                return Dialog(
+                                  backgroundColor: Colors.transparent,
+                                  child:  Stack(
+                                    children: [
+                                      RotatedBox(quarterTurns: 2, child: SizedBox(height:MediaQuery.of(context).size.height, width:MediaQuery.of(context).size.width, child: Lottie.asset(CustomIcons.confettiAnimation)),),
+                                      const Align(
+                                          alignment: Alignment.center,
+                                          child: Text("Post Sucessful", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w400),))
+                                    ],
+                                  ),
+                                );
+                              }
+                          ).then((value) {
+                            if (_timer.isActive) {
+                              _timer.cancel();
+                            }
+                          });
+
+                          //starts success animation
+                        }
 
 
 
-                    },
+                      },
+                    ),
                   ),
                 ),
 Spacer(flex: 1,),

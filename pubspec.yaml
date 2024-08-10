@@ -85,6 +85,7 @@ dependencies:
   youtube_player_iframe: ^5.1.2
   comment_tree: ^0.3.0
   flutter_expandable_fab: ^2.2.0
+  fluttermoji: ^1.0.2
 
 dev_dependencies:
   flutter_test:

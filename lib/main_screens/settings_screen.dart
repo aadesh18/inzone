@@ -12,6 +12,7 @@ import 'package:inzone/welcome_screens/introduction_page.dart';
 import 'package:sliding_sheet2/sliding_sheet2.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../character_temp.dart';
 import '../welcome_screens/content_selection_signup_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -157,7 +158,7 @@ class SettingsScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
-                            return const UserDetailScreen();
+                            return const  Charactertemp();
                           }));
                         }),
 

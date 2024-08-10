@@ -310,6 +310,25 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
             FloatingActionButton.small(
               // shape: const CircleBorder(),
               heroTag: null,
+              child: const Icon(Icons.person_add),
+              foregroundColor: Colors.black,
+              backgroundColor: backgroundColor,
+              onPressed: () {
+                showSlidingBottomSheet(context,
+                    builder: (context) => SlidingSheetDialog(
+                      cornerRadius: 30,
+                      backdropColor: backgroundColor.withOpacity(0.6),
+                      duration: const Duration(seconds: 1),
+                      snapSpec: const SnapSpec(snappings: [0.9]),
+                      builder: (context, state) {
+                        return const CharacterCreationPage();
+                      },
+                    ));
+              },
+            ),
+            FloatingActionButton.small(
+              // shape: const CircleBorder(),
+              heroTag: null,
               child: const Icon(Icons.add),
               foregroundColor: Colors.black,
               backgroundColor: backgroundColor,
@@ -329,33 +348,15 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
                         ));
               },
             ),
-            FloatingActionButton.small(
-              // shape: const CircleBorder(),
-              heroTag: null,
-              child: const Icon(Icons.person_add),
-              foregroundColor: Colors.black,
-              backgroundColor: backgroundColor,
-              onPressed: () {
-                showSlidingBottomSheet(context,
-                    builder: (context) => SlidingSheetDialog(
-                          cornerRadius: 30,
-                          backdropColor: backgroundColor.withOpacity(0.6),
-                          duration: const Duration(seconds: 1),
-                          snapSpec: const SnapSpec(snappings: [0.9]),
-                          builder: (context, state) {
-                            return const CharacterCreationPage();
-                          },
-                        ));
-              },
-            ),
-            FloatingActionButton.small(
-              // shape: const CircleBorder(),
-              heroTag: null,
-              child: const Icon(Icons.person),
-              foregroundColor: Colors.black,
-              backgroundColor: backgroundColor,
-              onPressed: () {},
-            ),
+
+            // FloatingActionButton.small(
+            //   // shape: const CircleBorder(),
+            //   heroTag: null,
+            //   child: const Icon(Icons.person),
+            //   foregroundColor: Colors.black,
+            //   backgroundColor: backgroundColor,
+            //   onPressed: () {},
+            // ),
           ],
         ),
         backgroundColor: backgroundColor,
@@ -528,7 +529,7 @@ class _CharacterCreationPageState extends State<CharacterCreationPage> {
                               ),
                             ],
                           ),
-                      Spacer(),
+                      Spacer(flex: 2,),
                       timerOver ? Row(
                         children: [
                           Expanded(
@@ -619,10 +620,7 @@ disabledBackgroundColor: Colors.grey,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               )),
-
-                      SizedBox(
-                        height: 100,
-                      )
+Spacer()
                     ]))));
   }
 }

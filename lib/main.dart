@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:inzone/character_temp.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/firebase_options.dart';
 import 'package:inzone/welcome_screens/splash_page.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
             return SplashPage(
               loggedIn: false,
             );
+
           }
         },
       ),
