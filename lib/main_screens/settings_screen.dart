@@ -153,7 +153,7 @@ class SettingsScreen extends StatelessWidget {
                       color: Colors.white, borderRadius: BorderRadius.circular(30)),
                   child: Column(children: [
                     SettingsTile(
-                        title: "Edit Profile",
+                        title: "Edit Avatar",
                         imagePath: "assets/editprofile.png",
                         onPressed: () {
                           Navigator.of(context)

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:inzone/shared_preferences_helper_class.dart';
 import 'package:video_player/video_player.dart';
 import 'package:action_slider/action_slider.dart';
 import 'package:choice/choice.dart';
@@ -72,6 +73,8 @@ class _PostScreenState extends State<PostScreen> {
   void setMultipleSelected(List<String> value) {
     setState(() => multipleSelected = value);
   }
+  List<String> _savedList = [];
+
 
   _pickImagefromGallery() async {
     try {
@@ -106,12 +109,18 @@ class _PostScreenState extends State<PostScreen> {
       print(e.toString());
     }
   }
-
+  Future<void> _loadPreferences() async {
+    List<String>? list = await SharedPreferencesHelperClass.getStringList();
+    setState(() {
+      _savedList = list ?? [];
+    });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _loadPreferences();
 
 
   }
@@ -469,7 +478,7 @@ class _PostScreenState extends State<PostScreen> {
                             selectedCharacter = newValue;
                           });
                         },
-                        items: characters
+                        items: _savedList
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -482,7 +491,7 @@ class _PostScreenState extends State<PostScreen> {
                           );
                         }).toList(),
                         selectedItemBuilder: (BuildContext context) {
-                          return characters.map<Widget>((String value) {
+                          return _savedList.map<Widget>((String value) {
                             return Container(
                               alignment: Alignment.center,
                               decoration: BoxDecoration(

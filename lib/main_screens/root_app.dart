@@ -3,6 +3,7 @@ import 'package:cool_dropdown/cool_dropdown.dart';
 import 'package:cool_dropdown/models/cool_dropdown_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:floating_draggable_widget/floating_draggable_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
@@ -15,7 +16,9 @@ import 'package:inzone/main_screens/explore_screen.dart';
 import 'package:inzone/main_screens/home_screen.dart';
 import 'package:inzone/main_screens/post_screen.dart';
 import 'package:inzone/main_screens/settings_screen.dart';
+import 'package:inzone/shared_preferences_helper_class.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_sheet2/sliding_sheet2.dart';
 
 import '../models/inbox/inbox.dart';
@@ -372,9 +375,32 @@ class CharacterCreationPage extends StatefulWidget {
 }
 
 class _CharacterCreationPageState extends State<CharacterCreationPage> {
+  late SharedPreferences _prefs;
+  List<String> _savedList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferences();
+  }
+
+  Future<void> _loadPreferences() async {
+    List<String>? list = await SharedPreferencesHelperClass.getStringList();
+    setState(() {
+      _savedList = list ?? [];
+    });
+  }
+
+  Future<void> _savePreferences(List<String> list) async {
+    await SharedPreferencesHelperClass.saveStringList(list);
+    setState(() {
+      _savedList = list;
+    });
+  }
+
   bool nameSubmitted = false;
   bool success = false;
-
+  TextEditingController nameController = TextEditingController();
   bool onLastPage = false;
   bool timerOver = false;
 
@@ -385,6 +411,7 @@ class _CharacterCreationPageState extends State<CharacterCreationPage> {
   }
   @override
   Widget build(BuildContext context) {
+
     return AnimatedContainer(
         duration: const Duration(seconds: 1),
         padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -438,6 +465,7 @@ class _CharacterCreationPageState extends State<CharacterCreationPage> {
                                     maxLines:
                                         1, // Set maxLines to null for multiline
                                     textInputAction: TextInputAction.send,
+                                    controller: nameController,
                                     textAlign: TextAlign.left,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
@@ -599,9 +627,16 @@ class _CharacterCreationPageState extends State<CharacterCreationPage> {
 //     MaterialPageRoute(
 //         builder: (context) => const InformationPages()));
 
-                                setState(() {
-                                  nameSubmitted = true;
-                                });
+        if (nameController.text.isNotEmpty) {
+      _savedList.add(nameController.text);
+      _savePreferences(_savedList);
+
+      setState(() {
+        nameSubmitted = true;
+      });
+    }
+
+
                               } ,
                               style: ElevatedButton.styleFrom(
                                   elevation: 10,

@@ -53,9 +53,7 @@ dependencies:
   pinput: ^3.0.1
   sign_button: ^2.0.6
   intl_phone_number_input: ^0.7.4
-
   smooth_page_indicator: ^1.1.0
-
   image_picker: ^1.0.7
   floating_draggable_widget: ^2.1.5
   confetti: ^0.7.0
@@ -76,7 +74,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   string_similarity: ^2.0.0
   url_launcher:
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.3.1
   images_picker:
   cached_network_image:
   video_player: ^2.8.6

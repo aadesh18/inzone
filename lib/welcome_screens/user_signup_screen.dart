@@ -17,7 +17,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
   String name = "";
   String email = "";
   String pemail = "";
-
+  String username = "";
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -49,13 +49,49 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
               ),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: currentUser.getName() ?? 'Enter name',
+                  hintText: currentUser.getName() ?? 'Enter Name',
                   border: InputBorder.none,
                 ),
                 onChanged: (value) {
                   setState(() {
                     name = value;
                     currentUser.setName(value);
+                  });
+                },
+              ),
+            ),
+            SizedBox(height: 10,),
+            const Text("Username👤",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 3,
+                    offset: const Offset(
+                        0, 0), // Changes the position of the shadow
+                  ),
+                ],
+              ),
+              child: TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: currentUser.getUserName() != null
+                      ? "Re-Enter Username "
+                      : 'Enter Username',
+                  border: InputBorder.none,
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    currentUser.setUserName(value);
                   });
                 },
               ),
@@ -297,6 +333,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                 },
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 30),
               child: Row(

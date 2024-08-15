@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttermoji/fluttermojiCircleAvatar.dart';
+import 'package:fluttermoji/fluttermojiController.dart';
 import 'package:fluttermoji/fluttermojiCustomizer.dart';
 import 'package:fluttermoji/fluttermojiSaveWidget.dart';
 import 'package:fluttermoji/fluttermojiThemeData.dart';
@@ -65,10 +66,10 @@ class _CharactertempState extends State<Charactertemp> {
                 child: Container(
                   height: 35,
                   child: ElevatedButton.icon(
-                    icon: Icon(Icons.edit),
-                    label: Text("Customize"),
+                    icon: const Icon(Icons.edit),
+                    label: const Text("Customize"),
                     onPressed: () => Navigator.push(context,
-                        new MaterialPageRoute(builder: (context) => const NewPage())),
+                        new MaterialPageRoute(builder: (context) =>  NewPage())),
                   ),
                 ),
               ),
@@ -85,14 +86,15 @@ class _CharactertempState extends State<Charactertemp> {
 }
 
 class NewPage extends StatelessWidget {
-  const NewPage({Key? key}) : super(key: key);
-
+   NewPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -114,7 +116,10 @@ class NewPage extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Spacer(),
-                    FluttermojiSaveWidget(),
+                    GestureDetector(onTap: (){
+
+
+                    },child: FluttermojiSaveWidget()),
                   ],
                 ),
               ),
@@ -122,10 +127,12 @@ class NewPage extends StatelessWidget {
                 padding:
                 const EdgeInsets.symmetric(horizontal: 8.0, vertical: 30),
                 child: FluttermojiCustomizer(
+
                   scaffoldWidth:  _width * 0.85,
                   autosave: false,
+
                   theme: FluttermojiThemeData(
-                      boxDecoration: BoxDecoration(boxShadow: [BoxShadow()])),
+                      boxDecoration: const BoxDecoration(boxShadow: [BoxShadow()])),
                 ),
               ),
             ],

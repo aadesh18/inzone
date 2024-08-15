@@ -26,7 +26,7 @@ class _SignUpPagesState extends State<SignUpPages> {
 
   List<String> appBarNames = [
     "Details",
-    "Choose Your Username",
+    "Choose Your Avatar",
     "Content Selection"
   ];
   @override
