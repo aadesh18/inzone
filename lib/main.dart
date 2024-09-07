@@ -17,6 +17,8 @@ void main() async {
   runApp(const MyApp());
 }
 
+String pictureName = "0";
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

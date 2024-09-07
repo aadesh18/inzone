@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttermoji/fluttermojiCircleAvatar.dart';
 import 'package:inzone/constants.dart';
+import 'package:inzone/main.dart';
 import 'package:lottie/lottie.dart';
 import 'package:random_avatar/random_avatar.dart';
 
@@ -28,32 +30,84 @@ class _ChooseAvatarScreenState extends State<ChooseAvatarScreen> {
               const SizedBox(height: 30,),
               Wrap(
                 spacing: 20.0,
-                runSpacing: 40.0,
+                runSpacing: 80.0,
                 children: [
-
-                  FluttermojiCircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    radius: 80,
+                  GestureDetector(
+                    onTap: (){
+pictureName = "1";
+ScaffoldMessenger.of(context).showSnackBar(
+  SnackBar(
+    content: Text('Selected!'),
+  ),
+);
+                    },
+                    child: Container(
+                      height: 120, width: 120,
+                        child: SvgPicture.asset('assets/1.svg')),
                   ),
-                  FluttermojiCircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    radius: 80,
+                  GestureDetector(
+                    onTap: (){
+                      pictureName = "2";
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Selected!'),
+                        ),
+                      );
+                    },
+                    child: Container(
+                        height: 120, width: 120,
+                        child: SvgPicture.asset('assets/2.svg')),
                   ),
-                  FluttermojiCircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    radius: 80,
+                  GestureDetector(
+                    onTap: (){
+                      pictureName = "3";
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Selected!'),
+                        ),
+                      );
+                    },
+                    child: Container(
+                        height: 120, width: 120,
+                        child: SvgPicture.asset('assets/3.svg')),
                   ),
-                  FluttermojiCircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    radius: 80,
+                  GestureDetector(
+                    onTap: (){
+                      pictureName = "4";
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Selected!'),
+                        ),
+                      );
+                    },
+                    child: Container(
+                        height: 120, width: 120,
+                        child: SvgPicture.asset('assets/4.svg')),
+                  ),     GestureDetector(
+                    onTap: (){
+                      pictureName = "5";
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Selected!'),
+                        ),
+                      );
+                    },
+                    child: Container(
+                        height: 120, width: 120,
+                        child: SvgPicture.asset('assets/5.svg')),
                   ),
-                  FluttermojiCircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    radius: 80,
-                  ),
-                  FluttermojiCircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    radius: 80,
+                  GestureDetector(
+                    onTap: (){
+                      pictureName = "6";
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Selected!'),
+                        ),
+                      );
+                    },
+                    child: Container(
+                        height: 120, width: 120,
+                        child: SvgPicture.asset('assets/6.svg')),
                   ),
 
                 ],

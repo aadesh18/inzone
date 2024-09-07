@@ -726,13 +726,13 @@ class _PostCardState extends State<PostCard> {
 
 // Inside the retrieveLikedComments method
   Future<void> retrieveLikedComments() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    likedComments.clear(); // Clear the existing map
-    for (String commentId in prefs.getKeys()) {
-      if (prefs.getBool(commentId)!) {
-        likedComments[commentId] = true;
-      }
-    }
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // likedComments.clear(); // Clear the existing map
+    // for (String commentId in prefs.getKeys()) {
+    //   if (prefs.getBool(commentId)!) {
+    //     likedComments[commentId] = true;
+    //   }
+    // }
   }
 
 // Inside the retrieveUnLikedComments method

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttermoji/fluttermojiCircleAvatar.dart';
 import 'package:fluttermoji/fluttermojiController.dart';
 import 'package:fluttermoji/fluttermojiCustomizer.dart';
 import 'package:fluttermoji/fluttermojiSaveWidget.dart';
 import 'package:fluttermoji/fluttermojiThemeData.dart';
 import 'package:inzone/constants.dart';
+import 'package:inzone/main.dart';
 
 class Charactertemp extends StatefulWidget {
   const Charactertemp({super.key});
@@ -14,8 +16,10 @@ class Charactertemp extends StatefulWidget {
 }
 
 class _CharactertempState extends State<Charactertemp> {
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -40,10 +44,25 @@ class _CharactertempState extends State<Charactertemp> {
           SizedBox(
             height: 25,
           ),
+          pictureName == "7" ?
           FluttermojiCircleAvatar(
             backgroundColor: Colors.grey[200],
             radius: 100,
+          ) :
+          GestureDetector(
+            onTap: (){
+              pictureName = "6";
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Selected!'),
+                ),
+              );
+            },
+            child: Container(
+                height: 120, width: 120,
+                child: SvgPicture.asset('assets/$pictureName.svg')),
           ),
+
           SizedBox(
             height: 25,
           ),
@@ -68,8 +87,15 @@ class _CharactertempState extends State<Charactertemp> {
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.edit),
                     label: const Text("Customize"),
-                    onPressed: () => Navigator.push(context,
-                        new MaterialPageRoute(builder: (context) =>  NewPage())),
+                    onPressed: () {
+                      setState(() {
+                        pictureName = "7";
+
+                      });
+
+
+                      Navigator.push(context,
+                        new MaterialPageRoute(builder: (context) =>  NewPage()));}
                   ),
                 ),
               ),
