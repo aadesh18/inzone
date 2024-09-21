@@ -295,21 +295,21 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
             blur: 5,
           ),
           onOpen: () {
-            debugPrint('onOpen');
+
           },
           afterOpen: () {
-            debugPrint('afterOpen');
+
             final state = _key.currentState;
             if (state != null) {
-              debugPrint('isOpen:${state.isOpen}');
+
               state.toggle();
             }
           },
           onClose: () {
-            debugPrint('onClose');
+
           },
           afterClose: () {
-            debugPrint('afterClose');
+
           },
           children: [
             FloatingActionButton.small(

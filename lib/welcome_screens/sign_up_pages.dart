@@ -135,7 +135,7 @@ class _SignUpPagesState extends State<SignUpPages> {
                               ),
                               onTap: () async {
                                 if (continueSignUp) {
-                                  print(continueSignUp);
+
                                   if (currentUser.getFirstName() == null ||
                                       currentUser.getUserName() == null ||
                                       currentUser.getPassword() == null ||

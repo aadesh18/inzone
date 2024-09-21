@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inzone/data/inzone_category.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 
 class CategorySelector extends StatefulWidget {
@@ -19,27 +20,23 @@ class CategorySelector extends StatefulWidget {
 
 class _CategorySelectorState extends State<CategorySelector> {
   TextEditingController controller = TextEditingController();
- Widget _getSvg(String? iconPath){
-    print(iconPath);
-    if (iconPath == null){
-      return SizedBox();
-    } else {
-      try {
-        return SvgPicture.asset(
-          iconPath!,
-          height: 25,
-          width: 25,
-        );
-      } catch (e){
-        return SvgPicture.asset(
-          "icons/humor_and_memes.svg",
-          height: 25,
-          width: 25,
-        );
-      }
+  Widget _getSvg(String? iconPath) {
+    if (iconPath == null || iconPath.isEmpty) {
+      return SizedBox.shrink(); // Return empty widget if path is null or empty
     }
 
+    return SvgPicture.asset(
+      iconPath,
+      height: 25,
+      width: 25,
+      placeholderBuilder: (BuildContext context) => const SizedBox(),
+      // Handle error in loading the SV
+    );
   }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {

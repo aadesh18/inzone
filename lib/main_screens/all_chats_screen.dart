@@ -182,7 +182,7 @@ temp.forEach((element) {
   list.add(AcceptedDateData.fromMap(element));
 });
   } catch (e){
-    print(e);
+
     // FirebaseFirestore.instance
     //     .collection('users')
     //     .doc( FirebaseAuth.instance.currentUser!.email).set({

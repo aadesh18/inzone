@@ -149,7 +149,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                                   ignoreBlank: false,
 
                                   onInputChanged: (value) {
-                                    print(value);
+
                                     phoneNumber = value.phoneNumber!;
 
                                   })
@@ -179,7 +179,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                               }
 
                               // OTPPage.phoneNumber = phoneNumber;
-                              // print(phoneNumber);
+                              //
                               // PhoneAuthBackEnd.of(context)!.triggerPhoneNumberEntered(phoneNumber);
 
                             },

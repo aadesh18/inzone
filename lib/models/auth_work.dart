@@ -69,12 +69,12 @@ class AuthWork {
 
         List allChats = value["chats"];
         allChats.forEach((element) {
-          print(element['email']);
-          print(userEmail);
+
+
           if (element['email'] == userEmail){
             found = true;
             id = element['id'];
-            print("THE ID cccc IS $id");
+
 
           }
         });
@@ -86,8 +86,8 @@ class AuthWork {
           ).then( (value) async {
 
             id = value.id;
-            print("THE IDdddd IS $id");
-            print("First");
+
+
             print(FirebaseAuth.instance.currentUser!.email);
             print(userEmail);
             print(userName);

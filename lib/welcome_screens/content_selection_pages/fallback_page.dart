@@ -26,7 +26,7 @@ class _FallBackPageState extends State<FallBackPage> {
 
   // onStart(int index) {
   //   lowList.add(fallbackContentList.elementAt(index).tittle);
-  //   print(lowList);
+  //
   //   currentUser.setFallbackTopics([
   //     {InZoneEnums.lowVisibility: lowList.toSet().toList()},
   //     {InZoneEnums.highVisibility: highList.toSet().toList()}
@@ -46,7 +46,7 @@ class _FallBackPageState extends State<FallBackPage> {
 
   // onEnd(int index) {
   //   highList.add(fallbackContentList.elementAt(index).tittle);
-  //   print(highList);
+  //
   //   currentUser.setFallbackTopics([
   //     {InZoneEnums.lowVisibility: lowList.toSet().toList()},
   //     {InZoneEnums.highVisibility: highList.toSet().toList()}
@@ -115,7 +115,7 @@ class _FallBackPageState extends State<FallBackPage> {
 
                                     lowList.add(fallbackContentList.elementAt(index).tittle);
     //                     highList.add(fallbackContentList.elementAt(index).tittle);
-    // print(lowList);
+    //
                     currentUser.setFallbackTopics(lowList);
     // currentUser.setFallbackTopics([
     //   {InZoneEnums.lowVisibility: lowList.toSet().toList()},

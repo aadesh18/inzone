@@ -79,11 +79,11 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                             });
 
                             temp.clear();
-                            print("SADASDASDSA");
-                            print(_list);
+
+
 
                           } catch (e){
-                            // print(widget.acceptUser!.id);
+                            //
                             // FirebaseFirestore.instance.collection("messages").doc(widget.acceptUser!.id).update({
                             //   "chatMessages" : []
                             // });

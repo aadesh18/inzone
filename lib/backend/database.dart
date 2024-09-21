@@ -24,7 +24,7 @@ class InZoneDatabase {
     await docRef.get().then(
           (DocumentSnapshot doc) {
         final data = doc.data() as Map<String, dynamic>;
-        print(data['user_references']);
+
         user = InZoneCurrentUser(
             firstName: data["firstName"],
             lastName: data["lastName"],
@@ -44,22 +44,22 @@ class InZoneDatabase {
   static Future<List<InZonePost>> getFeed() async {
     Random random = Random();
     int randomIndex = random.nextInt(7);
-    List<InZonePost> posts = [];
+    List<InZonePost> posts = [];  // This needs to be declared once here
     int currentIndex = 0;
-    InZoneCurrentUser.subCategories = [];
-    String? email = FirebaseAuth.instance.currentUser!.email;
+    InZoneCurrentUser.subCategories = [];  // Reset the categories list
+    String? email = FirebaseAuth.instance.currentUser?.email;
     String url = "";
     DateTime time = DateTime.now();
-    if (email!=null){
+
+    // Build the URL based on whether the email is present
+    if (email != null) {
       url = 'https://us-central1-inzonebackend.cloudfunctions.net/api/get_posts';
-      // url = 'https://get-feed-r36l54qvra-uc.a.run.app/?email=$email&time=${time.hour.toString()}';
     } else {
       url = 'https://us-central1-inzonebackend.cloudfunctions.net/api/get_posts';
-      // url = 'https://get-feed-r36l54qvra-uc.a.run.app/?email=email_not_found&time=${time.hour.toString()}';
     }
 
-
     try {
+      // Make the POST request
       final response = await http.post(
         Uri.parse(url),
         headers: {
@@ -68,196 +68,65 @@ class InZoneDatabase {
         },
       );
 
+      // Check if the response status code is 200 (OK)
       if (response.statusCode == 200) {
-        print("Response Received");
+        // Decode the response body
         final jsonMap = jsonDecode(response.body.toString());
+        print("Posts received:");
+        print(jsonMap);
 
-        List<InZonePost> posts = InZonePost.fromJson(jsonMap);
-        print("This is where the response begins:\n\n\n");
-        posts.forEach((elem) {
-          print(elem.toString() );
-          int randomIndex = currentIndex;
-          InZoneCurrentUser.subCategories.add(
-            elem.category.trim() == ""
-                ? InZoneCategory(categoryName: "Animals", index: randomIndex)
-                : InZoneCategory(categoryName: elem.category, index: randomIndex),
-          );
-          if (currentIndex == 6) {
-            currentIndex = 0;
-          } else {
-            currentIndex += 1;
+        // Ensure the expected data structure is valid
+        if (jsonMap != null && jsonMap is Map<String, dynamic>) {
+          try {
+            // Convert the JSON response to List of InZonePost objects
+            List<InZonePost> fetchedPosts = InZonePost.fromJson(jsonMap);
+            print("Post converted successfully:");
+            print(fetchedPosts);
+
+            // Add subcategories based on posts
+            fetchedPosts.forEach((elem) {
+              int randomIndex = currentIndex;
+
+              // Add categories to the current user subcategories list
+              InZoneCurrentUser.subCategories.add(
+                elem.category.trim().isEmpty
+                    ? InZoneCategory(categoryName: "Animals", index: randomIndex)
+                    : InZoneCategory(categoryName: elem.category, index: randomIndex),
+              );
+
+              // Reset the current index after reaching the limit (6)
+              if (currentIndex == 6) {
+                currentIndex = 0;
+              } else {
+                currentIndex += 1;
+              }
+            });
+
+            randomIndex = currentIndex;
+
+            // Return the fetched posts after successful conversion
+            return fetchedPosts;
+          } catch (e) {
+            // Catch any errors during the conversion process
+            print("Error during post conversion: $e");
+            return posts;  // Return empty list in case of error
           }
-        });
-        randomIndex = currentIndex;
-        print("This is where the response ends:\n\n\n");
-        print(posts.length);
-        return posts;
+        } else {
+          print("Invalid JSON structure");
+          return posts;  // Return empty list in case of invalid response
+        }
       } else {
-        print('Server error: ${response.statusCode}');
+        // Log if status code is not 200 (OK)
+        print("Failed to load posts. Status code: ${response.statusCode}");
+        return posts;  // Return empty list in case of failure
       }
     } catch (e) {
-      print('Error sending request: $e');
+      // Handle any other exceptions
+      print("Error occurred during data fetching: $e");
+      return posts;  // Return empty list in case of error
     }
-
-    // final collectionRef =
-    //     FirebaseFirestore.instance.collection(CollectionNames.postsCollection);
-    // DateTime now = DateTime.now();
-    // int currentHour = now.hour;
-    //
-    // if (currentHour >= 9 && currentHour < 17) {
-    //   // Focus
-    //   await collectionRef
-    //       .where('main_category', isEqualTo: "focus").orderBy('date_posted',descending: true)
-    //       .limit(20)
-    //       .get()
-    //       .then((value) {
-    //     for (var element in value.docs) {
-    //       randomIndex = currentIndex;
-    //       InZoneCurrentUser.subCategories.add(
-    //         element["category"] == null
-    //             ? InZoneCategory(categoryName: "animals", index: randomIndex)
-    //             : InZoneCategory(
-    //                 categoryName: element['category'], index: randomIndex),
-    //       );
-    //       if (currentIndex == 6) {
-    //         currentIndex = 0;
-    //       } else {
-    //         currentIndex += 1;
-    //       }
-    //       posts.add(InZonePost(
-    //         category:
-    //             element["category"] == null ? "animals" : element["category"],
-    //         userName:
-    //             element["user_name"] == null ? "aadesh" : element["user_name"],
-    //         comments: element["comments"],
-    //         datePosted: element["date_posted"],
-    //         likes: element['likes'],
-    //         id: element.id,
-    //         imageContent: element['post']['image_content'],
-    //         //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
-    //         videoContent: element['post']['video_content'],
-    //         textContent: element['post']['textContent'],
-    //         userReference: element['user_references'] ?? "error",
-    //         mainCategory: element['main_category'],
-    //       ));
-    //       print('my doc id is ${element.id}');
-    //       print(
-    //           'my current user is ${FirebaseAuth.instance.currentUser!.email}');
-    //     }
-    //   });
-    // } else if (currentHour >= 17 && currentHour < 22) {
-    //   // Focus
-    //   print("fallback");
-    //   await collectionRef
-    //       .where('main_category', isEqualTo: "fallback").orderBy('date_posted',descending: true)
-    //       .limit(20)
-    //       .get()
-    //       .then((value) {
-    //     print(value.docs.length);
-    //     for (var element in value.docs) {
-    //       randomIndex = currentIndex;
-    //       InZoneCurrentUser.subCategories.add(
-    //         element["category"] == null
-    //             ? InZoneCategory(categoryName: "animals", index: randomIndex)
-    //             : InZoneCategory(
-    //                 categoryName: element['category'], index: randomIndex),
-    //       );
-    //       if (currentIndex == 6) {
-    //         currentIndex = 0;
-    //       } else {
-    //         currentIndex += 1;
-    //       }
-    //       posts.add(InZonePost(
-    //         category:
-    //             element["category"] == null ? "animals" : element["category"],
-    //         userName:
-    //             element["user_name"] == null ? "aadesh" : element["user_name"],
-    //         comments: element["comments"],
-    //         datePosted: element["date_posted"],
-    //         likes: element['likes'],
-    //         id: element.id,
-    //         imageContent: element['post']['image_content'],
-    //         //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
-    //         videoContent: element['post']['video_content'],
-    //         textContent: element['post']['textContent'],
-    //         userReference: element['user_references'] ?? "error",
-    //         mainCategory: element['main_category'],
-    //       ));
-    //     }
-    //   });
-    // } else {
-    //   // Custom
-    //
-    //   await collectionRef
-    //       .where('main_category', isEqualTo: "custom").orderBy('date_posted',descending: true)
-    //       .limit(20)
-    //       .get()
-    //       .then((value) {
-    //     for (var element in value.docs) {
-    //       randomIndex = currentIndex;
-    //       InZoneCurrentUser.subCategories.add(
-    //         element["category"] == null
-    //             ? InZoneCategory(categoryName: "animals", index: randomIndex)
-    //             : InZoneCategory(
-    //                 categoryName: element['category'], index: randomIndex),
-    //       );
-    //       if (currentIndex == 6) {
-    //         currentIndex = 0;
-    //       } else {
-    //         currentIndex += 1;
-    //       }
-    //       posts.add(InZonePost(
-    //         category:
-    //             element["category"] == null ? "animals" : element["category"],
-    //         userName:
-    //             element["user_name"] == null ? "aadesh" : element["user_name"],
-    //         comments: element["comments"],
-    //         datePosted: element["date_posted"],
-    //         likes: element['likes'],
-    //         id: element.id,
-    //         imageContent: element['post']['image_content'],
-    //         //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
-    //         videoContent: element['post']['video_content'],
-    //         textContent: element['post']['textContent'],
-    //         userReference: element['user_references'] ?? "error",
-    //         mainCategory: element['main_category'],
-    //       ));
-    //     }
-    //   });
-    // }
-    // if (posts.length < 5) {
-    //   // Focus
-    //   await collectionRef.limit(30).orderBy('date_posted',descending: true).get().then((value) {
-    //     for (var element in value.docs) {
-    //       randomIndex = currentIndex;
-    //       InZoneCurrentUser.subCategories.add(
-    //         element["category"] == null
-    //             ? InZoneCategory(categoryName: "animals", index: randomIndex)
-    //             : InZoneCategory(
-    //                 categoryName: element['category'], index: randomIndex),
-    //       );
-    //       if (currentIndex == 6) {
-    //         currentIndex = 0;
-    //       } else {
-    //         currentIndex += 1;
-    //       }
-    //       // posts.add(InZonePost(
-    //       //   category: element["category"] == null ? "animals" : element["category"]  ,
-    //       //   userName: element["user_name"],
-    //       //   comments: element["comments"],
-    //       //   datePosted: element["date_posted"],
-    //       //   likes: element['likes'],
-    //       //   id: element.id,
-    //       //   imageContent: element['post']['image_content'] ,
-    //       //   //imageContent: ["https://images.unsplash.com/photo-1707822906791-e5a2f06d83d7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
-    //       //   videoContent: element['post']['video_content'] ,
-    //       //   textContent: element['post']['textContent'], userReference: element['user_references'], mainCategory: element['main_category'],
-    //       // ));
-    //     }
-    //   });
-    // }
-    return posts;
   }
+
 
   static Future<List<InZonePost>> getExploreFeed(collectionName) async {
     List<InZonePost> posts = [];
@@ -286,8 +155,8 @@ class InZoneDatabase {
       }
     });
 
-    print("Explore Functin");
-    print(posts);
+
+
     return posts;
   }
 
@@ -393,7 +262,7 @@ class InZoneDatabase {
         }
       }
     } catch (e) {
-      print(e);
+
     }
 
     return sentiment;
@@ -414,17 +283,17 @@ class InZoneDatabase {
       if (response.statusCode == 200) {
         // Assuming the response is JSON, decode it
         final Map<String, dynamic> responseData = json.decode(response.body);
-        print("This is where the response begins:\n\n\n");
-        print(responseData);
-        print("This is where the response ends:\n\n\n");
+
+
+
         return responseData;
       } else {
-        print('Server error: ${response.statusCode}');
+
         return null;
       }
     } catch (e) {
       // Handle any errors that occur during the request
-      print('Error sending request: $e');
+
       return null;
     }
   }
@@ -445,15 +314,15 @@ class InZoneDatabase {
       if (response.statusCode == 200) {
         // Assuming the response is JSON, decode it
         final Map<String, dynamic> responseData = json.decode(response.body);
-        print(responseData);
+
         return responseData;
       } else {
-        print('Server error: ${response.statusCode}');
+
         return null;
       }
     } catch (e) {
       // Handle any errors that occur during the request
-      print('Error sending request: $e');
+
       return null;
     }
   }

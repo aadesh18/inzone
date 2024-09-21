@@ -10,6 +10,7 @@ import 'package:inzone/main_screens/comment_screen/comment_screen.dart';
 import 'package:inzone/main_screens/comment_screen/reply_class.dart';
 import 'package:inzone/main_screens/comments_screen.dart';
 import 'package:inzone/custom_icons.dart';
+import 'package:inzone/main_screens/me_screen.dart';
 import 'package:inzone/models/auth_work.dart';
 import 'package:inzone/models/chat_user_data.dart';
 import 'package:inzone/models/inbox/chat_screen_complete.dart';
@@ -43,7 +44,7 @@ class _PostCardState extends State<PostCard> {
 
   void checkInternet() async {
     if (widget.post.imageContent! != null) {
-      print("eneeted");
+
       try {
         final response = await http
             .head(Uri.parse(widget.post.imageContent!.elementAt(0)))
@@ -75,7 +76,7 @@ class _PostCardState extends State<PostCard> {
     //   setState(() {
     //     username = userData['name'];
     //   });
-    //   print("User name $username");
+    //
     //   return username;
     // }
     if (_auth.currentUser!.displayName == null) {
@@ -90,288 +91,293 @@ class _PostCardState extends State<PostCard> {
     //checkInternet();
     super.initState();
     getUsername();
-    retrieveLikedComments();
-    retrieveUnLikedComments();
+    // retrieveLikedComments();
+    // retrieveUnLikedComments();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
-      child: Container(
-        constraints: BoxConstraints(
-          minHeight: imageSuccess ? 350 : 190,
-        ),
-        width: screenWidth! - 30,
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            color: const Color(0xff959595).withOpacity(0.3),
-            spreadRadius: 0,
-            blurRadius: 15,
-            offset: const Offset(0, 4), // changes position of shadow
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>MeScreen()));
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20.0),
+        child: Container(
+          constraints: BoxConstraints(
+            minHeight: imageSuccess ? 350 : 190,
           ),
-        ], color: Colors.white, borderRadius: BorderRadius.circular(15)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Row(
-              children: [
-                // Image.asset(post.profilePicturePath),
-                RandomAvatar(widget.post.userName, height: 40, width: 40),
-                const SizedBox(
-                  width: 10,
-                ),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(
-                    widget.post.userName,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                  // const Text(
-                  //   "1m ago",
-                  //   style: TextStyle(color: Colors.grey, fontSize: 15),
-                  // ),
-                ]),
-                const Spacer(),
-                PopupMenuButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  padding: const EdgeInsets.all(15),
-                  child: SvgPicture.asset(
-                    CustomIcons.threeDots,
-                    height: 40,
-                    width: 40,
-                  ),
-                  onSelected: (value) {
-                    // your logic
-                  },
-                  itemBuilder: (BuildContext bc) {
-                    return widget.post.userReference.contains("aiUsers")
-                        ? [
-                            menuOption(
-                                CustomIcons.notInterested,
-                                "Flag this post",
-                                "not_interested",
-                                context,
-                                widget.post.userName,
-                                widget.post.userReference),
-                            menuOption(
-                                CustomIcons.dontShow,
-                                "Block ${widget.post.userName}",
-                                "dont_show",
-                                context,
-                                widget.post.userName,
-                                widget.post.userReference),
-                            menuOption(
-                                CustomIcons.manage,
-                                "Report this post",
-                                "manage",
-                                context,
-                                widget.post.userName,
-                                widget.post.userReference),
-                          ]
-                        : [
-                            menuOption(
-                                CustomIcons.save,
-                                "Start a chat",
-                                "chat",
-                                context,
-                                widget.post.userName,
-                                widget.post.userReference),
-                            menuOption(
-                                CustomIcons.notInterested,
-                                "Flag this post",
-                                "not_interested",
-                                context,
-                                widget.post.userName,
-                                widget.post.userReference),
-                            menuOption(
-                                CustomIcons.dontShow,
-                                "Block ${widget.post.userName}",
-                                "dont_show",
-                                context,
-                                widget.post.userName,
-                                widget.post.userReference),
-                            menuOption(
-                                CustomIcons.manage,
-                                "Report this post",
-                                "manage",
-                                context,
-                                widget.post.userName,
-                                widget.post.userReference)
-                          ];
-                  },
-                ),
-              ],
+          width: screenWidth! - 30,
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: const Color(0xff959595).withOpacity(0.3),
+              spreadRadius: 0,
+              blurRadius: 15,
+              offset: const Offset(0, 4), // changes position of shadow
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            widget.post.textContent == null
-                ? SizedBox()
-                : Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      widget.post.textContent!,
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(height: 1.5),
+          ], color: Colors.white, borderRadius: BorderRadius.circular(15)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                children: [
+                  // Image.asset(post.profilePicturePath),
+                  RandomAvatar(widget.post.userName, height: 40, width: 40),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(
+                      widget.post.userName,
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
                     ),
+                    // const Text(
+                    //   "1m ago",
+                    //   style: TextStyle(color: Colors.grey, fontSize: 15),
+                    // ),
+                  ]),
+                  const Spacer(),
+                  PopupMenuButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    padding: const EdgeInsets.all(15),
+                    child: SvgPicture.asset(
+                      CustomIcons.threeDots,
+                      height: 40,
+                      width: 40,
+                    ),
+                    onSelected: (value) {
+                      // your logic
+                    },
+                    itemBuilder: (BuildContext bc) {
+                      return widget.post.userReference.contains("aiUsers")
+                          ? [
+                              menuOption(
+                                  CustomIcons.notInterested,
+                                  "Flag this post",
+                                  "not_interested",
+                                  context,
+                                  widget.post.userName,
+                                  widget.post.userReference),
+                              menuOption(
+                                  CustomIcons.dontShow,
+                                  "Block ${widget.post.userName}",
+                                  "dont_show",
+                                  context,
+                                  widget.post.userName,
+                                  widget.post.userReference),
+                              menuOption(
+                                  CustomIcons.manage,
+                                  "Report this post",
+                                  "manage",
+                                  context,
+                                  widget.post.userName,
+                                  widget.post.userReference),
+                            ]
+                          : [
+                              menuOption(
+                                  CustomIcons.save,
+                                  "Start a chat",
+                                  "chat",
+                                  context,
+                                  widget.post.userName,
+                                  widget.post.userReference),
+                              menuOption(
+                                  CustomIcons.notInterested,
+                                  "Flag this post",
+                                  "not_interested",
+                                  context,
+                                  widget.post.userName,
+                                  widget.post.userReference),
+                              menuOption(
+                                  CustomIcons.dontShow,
+                                  "Block ${widget.post.userName}",
+                                  "dont_show",
+                                  context,
+                                  widget.post.userName,
+                                  widget.post.userReference),
+                              menuOption(
+                                  CustomIcons.manage,
+                                  "Report this post",
+                                  "manage",
+                                  context,
+                                  widget.post.userName,
+                                  widget.post.userReference)
+                            ];
+                    },
                   ),
-            const SizedBox(
-              height: 10,
-            ),
-            ((widget.post.imageContent != null &&
-                        widget.post.imageContent!.isNotEmpty) ||
-                    widget.post.videoContent!.isNotEmpty)
-                ? Container(
-                    width: screenWidth! - 30,
-                    child: SingleChildScrollView(
-                      scrollDirection:
-                          Axis.horizontal, // Allow horizontal scrolling
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          widget.post.imageContent != null &&
-                                  widget.post.imageContent!.isNotEmpty
-                              ? widget.post.imageContent!.first == ""
-                                  ? SizedBox(
-                                      width: 1,
-                                    )
-                                  : Container(
-                                      width:
-                                          widget.post.imageContent!.length != 1
-                                              ? 0
-                                              : screenWidth! - 60,
-                                      child: widget.post.imageContent!.length !=
-                                              1
-                                          ? SizedBox(
-                                              width: 1,
-                                            )
-                                          : ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                              child: Image.network(
-                                                widget.post.imageContent!.first,
-                                                fit: BoxFit.fitWidth,
-                                                errorBuilder:
-                                                    (context, object, st) {
-                                                  return const SizedBox();
-                                                },
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              widget.post.textContent == null
+                  ? SizedBox()
+                  : Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        widget.post.textContent!,
+                        textAlign: TextAlign.start,
+                        style: const TextStyle(height: 1.5),
+                      ),
+                    ),
+              const SizedBox(
+                height: 10,
+              ),
+              ((widget.post.imageContent != null &&
+                          widget.post.imageContent!.isNotEmpty) ||
+                      widget.post.videoContent!.isNotEmpty)
+                  ? Container(
+                      width: screenWidth! - 30,
+                      child: SingleChildScrollView(
+                        scrollDirection:
+                            Axis.horizontal, // Allow horizontal scrolling
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            widget.post.imageContent != null &&
+                                    widget.post.imageContent!.isNotEmpty
+                                ? widget.post.imageContent!.first == ""
+                                    ? SizedBox(
+                                        width: 1,
+                                      )
+                                    : Container(
+                                        width:
+                                            widget.post.imageContent!.length != 1
+                                                ? 0
+                                                : screenWidth! - 60,
+                                        child: widget.post.imageContent!.length !=
+                                                1
+                                            ? SizedBox(
+                                                width: 1,
+                                              )
+                                            : ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.network(
+                                                  widget.post.imageContent!.first,
+                                                  fit: BoxFit.fitWidth,
+                                                  errorBuilder:
+                                                      (context, object, st) {
+                                                    return const SizedBox();
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                    )
-                              : SizedBox(
-                                  width: 1,
-                                ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          widget.post.videoContent!.isEmpty
-                              ? SizedBox()
-                              : Container(
-                                  width: screenWidth! - 60,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    // child: VideoWidget(
-                                    //     videoUrl:
-                                    //         widget.post.videoContent!.first)
-                                    child: const SizedBox(
-                                      height: 1,
+                                      )
+                                : SizedBox(
+                                    width: 1,
+                                  ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            widget.post.videoContent!.isEmpty
+                                ? SizedBox()
+                                : Container(
+                                    width: screenWidth! - 60,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      // child: VideoWidget(
+                                      //     videoUrl:
+                                      //         widget.post.videoContent!.first)
+                                      child: const SizedBox(
+                                        height: 1,
+                                      ),
                                     ),
                                   ),
-                                ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                : SizedBox(),
-//       widget.post.imageContent == null ?  SizedBox()  :
-//
-//               imageSuccess ? Container(
-// height:  100,
-//                  width:  200,
-//
-//                  child: ListView.builder(
-//                   scrollDirection: Axis.horizontal, itemCount: widget.post.imageContent == null ?  0 : widget.post.imageContent!.length , itemBuilder: (context, index) {
-//
-//                   return
-//                   ClipRRect(
-//                     borderRadius: BorderRadius.circular(8.0),
-//                     child: Image.network(widget.post.imageContent!.elementAt(index),errorBuilder: (context, object, st){
-//                       setState(() {
-//                         imageSuccess = false;
-//                       });
-//
-//                       return const SizedBox();
-//                     }),
-//                   );
-//                                },),
-//                ) : SizedBox(),
-//
+                    )
+                  : SizedBox(),
+      //       widget.post.imageContent == null ?  SizedBox()  :
+      //
+      //               imageSuccess ? Container(
+      // height:  100,
+      //                  width:  200,
+      //
+      //                  child: ListView.builder(
+      //                   scrollDirection: Axis.horizontal, itemCount: widget.post.imageContent == null ?  0 : widget.post.imageContent!.length , itemBuilder: (context, index) {
+      //
+      //                   return
+      //                   ClipRRect(
+      //                     borderRadius: BorderRadius.circular(8.0),
+      //                     child: Image.network(widget.post.imageContent!.elementAt(index),errorBuilder: (context, object, st){
+      //                       setState(() {
+      //                         imageSuccess = false;
+      //                       });
+      //
+      //                       return const SizedBox();
+      //                     }),
+      //                   );
+      //                                },),
+      //                ) : SizedBox(),
+      //
 
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                isLiked
-                    ? GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isLiked = false;
-                          });
-                        },
-                        child: SvgPicture.asset(CustomIcons.like))
-                    : GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isLiked = true;
-                          });
-                        },
-                        child: SvgPicture.asset(CustomIcons.notlike),
-                      ),
-                const SizedBox(
-                  width: 10,
-                ),
-                InkWell(
-                    onTap: () {
-                      print('my fetch post doc id is ${widget.post.id}');
-                      filterSheetModel();
-                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>CommentPage(
-                      //   post: widget.post,
-                      // )));
-                    },
-                    child: SvgPicture.asset(CustomIcons.comment)),
-                const SizedBox(
-                  width: 10,
-                ),
-                // GestureDetector(
-                //     onTap: () {
-                //       // Navigator.push(context,
-                //       //     MaterialPageRoute(builder: (context) {
-                //       //   return CommentScreen();
-                //       // }));
-                //       // showSlidingBottomSheet(context,
-                //       //     builder: (context) => SlidingSheetDialog(
-                //       //       cornerRadius: 30,
-                //       //       snapSpec: const SnapSpec(snappings: [0.7, 0.9]),
-                //       //       builder: (context, state) {
-                //       //
-                //       //         // return CommentPage(
-                //       //         //   post: widget.post,
-                //       //         // );
-                //       //       },
-                //       //     ));
-                //     },
-                //     child: SvgPicture.asset(CustomIcons.send)),
-                const Spacer(),
-              ],
-            )
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  isLiked
+                      ? GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isLiked = false;
+                            });
+                          },
+                          child: SvgPicture.asset(CustomIcons.like))
+                      : GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isLiked = true;
+                            });
+                          },
+                          child: SvgPicture.asset(CustomIcons.notlike),
+                        ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                      onTap: () {
+
+                        filterSheetModel();
+                        // Navigator.push(context, MaterialPageRoute(builder: (context)=>CommentPage(
+                        //   post: widget.post,
+                        // )));
+                      },
+                      child: SvgPicture.asset(CustomIcons.comment)),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       // Navigator.push(context,
+                  //       //     MaterialPageRoute(builder: (context) {
+                  //       //   return CommentScreen();
+                  //       // }));
+                  //       // showSlidingBottomSheet(context,
+                  //       //     builder: (context) => SlidingSheetDialog(
+                  //       //       cornerRadius: 30,
+                  //       //       snapSpec: const SnapSpec(snappings: [0.7, 0.9]),
+                  //       //       builder: (context, state) {
+                  //       //
+                  //       //         // return CommentPage(
+                  //       //         //   post: widget.post,
+                  //       //         // );
+                  //       //       },
+                  //       //     ));
+                  //     },
+                  //     child: SvgPicture.asset(CustomIcons.send)),
+                  const Spacer(),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -736,15 +742,15 @@ class _PostCardState extends State<PostCard> {
   }
 
 // Inside the retrieveUnLikedComments method
-  Future<void> retrieveUnLikedComments() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    dislikedComments.clear(); // Clear the existing map
-    for (String commentId in prefs.getKeys()) {
-      if (!prefs.getBool(commentId)!) {
-        dislikedComments[commentId] = true;
-      }
-    }
-  }
+//   Future<void> retrieveUnLikedComments() async {
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     dislikedComments.clear(); // Clear the existing map
+//     for (String commentId in prefs.getKeys()) {
+//       if (!prefs.getBool(commentId)!) {
+//         dislikedComments[commentId] = true;
+//       }
+//     }
+//   }
 
   Future<CommentClass> getComment(String commentId) async {
     DocumentSnapshot snapshot =
@@ -803,18 +809,18 @@ class _PostCardState extends State<PostCard> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData)  {
                           if ( snapshot.data!.exists){
-                            print("Present");
+
                           } else {
-                            print("Absent");
+
                           }
                           dynamic data = snapshot.data!.data() as Map<String, dynamic>?;
-                          print(data);
-                          print("COMEMEMEMEMEME");
+
+
                           if (data==null){
                             data = {};
                           }
                           final commentsList = data['comments'] ?? [];
-                          print("COMEMEMEMEMEME");
+
                           final comments = commentsList.map<CommentClass>((comment) {
                             return CommentClass(
                               author: comment['author'],
@@ -839,7 +845,7 @@ class _PostCardState extends State<PostCard> {
                             padding: const EdgeInsets.fromLTRB(20, 5, 20, 100),
                             itemCount: comments.length,
                             itemBuilder: (BuildContext context, int index) {
-                              print(comments.length);
+
                               comment = comments[index];
 
                               return AnimatedContainer(
@@ -1233,7 +1239,7 @@ class _PostCardState extends State<PostCard> {
                             },
                           );
                         } else if (snapshot.hasError) {
-                          print("Error: ${snapshot.error}");
+
                           return Center(
                             child: Text(
                               'Error: ${snapshot.error}',
@@ -1266,7 +1272,7 @@ PopupMenuItem menuOption(String iconPath, String title, String value,
     onTap: () async {
       if (value == "chat") {
         String? id = await AuthWork.getConversationID(userName, userEmail);
-        print("THE ID RECEIVED IS $id");
+
         Navigator.push(
           context,
           MaterialPageRoute(

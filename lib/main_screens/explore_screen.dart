@@ -31,7 +31,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
           }
           if (element.imageContent != null){
             if (element.imageContent!.length > 0){
-              print("ADDED IMAGE");
+
               explorePostsWithImages.add(PostCard(post: element));
             } else {
               print("ADDED NO IMAGE");

@@ -24,7 +24,7 @@ class _FocusPageState extends State<FocusPage> {
 
   // onStart(int index) {
   //   lowList.add(focusContentList.elementAt(index).tittle);
-  //   print(lowList);
+  //
   //   currentUser.setFocusTopics([
   //     {InZoneEnums.lowVisibility: lowList.toSet().toList()},
   //     {InZoneEnums.highVisibility: highList.toSet().toList()}
@@ -44,7 +44,7 @@ class _FocusPageState extends State<FocusPage> {
 
   // onEnd(int index) {
   //   highList.add(focusContentList.elementAt(index).tittle);
-  //   print(highList);
+  //
   //   currentUser.setFocusTopics([
   //     {InZoneEnums.lowVisibility: lowList.toSet().toList()},
   //     {InZoneEnums.highVisibility: highList.toSet().toList()}
@@ -131,7 +131,7 @@ class _FocusPageState extends State<FocusPage> {
             //                 });
             //                     lowList.add(focusContentList.elementAt(index).tittle);
             //                     currentUser.setFocusTopics(lowList);
-            // // print(lowList);
+            // //
             // // currentUser.setFocusTopics([
             // //   {InZoneEnums.lowVisibility: lowList.toSet().toList()},
             // //   {InZoneEnums.highVisibility: highList.toSet().toList()}
@@ -229,7 +229,7 @@ onApplyButtonClick: (list){
 //       selected: isSelected!,
 //       onSelected: (bool selected) {
 //         if (selected) {
-//           print('Clicked ${item.name}');
+//
 //         }
 //       });
 //           } ,

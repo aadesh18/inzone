@@ -27,7 +27,7 @@ class AcceptedDateData {
 
       id = map['id'] ?? '';
     } catch (e){
-      print("The error is here");
+
       email = map['email'] ?? FirebaseAuth.instance.currentUser!.email;
       name = map['name'] ?? FirebaseAuth.instance.currentUser!.displayName;
 

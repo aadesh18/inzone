@@ -59,8 +59,8 @@ class InZoneCategory {
   String? getIconPath() => categoryIconPath;
   Color getStartColor() {
     try {
-      print("get stat color");
-      print(index);
+
+
       return startColorList.elementAt(index);
     } catch (e){
       return startColorList.elementAt(0);

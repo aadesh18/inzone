@@ -68,9 +68,9 @@ class InZonePost {
   //    // commentsList.forEach((elem){
   //    //   finalCommentsList.add(CommentClass(author: elem['name'], text: elem['text'], timestamp: Timestamp.now().toString(), id: i["id"], postId: i["id"], userId: data["user_name"] ?? "Robert", replies: elem["replies"]));
   //    // });
-  //    //  print(data["comments"]);
-  //    //  print("commentsList");
-  //    //  print(commentsList);
+  //    //
+  //    //
+  //    //
   //    commentsList.clear();
   //     returnList.add(
   //       InZonePost(
@@ -90,80 +90,169 @@ class InZonePost {
   //   });
   //   return returnList;
   // }
+  // static List<InZonePost> fromJson(dynamic json) {
+  //   List<InZonePost> returnList = [];
+  //   List<dynamic> commentsList = [];
+  //
+  //   json['posts'].forEach((i) {
+  //     Map<String, dynamic> data = i['data'];
+  //     var timestampData = data['date_posted'];
+  //     Timestamp timestamp = Timestamp(timestampData['_seconds'], timestampData['_nanoseconds']);
+  //     try {
+  //     commentsList = data['comments'] as List<dynamic>;
+  //     } catch (e){
+  //       commentsList.add(data['comments']);
+  //
+  //     }
+  //
+  //
+  //     List<CommentClass> finalCommentsList = [];
+  //
+  //     commentsList.forEach((elem) {
+  //       List<ReplyClass> repliesList = [];
+  //       if (elem['replies'] != null) {
+  //         List<dynamic> replies = elem['replies'] as List<dynamic>;
+  //         replies.forEach((reply) {
+  //           repliesList.add(ReplyClass(
+  //             name: reply['name'],
+  //             text: reply['text'],
+  //             uid: reply['uid']
+  //           ));
+  //         });
+  //       }
+  //
+  //
+  //
+  //       finalCommentsList.add(CommentClass(
+  //         author: elem['name'] ?? "Error",
+  //         text: elem['text'] ?? "Error",
+  //         timestamp: Timestamp.now().toString(),
+  //         id: elem['uid'] ?? '',
+  //         postId: i['id'] ?? "Error",
+  //         userId: data['user_name'] ?? 'Robert',
+  //         replies: repliesList?? [],
+  //         likedBy: elem['likedBy'] != null
+  //             ? List<String>.from(elem['likedBy'])
+  //             : [],
+  //         dislikedBy: elem['dislikedBy'] != null
+  //             ? List<String>.from(elem['dislikedBy'])
+  //             : [],
+  //       ));
+  //
+  //
+  //     });
+  //
+  //     returnList.add(
+  //       InZonePost(
+  //         category: data['category'] ?? 'animals',
+  //         userName: data['user_name'] ?? 'Robert',
+  //         comments: finalCommentsList,
+  //         datePosted: timestamp,
+  //         likes: data['likes'] ?? 0,
+  //         id: i['id'],
+  //         imageContent: data['post']['image_content'] != null
+  //             ? List<String>.from(data['post']['image_content'])
+  //             : [],
+  //         videoContent: data['post']['video_content'] != null
+  //             ? List<String>.from(data['post']['video_content'])
+  //             : [],
+  //         textContent: data['post']['textContent'] ?? '',
+  //         userReference: data['user_references'] ?? 'error',
+  //         mainCategory: data['main_category'] ?? '',
+  //       ),
+  //     );
+  //   });
+  //   return returnList;
+  // }
+
   static List<InZonePost> fromJson(dynamic json) {
     List<InZonePost> returnList = [];
-    List<dynamic> commentsList = [];
-    print("Passed 1");
+
+    // Loop through each post in the JSON
     json['posts'].forEach((i) {
       Map<String, dynamic> data = i['data'];
-      var timestampData = data['date_posted'];
-      Timestamp timestamp = Timestamp(timestampData['_seconds'], timestampData['_nanoseconds']);
-      try {
-      commentsList = data['comments'] as List<dynamic>;
-      } catch (e){
-        commentsList.add(data['comments']);
 
+      // Handle timestamp conversion with a default value for date_posted
+      var timestampData = data['date_posted'] ?? {};
+      Timestamp timestamp = Timestamp(
+        timestampData['_seconds'] ?? 0,
+        timestampData['_nanoseconds'] ?? 0,
+      );
+
+      // Safely handle the comments field: If it's an empty object, treat it as an empty list
+      List<dynamic> commentsList = [];
+
+      // Check if comments is an empty object, an actual list, or something else
+      if (data['comments'] is Map && (data['comments'] as Map).isEmpty) {
+        // Empty object, treat as empty list
+        commentsList = [];
+      } else if (data['comments'] is List) {
+        // It's a valid list
+        commentsList = data['comments'] as List<dynamic>;
+      } else if (data['comments'] != null) {
+        // If it's not an empty object or list, treat it as a single comment in a list
+        commentsList = [data['comments']];
       }
-      print("Passed 2");
 
+      // Prepare the list of comments to be added to the post
       List<CommentClass> finalCommentsList = [];
 
       commentsList.forEach((elem) {
         List<ReplyClass> repliesList = [];
+
+        // Check if replies exist, and safely parse them into a list
         if (elem['replies'] != null) {
           List<dynamic> replies = elem['replies'] as List<dynamic>;
           replies.forEach((reply) {
             repliesList.add(ReplyClass(
-              name: reply['name'],
-              text: reply['text'],
-              uid: reply['uid']
+              name: reply['name'] ?? 'Unknown',
+              text: reply['text'] ?? '',
+              uid: reply['uid'] ?? '',
             ));
           });
         }
-        print("Passed 3");
 
-
+        // Add each comment to the final list, ensuring no nulls
         finalCommentsList.add(CommentClass(
-          author: elem['name'] ?? "Error",
-          text: elem['text'] ?? "Error",
-          timestamp: Timestamp.now().toString(),
+          author: elem['name'] ?? "Unknown",
+          text: elem['text'] ?? "",
+          timestamp: Timestamp.now().toString(),  // Replace with actual timestamp if available
           id: elem['uid'] ?? '',
-          postId: i['id'] ?? "Error",
-          userId: data['user_name'] ?? 'Robert',
-          replies: repliesList?? [],
-          likedBy: elem['likedBy'] != null
-              ? List<String>.from(elem['likedBy'])
-              : [],
-          dislikedBy: elem['dislikedBy'] != null
-              ? List<String>.from(elem['dislikedBy'])
-              : [],
+          postId: i['id'] ?? "Error",  // Use a default value if postId is missing
+          userId: data['user_name'] ?? 'Unknown',  // Use 'Unknown' as a default user name
+          replies: repliesList,
+          likedBy: elem['likedBy'] != null ? List<String>.from(elem['likedBy']) : [],
+          dislikedBy: elem['dislikedBy'] != null ? List<String>.from(elem['dislikedBy']) : [],
         ));
-        print("Passed 4");
-
       });
-print("Passed 5");
+
+      // Finally, add the post to the return list, ensuring all values are present
       returnList.add(
         InZonePost(
-          category: data['category'] ?? 'animals',
-          userName: data['user_name'] ?? 'Robert',
-          comments: finalCommentsList,
-          datePosted: timestamp,
-          likes: data['likes'] ?? 0,
-          id: i['id'],
+          category: data['category'] ?? 'animals',  // Default to 'animals'
+          userName: data['user_name'] ?? 'Unknown',  // Default to 'Unknown' if userName is null
+          comments: finalCommentsList,  // Use the processed comments list
+          datePosted: timestamp,  // Use the timestamp from the data
+          likes: data['likes'] ?? 0,  // Default likes to 0 if null
+          id: i['id'] ?? 'unknown',  // Ensure id has a fallback value
           imageContent: data['post']['image_content'] != null
               ? List<String>.from(data['post']['image_content'])
-              : [],
+              : [],  // Default to an empty list if image_content is null
           videoContent: data['post']['video_content'] != null
               ? List<String>.from(data['post']['video_content'])
-              : [],
-          textContent: data['post']['textContent'] ?? '',
-          userReference: data['user_references'] ?? 'error',
-          mainCategory: data['main_category'] ?? '',
+              : [],  // Default to an empty list if video_content is null
+          textContent: data['post']['textContent'] ?? '',  // Default to an empty string
+          userReference: data['user_references'] ?? 'unknown',  // Default userReference to 'unknown'
+          mainCategory: data['main_category'] ?? '',  // Default mainCategory to an empty string
         ),
       );
     });
-    return returnList;
+
+    return returnList;  // Return the final list of posts
   }
+
+
+
 
   @override
   String toString() {

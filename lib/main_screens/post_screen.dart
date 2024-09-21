@@ -86,10 +86,10 @@ class _PostScreenState extends State<PostScreen> {
           isImageSelected = true;
         });
       } else {
-        print('User didnt pick any image.');
+
       }
     } catch (e) {
-      print(e.toString());
+
     }
   }
 
@@ -103,10 +103,10 @@ class _PostScreenState extends State<PostScreen> {
           isImageSelected = true;
         });
       } else {
-        print('User didnt pick any image.');
+
       }
     } catch (e) {
-      print(e.toString());
+
     }
   }
   Future<void> _loadPreferences() async {
@@ -726,7 +726,7 @@ class _PostScreenState extends State<PostScreen> {
                         //     await Future.delayed(const Duration(seconds: 2));
                         await InZoneDatabase.postContent(postMessage: postContent, imageRef: [imageUrl], videoRef: [videoUrl]).then((value) {
                           setState(() {
-                            print(value);
+
                             if (value == -1){
                               moveValue = low;
                               doesNotWork = true;
@@ -815,10 +815,10 @@ Spacer(flex: 1,),
 //           isImageSelected = true;
 //         });
 //       } else {
-//         print('User didnt pick any image.');
+//
 //       }
 //     } catch (e) {
-//       print(e.toString());
+//
 //     }
 //   }
 //
@@ -832,10 +832,10 @@ Spacer(flex: 1,),
 //           isImageSelected = true;
 //         });
 //       } else {
-//         print('User didnt pick any image.');
+//
 //       }
 //     } catch (e) {
-//       print(e.toString());
+//
 //     }
 //   }
 //
@@ -1080,10 +1080,10 @@ Spacer(flex: 1,),
 //           isImageSelected = true;
 //         });
 //       } else {
-//         print('User didnt pick any image.');
+//
 //       }
 //     } catch (e) {
-//       print(e.toString());
+//
 //     }
 //   }
 //
@@ -1097,10 +1097,10 @@ Spacer(flex: 1,),
 //           isImageSelected = true;
 //         });
 //       } else {
-//         print('User didnt pick any image.');
+//
 //       }
 //     } catch (e) {
-//       print(e.toString());
+//
 //     }
 //   }
 //
@@ -1183,10 +1183,10 @@ Spacer(flex: 1,),
 //           isImageSelected = true;
 //         });
 //       } else {
-//         print('User didnt pick any image.');
+//
 //       }
 //     } catch (e) {
-//       print(e.toString());
+//
 //     }
 //   }
 //
@@ -1200,10 +1200,10 @@ Spacer(flex: 1,),
 //           isImageSelected = true;
 //         });
 //       } else {
-//         print('User didnt pick any image.');
+//
 //       }
 //     } catch (e) {
-//       print(e.toString());
+//
 //     }
 //   }
 //

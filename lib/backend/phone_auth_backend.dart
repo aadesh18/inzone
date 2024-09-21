@@ -28,7 +28,7 @@
 //   void initState() {
 //     // TODO: implement initState
 //     super.initState();
-// print(auth);
+//
 //   }
 //   @override
 //   // TODO: implement provider
@@ -41,13 +41,13 @@
 //   ConfirmationResult? confirmationResult;
 //
 //   setPhoneNumber(String value) {
-//     print("Set Phone Number to value $value");
+//
 //     provider.sendVerificationCode(phoneNumber: value, action: AuthAction.signIn);
 //
 //   }
 //
 //   setOtp(String value) {
-//     print("Set OTP to value $value");
+//
 //
 //     provider.verifySMSCode(action: AuthAction.signIn, code: value);
 //   }
@@ -80,7 +80,7 @@
 //   @override
 //   void onVerificationCompleted(PhoneAuthCredential credential) {
 //     provider.onCredentialReceived(credential, AuthAction.signIn);
-//     print("Verification Completed");
+//
 //   }
 //
 //
@@ -135,14 +135,14 @@
 //       defaultOnAuthError(provider, error);
 //     } catch (err) {
 //       setState(() {
-//         print(err);
+//
 //       });
 //     }
 //   }
 //
 //   @override
 //   void onSignedIn(UserCredential credential) {
-//     print("On Signed In $credential");
+//
 //     //Navigator.of(context).pushReplacementNamed('/profile');
 //   }
 //
@@ -159,13 +159,13 @@
 //
 //   @override
 //   void onCredentialReceived(AuthCredential credential) {
-//     print("On Credential Recevied $credential");
+//
 //     // TODO: implement onCredentialReceived
 //   }
 //
 //   @override
 //   void onMFARequired(MultiFactorResolver resolver) {
-//     print("On MFA Required $resolver ");
+//
 //     // TODO: implement onMFARequired
 //   }
 //
@@ -219,7 +219,7 @@ class PhoneAuthBackEndState extends State<PhoneAuthBackEnd> {
     phoneNumberEntered(phoneNumber);
   }
   triggerOTPEntered(String otp) {
-    print("OTP: $otp");
+
     OTPEntered(otp);
   }
   Widget _getChild(){
@@ -228,7 +228,7 @@ class PhoneAuthBackEndState extends State<PhoneAuthBackEnd> {
 
   void phoneNumberEntered(String phoneNumber)async{
     OTPPage.phoneNumber = phoneNumber;
-    print(phoneNumber);
+
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
@@ -254,7 +254,7 @@ class PhoneAuthBackEndState extends State<PhoneAuthBackEnd> {
   void OTPEntered(String smsCode) async {
 
       while(widget.verificationId == null){
-        print("NULL");
+
       }
       PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: widget.verificationId!, smsCode: smsCode);
 try {
@@ -264,7 +264,7 @@ try {
   setState(() {
     child = OTPPage(errorMessage: e.message);
   });
-  print(e.message);
+
 }
 
 
