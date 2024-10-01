@@ -4,6 +4,7 @@ import 'package:inzone/main_screens/components/inzone_search_bar.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 class FollowersFollowingScreen extends StatefulWidget {
+
   const FollowersFollowingScreen({super.key});
 
   @override

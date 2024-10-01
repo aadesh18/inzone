@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inzone/constants.dart';
 import 'package:inzone/data/inzone_post.dart';
-import 'package:inzone/main_screens/comment_screen/comment_screen.dart';
 import 'package:inzone/main_screens/comment_screen/reply_class.dart';
-import 'package:inzone/main_screens/comments_screen.dart';
 import 'package:inzone/custom_icons.dart';
 import 'package:inzone/main_screens/me_screen.dart';
 import 'package:inzone/models/auth_work.dart';
@@ -16,15 +14,8 @@ import 'package:inzone/models/chat_user_data.dart';
 import 'package:inzone/models/inbox/chat_screen_complete.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sliding_sheet2/sliding_sheet2.dart';
 import 'package:http/http.dart' as http;
-
-import '../../backend/collection_names.dart';
-import '../../backend/database.dart';
-import '../../data/inzone_current_user.dart';
-import '../../data/inzone_user.dart';
 import '../comment_screen/comment_class.dart';
-import '../post_screen.dart';
 
 class PostCard extends StatefulWidget {
   InZonePost post;
@@ -98,8 +89,19 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onDoubleTap: (){
+        if (isLiked){
+          setState(() {
+            isLiked = false;
+          });
+        } else {
+          setState(() {
+            isLiked = true;
+          });
+        }
+      },
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>MeScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> MeScreen(posts: [], userName: widget.post.userName,)));
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 20.0),

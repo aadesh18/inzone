@@ -274,37 +274,42 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      left: false,
+      right: false,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: RefreshIndicator(
           onRefresh: () async {
             await getFeed();
           },
           child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  isLoading
-                      ? buildShimmerCategoryBar()
-                      : categoriesList.isNotEmpty
-                      ? CategorySelectorBar(categories: categoriesList, onTap: (value) {})
-                      : const Text("No categories available"),  // Fallback for empty categories
-                  const SizedBox(height: 20),
-                  isLoading
-                      ? Column(
-                    children: List.generate(5, (index) => buildShimmerPostCard()),
-                  )
-                      : posts.isNotEmpty
-                      ? Column(
-                    children: posts,
-                  )
-                      : Text("No posts available"),  // Fallback for empty posts
-                ],
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                isLoading
+                    ? buildShimmerCategoryBar()
+                    : categoriesList.isNotEmpty
+                    ? CategorySelectorBar(categories: categoriesList, onTap: (value) {})
+                    : const Text("No categories available"),  // Fallback for empty categories
+                const SizedBox(height: 20),
+                isLoading
+                    ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Column(
+                                        children: List.generate(5, (index) => buildShimmerPostCard()),
+                                      ),
+                    )
+                    : posts.isNotEmpty
+                    ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Column(
+                                        children: posts,
+                                      ),
+                    )
+                    : Text("No posts available"),  // Fallback for empty posts
+              ],
             ),
           ),
         ),

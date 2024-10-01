@@ -40,7 +40,6 @@ class SettingsScreen extends StatelessWidget {
         MaterialPageRoute(builder: (context) => IntroductionPage()),
       );
     } on FirebaseAuthException catch (e) {
-      // If an error occurs, show the error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to delete the account: ${e.message}')),
       );
@@ -67,25 +66,25 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton:   FloatingActionButton(
-        backgroundColor: backgroundColor.withOpacity(0.5),
-    shape: const CircleBorder(),
-    foregroundColor: const Color(0xff16202a),
-    child: const Icon(Icons.qr_code_2_rounded),
-    onPressed: () {
-
-    showSlidingBottomSheet(context,
-    builder: (context) => SlidingSheetDialog(
-    cornerRadius: 30,
-    backdropColor: backgroundColor.withOpacity(0.6),
-    duration: const Duration(seconds: 1),
-    snapSpec: const SnapSpec(snappings: [ 0.9]),
-    builder: (context, state) {
-    return const InZoneCode();
-    },
-    ));
-    },
-    ),
+    //   floatingActionButton:   FloatingActionButton(
+    //     backgroundColor: backgroundColor.withOpacity(0.5),
+    // shape: const CircleBorder(),
+    // foregroundColor: const Color(0xff16202a),
+    // child: const Icon(Icons.qr_code_2_rounded),
+    // onPressed: () {
+    //
+    // showSlidingBottomSheet(context,
+    // builder: (context) => SlidingSheetDialog(
+    // cornerRadius: 30,
+    // backdropColor: backgroundColor.withOpacity(0.6),
+    // duration: const Duration(seconds: 1),
+    // snapSpec: const SnapSpec(snappings: [ 0.9]),
+    // builder: (context, state) {
+    // return const InZoneCode();
+    // },
+    // ));
+    // },
+    // ),
       body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -93,6 +92,52 @@ class SettingsScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // const Text(
+                //   "Settings",
+                //   style:
+                //   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                // ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
+                // Container(
+                //   width: screenWidth! - 20,
+                //   decoration: BoxDecoration(
+                //       color: Colors.white, borderRadius: BorderRadius.circular(30)),
+                //   child: Column(children: [
+                //     // SettingsTile(
+                //     //     title: "InZone Schedule",
+                //     //     imagePath: "assets/inzoneschedule.png",
+                //     //     onPressed: () {
+                //     //       Navigator.of(context)
+                //     //           .push(MaterialPageRoute(builder: (context) {
+                //     //         return const InZoneSchedule();
+                //     //       }));
+                //     //     }),
+                //     // SettingsTile(
+                //     //     title: "Content Selection",
+                //     //     imagePath: "assets/contentselection.png",
+                //     //     onPressed: () {
+                //     //       Navigator.of(context)
+                //     //           .push(MaterialPageRoute(builder: (context) {
+                //     //         return ContentSelectionSignupScreen(newUser: false);
+                //     //       }));
+                //     //     }),
+                //     // SettingsTile(
+                //     //     title: "Content BlockOut",
+                //     //     imagePath: "assets/contentblockout.png",
+                //     //     onPressed: () {
+                //     //       Navigator.of(context)
+                //     //           .push(MaterialPageRoute(builder: (context) {
+                //     //         return const InZoneBlockOutScreen();
+                //     //       }));
+                //     //     }),
+                //
+                //   ]),
+                // ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 const Text(
                   "Settings",
                   style:
@@ -106,61 +151,15 @@ class SettingsScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.white, borderRadius: BorderRadius.circular(30)),
                   child: Column(children: [
-                    SettingsTile(
-                        title: "InZone Schedule",
-                        imagePath: "assets/inzoneschedule.png",
-                        onPressed: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return const InZoneSchedule();
-                          }));
-                        }),
-                    SettingsTile(
-                        title: "Content Selection",
-                        imagePath: "assets/contentselection.png",
-                        onPressed: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return ContentSelectionSignupScreen(newUser: false);
-                          }));
-                        }),
-                    SettingsTile(
-                        title: "Content BlockOut",
-                        imagePath: "assets/contentblockout.png",
-                        onPressed: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return const InZoneBlockOutScreen();
-                          }));
-                        }),
-
-                  ]),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  "Other Settings",
-                  style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: screenWidth! - 20,
-                  decoration: BoxDecoration(
-                      color: Colors.white, borderRadius: BorderRadius.circular(30)),
-                  child: Column(children: [
-                    SettingsTile(
-                        title: "Edit Avatar",
-                        imagePath: "assets/editprofile.png",
-                        onPressed: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return const  Charactertemp();
-                          }));
-                        }),
+                    // SettingsTile(
+                    //     title: "Edit Avatar",
+                    //     imagePath: "assets/editprofile.png",
+                    //     onPressed: () {
+                    //       Navigator.of(context)
+                    //           .push(MaterialPageRoute(builder: (context) {
+                    //         return const  Charactertemp();
+                    //       }));
+                    //     }),
 
                     SettingsTile(
                         title: "Privacy Policy",

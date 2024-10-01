@@ -206,6 +206,69 @@ class InZoneDatabase {
     return added;
   }
 
+
+  // static Future<int> postContent({
+  //   required String postMessage,
+  //   required List<String> imageRef,
+  //   required List<String> videoRef,
+  // }) async {
+  //   bool added = false;
+  //   String category = "Unknown"; // Default category
+  //   int sentiment = -10;
+  //
+  //   try {
+  //     var value = await InZoneDatabase.sendSentimentRequest(postMessage);
+  //     if (value != null && value["sentiment"] != -1) {
+  //       sentiment = int.parse(value["sentiment"]);
+  //       try {
+  //         category = value["category"];
+  //         if (category.contains("-")) {
+  //           List<String> parts = category.split('-');
+  //           parts.map((part) => part[0].toUpperCase() + part.substring(1));
+  //           parts.join(" ");
+  //         }
+  //         DateTime now = DateTime.now();
+  //         int currentHour = now.hour;
+  //         String mainCategory = "";
+  //         if (currentHour >= 9 && currentHour < 17) {
+  //           mainCategory = "focus";
+  //         } else if (currentHour >= 17 && currentHour < 22) {
+  //           mainCategory = "fallback";
+  //         } else {
+  //           mainCategory = "custom";
+  //         }
+  //         if (category.length < 1) {
+  //           category = "Entertainment";
+  //         }
+  //         await FirebaseFirestore.instance
+  //             .collection(CollectionNames.postsCollection)
+  //             .add({
+  //           "category": category,
+  //           "comments": [],
+  //           "date_posted": DateTime.now(),
+  //           "likes": 0,
+  //           "main_category": mainCategory,
+  //           "post": {
+  //             "image_content": imageRef,
+  //             "video_content": videoRef,
+  //             "textContent": postMessage
+  //           },
+  //           "sub_category": category,
+  //           "user_name": FirebaseAuth.instance.currentUser!.displayName,
+  //           "user_references": FirebaseAuth.instance.currentUser!.email,
+  //         });
+  //         added = true;
+  //       } catch (e) {
+  //         category = "Entertainment"; // Default to entertainment on error
+  //       }
+  //     }
+  //   } catch (e) {
+  //
+  //   }
+  //
+  //   return sentiment;
+  // }
+
   static Future<int> postContent({
     required String postMessage,
     required List<String> imageRef,
@@ -216,16 +279,21 @@ class InZoneDatabase {
     int sentiment = -10;
 
     try {
+      // First, get sentiment analysis for the post
       var value = await InZoneDatabase.sendSentimentRequest(postMessage);
       if (value != null && value["sentiment"] != -1) {
         sentiment = int.parse(value["sentiment"]);
+
+        // Parse category and format properly
         try {
           category = value["category"];
           if (category.contains("-")) {
             List<String> parts = category.split('-');
-            parts.map((part) => part[0].toUpperCase() + part.substring(1));
-            parts.join(" ");
+            parts = parts.map((part) => part[0].toUpperCase() + part.substring(1)).toList();
+            category = parts.join(" ");
           }
+
+          // Set the main category based on the time of the day
           DateTime now = DateTime.now();
           int currentHour = now.hour;
           String mainCategory = "";
@@ -236,15 +304,17 @@ class InZoneDatabase {
           } else {
             mainCategory = "custom";
           }
-          if (category.length < 1) {
+
+          // Ensure category has a value
+          if (category.isEmpty) {
             category = "Entertainment";
           }
-          await FirebaseFirestore.instance
-              .collection(CollectionNames.postsCollection)
-              .add({
+
+          // Prepare the post content to send via the new API
+          var postBody = jsonEncode({
             "category": category,
             "comments": [],
-            "date_posted": DateTime.now(),
+            "date_posted": DateTime.now().toIso8601String(), // Ensure date is in ISO format
             "likes": 0,
             "main_category": mainCategory,
             "post": {
@@ -256,17 +326,36 @@ class InZoneDatabase {
             "user_name": FirebaseAuth.instance.currentUser!.displayName,
             "user_references": FirebaseAuth.instance.currentUser!.email,
           });
-          added = true;
+
+          // Send POST request to the new API endpoint
+          final response = await http.post(
+            Uri.parse('https://us-central1-inzonebackend.cloudfunctions.net/api/create_post'),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: postBody,
+          );
+
+          // Check if the POST request was successful
+          if (response.statusCode == 200) {
+            added = true;
+          } else {
+            // Handle failure
+            print('Failed to create post: ${response.statusCode}');
+          }
+
         } catch (e) {
           category = "Entertainment"; // Default to entertainment on error
         }
       }
     } catch (e) {
-
+      // Handle any other exceptions
+      print('Error: $e');
     }
 
     return sentiment;
   }
+
 
   static Future<Map<String, dynamic>?> sendSentimentRequest(String body) async {
     const String url =

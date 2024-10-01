@@ -40,7 +40,7 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
     'Setting',
   ];
 
-  final modeDropdownController = DropdownController();
+  final DropdownController modeDropdownController = DropdownController();
   List<CoolDropdownItem<String>> modeDropdownItems = [
     CoolDropdownItem<String>(
         label: 'Focus',
@@ -231,17 +231,17 @@ class _RootAppState extends State<RootApp> with SingleTickerProviderStateMixin {
 
                   const Spacer(),
 
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ExploreScreen()));
-                      },
-                      child: Icon(
-                        Icons.search,
-                        color: Colors.black,
-                      )),
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => ExploreScreen()));
+                  //     },
+                  //     child: Icon(
+                  //       Icons.search,
+                  //       color: Colors.black,
+                  //     )),
                   SizedBox(
                     width: 10,
                   ),
